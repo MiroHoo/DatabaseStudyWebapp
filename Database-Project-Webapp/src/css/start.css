@@ -3,3 +3,15 @@ height: 100%;
 width: 100%;
 flex: 1;
 }
+.StartListItem{
+display: flex;
+flex: 1;
+justify-content: space-around;
+align-items: center;
+text-align: center;
+}
+.StartList{
+
+display: flex;
+flex-direction: column;
+}
