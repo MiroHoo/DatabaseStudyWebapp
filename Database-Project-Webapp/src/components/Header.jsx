@@ -4,7 +4,7 @@ import '../css/index.css'
 function App() {
   return (
     <>
-    <div className='HeaderContainer'><h className='HeaderName'>Database Learning Webapp</h></div>
+    <div className='HeaderContainer'><a className='HeaderName'>Database Learning Webapp</a></div>
     </>
   )
 }

@@ -1,3 +1,4 @@
+
 .StartContainer {
 height: 100%;
 width: 100%;
@@ -10,8 +11,20 @@ justify-content: space-around;
 align-items: center;
 text-align: center;
 }
-.StartList{
-
-display: flex;
+.ListofTests{
+display: flex; 
 flex-direction: column;
+transition: transform 1000ms;
+transform: translateX(0);
+&.open {
+    transform: translateX(+100%);
+  }
+}
+.StartSelectButton{
+    background-color: #8A2D3B;
+}
+.ButtonContainer{
+ display: flex;
+ align-items: center;
+ justify-content: center; 
 }
