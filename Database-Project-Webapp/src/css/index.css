@@ -7,6 +7,7 @@
 }
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 .StupidGif{
   height: 20vh;
@@ -50,6 +51,34 @@ body {
   background-color: rgb(56, 54, 54);
   margin: 3px 0;
 }
-a {
-  align-self: center;
+
+.BurgerContainer{
+  position: absolute;
+  flex-direction: column;
+  align-items:end;
+  width: 100%;
+  display: flex;
+  visibility: hidden;
+  transition: all 600ms;
+  transform: translateX(100%);
+  
+    &.open{
+      visibility:visible;
+      display: flex;
+      transform: translateX(0);
+    }
+}
+.BurgerOption{
+ background-color: rgb(199, 197, 195);
+ width: 20%;
+ font-size: clamp(1rem, 2vh, 1.4rem);
+ height: 3.5rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ border:1px solid rgb(165, 163, 163);
+}
+.BurgerOption:hover {
+  opacity: 0.4;
 }
