@@ -1,9 +1,9 @@
 
 import { useState } from 'react'
 import '../css/index.css'
-import {createBrowserRouter, Link, Outlet, RouterProvider } from "react-router-dom";
-import TestPage from './TestCreator'
-import StartPage from './Start'
+import {createBrowserRouter, NavLink, Outlet, RouterProvider } from "react-router-dom";
+import TestPage from './TestCreator.jsx'
+import StartPage from './Start.jsx'
 const BurgerPathOptions = [
   {
     "name": "Home",
@@ -11,11 +11,11 @@ const BurgerPathOptions = [
   },
   {
     "name": "Degug",
-    "path": "/Test"
+    "path": "/start"
   },
   {
    "name": "Login",
-   "path": "/Test"
+   "path": "/test"
   },
 ]
 var BurgerArray = []
@@ -42,33 +42,14 @@ const Layout = () =>  {
     </>
   )
 }
-const guide = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />, 
-    children: [{
-      path: '/test',
-      element: <TestPage/>
-    }, {
-      path: '/start',
-      element: <StartPage/>
-    }
-  
-  ]
-  }
-])
 function Burgermaker(){
   if(BurgerArray.length < 1) {
   console.log("here")
   BurgerPathOptions.forEach(element => {
-    BurgerArray.push(<Link key={element.name + "_Option"} className='BurgerOption' to={element.path}>{element.name}</Link>)
+    BurgerArray.push(<NavLink key={element.name + "_Option"} className='BurgerOption' to={element.path}>{element.name}</NavLink>)
   });
 }
   return BurgerArray
 }
 
-const App = () => {
-  return <RouterProvider router={guide}/>
-}
-
-export default App
+export default Layout

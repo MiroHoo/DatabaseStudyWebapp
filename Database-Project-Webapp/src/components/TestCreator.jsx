@@ -2,12 +2,14 @@
 import { useState } from 'react'
 
 function App() {
-
-
-
   return (
     <>
-    <p>Hello It is me Test Creator!</p>
+          <h>Question</h>
+          <input></input>
+          <h>Model Answer</h>
+          <input></input>
+          <button>Verify Model Answer</button>
+          <button>+</button>
     </>
   )
 }
