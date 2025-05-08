@@ -1,5 +1,62 @@
+
 .StartContainer {
 height: 100%;
 width: 100%;
 flex: 1;
+}
+
+.StartListItem{
+display: flex;
+flex: 1;
+width: 80%;
+justify-content: space-around;
+align-items: center;
+text-align: center;
+margin: 0.7rem;
+font-size: clamp(1.3rem, 2.5vh, 5rem);
+font-weight: 650;
+border: 0.1rem solid;
+}
+.StartListItem:hover{
+    background-color:#bdbdbd;
+    cursor: pointer;
+}
+
+.ListofTests{
+display: flex; 
+margin: 2rem;
+align-items: center;
+flex-direction: column;
+transition: transform 800ms;
+transform: translateX(0);
+&.open {
+    transform: translateX(+100%);
+  }
+}
+
+.StartSelectButton{
+background-color: #bdbdbd;
+border-radius: 10px;
+font-size: 100%;
+line-height: 1.5;
+margin: 0;
+padding: 0;
+padding: 10px 30px;
+font-weight: 700;
+perspective: 800px;
+cursor: pointer;
+box-shadow: 0 1px 2px 2px #c4c4c4;
+box-sizing: border-box;
+}
+
+.StartSelectButton:hover{
+    transition: all 0.3s;
+    transform: translateY(-3px);
+    background-color: #bdbdbd83;
+}
+
+.ButtonContainer{
+ display: flex;
+ align-items: center;
+ justify-content: center; 
 }

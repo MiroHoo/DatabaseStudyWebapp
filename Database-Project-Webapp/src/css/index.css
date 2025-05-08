@@ -1,23 +1,84 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #ececec;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 body {
   margin: 0;
+  overflow-x: hidden;
+}
+.StupidGif{
+  height: 20vh;
+  width: 20vh;
+  text-align: center;
+  margin: clamp(1rem, 2.5vh, 3rem);
+}
+.StartGif{
+  width: 100%;
+  text-align: center;
 }
 .HeaderContainer{
-  background-color: #919191;
-  flex: 1;
+  background-color: #b9b9b9cc;
   width: 100%; 
   height: 13vh;
   align-content: center;
 }
+.HeaderContent{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .HeaderName{
-  margin: 1rem;
+  align-self: center;
   font-size: clamp(1rem, 2.5vh, 3rem);
-  font-weight:450;
+  font-weight:550;
+}
+.Burgermenu {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Burgermenu:hover{
+  background-color: rgb(170, 170, 168);
+}
+.burgerlayer{
+  width: 35px;
+  height: 5px;
+  background-color: rgb(56, 54, 54);
+  margin: 3px 0;
+}
+
+.BurgerContainer{
+  position: absolute;
+  flex-direction: column;
+  align-items:end;
+  width: 100%;
+  display: flex;
+  visibility: hidden;
+  transition: all 600ms;
+  transform: translateX(100%);
   
+    &.open{
+      visibility:visible;
+      display: flex;
+      transform: translateX(0);
+    }
+}
+.BurgerOption{
+ background-color: rgb(199, 197, 195);
+ width: 20%;
+ font-size: clamp(1rem, 2vh, 1.4rem);
+ height: 3.5rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ border:1px solid rgb(165, 163, 163);
+}
+.BurgerOption:hover {
+  opacity: 0.4;
 }
