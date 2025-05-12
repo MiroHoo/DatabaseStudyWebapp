@@ -14,22 +14,31 @@ useEffect(()=>{AddQuestion()}, [])
   )
 //function for adding a question to the question array
 function AddQuestion() {
+  const arraypos = state.length
+  console.log(state)
   var QuestionArray = [
     <div className='TestContainer' key={"Question_" + questionId++}>
-    <h className="TestHeader">Question</h>
+    <h className="TestHeader">Question {arraypos}</h>
     <input className='TestInput'></input>
     <h className="TestHeader">Model Answer</h>
-    <input className='TestInput'></input>
-    <button>Verify Model Answer</button>
+    <div className='Testinputcontainer'><input className='TestInput'></input></div>
+    <button className='TestVerify'>Verify Model Answer</button>
+    <button onClick={()=>DeleteQuestion(arraypos+1)}>Delete</button>
     </div>
     ]
     setState([
       ...state,
       [QuestionArray]
     ]);
-
 }
-
+function DeleteQuestion(deletepos) {
+  console.log(deletepos)
+  var newstate = state
+  var splice = newstate.splice(deletepos-1,0)
+  console.log(newstate)
+  console.log(splice)
+  setState(newstate)
+}
 }
 
 
