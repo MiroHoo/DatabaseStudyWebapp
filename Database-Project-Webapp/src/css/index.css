@@ -58,15 +58,15 @@ body {
   align-items:end;
   width: 100%;
   display: flex;
-  visibility: hidden;
-  transition: all 600ms;
-  transform: translateX(100%);
-  
-    &.open{
-      visibility:visible;
-      display: flex;
-      transform: translateX(0);
-    }
+ 
+  &.open{
+    transform: translateX(0);
+    animation: closed 700ms;
+  }
+  &.closed{
+    transform: translateX(100%);
+    animation: open 700ms;
+  }
 }
 .BurgerOption{
  background-color: rgb(199, 197, 195);
@@ -81,4 +81,25 @@ body {
 }
 .BurgerOption:hover {
   opacity: 0.4;
+}
+
+
+@keyframes open {
+  from {
+      transform: translateX(0);
+  }
+
+  to {
+      transform: translateX(100%);
+  }
+}
+
+@keyframes closed {
+  from {
+      transform: translateX(100%);
+  }
+
+  to {
+      transform: translateX(0);
+  }
 }

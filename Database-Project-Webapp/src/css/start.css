@@ -29,7 +29,7 @@ align-items: center;
 flex-direction: column;
 &.closed {
    animation: open 700ms;
-   transform: translateX(24rem);
+   transform: translateX(100%);
 }
 &.open {
     animation: closed 700ms;
@@ -69,13 +69,13 @@ box-sizing: border-box;
     }
 
     to {
-        transform: translateX(24rem);
+        transform: translateX(100%);
     }
 }
 
 @keyframes closed {
     from {
-        transform: translateX(24rem);
+        transform: translateX(100%);
     }
 
     to {
