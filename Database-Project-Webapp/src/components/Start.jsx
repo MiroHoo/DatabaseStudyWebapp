@@ -5,15 +5,19 @@ import { useEffect, useState, useRef } from 'react'
 const Animation = () => {
     const [state, setState] = useState(false)
     const [AnimationState, setAnimationState] = useState(false)
-    //const animationref = useRef<HTMLDivElement>(null)
-    /*useEffect(() => {
-        animationref.current?.addEventListener("animationcancel", () => {
-            setAnimationState(false)
-          })
-          animationref.current?.addEventListener("animationend", () => {
-            setAnimationState(false)
-          })
-    }, [animationref.current]);*/
+    const animationref = useRef()
+    useEffect(() => {
+        if(animationref.current !== undefined) {
+            animationref.current.addEventListener("animationcancel", () => {
+                console.log("cancel")
+                setAnimationState(false);
+              });
+            animationref.current.addEventListener("animationend", () => {
+                console.log("End")
+                setAnimationState(false);
+              });
+            }
+    }, [animationref.current]);
 
     return (
         <>
@@ -23,15 +27,15 @@ const Animation = () => {
                 </div>
                 <div className='SelectionContainer'>
                 <div className='ButtonContainer'>
-                <button className='StartSelectButton' onClick={() => {setState(!state); setAnimationState(true)}}>Select a test!</button>    
+                <button className='StartSelectButton' onClick={() => {setState(!state); setAnimationState(true);}}>Select a test!</button>    
                 </div>
-                { state || AnimationState ? (    
+                { state || AnimationState ?     
                     <>
-                    <div className={`ListofTests ${state ? '' : 'open'}`} >
+                    <div ref={animationref} className={`ListofTests ${state ? 'open' : 'closed'}`} >
                         <ListOfAllTest/>
                     </div>
                     </>
-                ) : <></>}
+                 : null}
                 </div>
             </div>
         </>
