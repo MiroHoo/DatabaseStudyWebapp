@@ -55,10 +55,10 @@ body {
 .BurgerContainer{
   position: absolute;
   flex-direction: column;
-  align-items:end;
-  width: 100%;
   display: flex;
- 
+  align-items: end;
+  pointer-events: none;
+  width: 100%;
   &.open{
     transform: translateX(0);
     animation: closed 700ms;
@@ -69,6 +69,7 @@ body {
   }
 }
 .BurgerOption{
+ pointer-events: auto;
  background-color: rgb(199, 197, 195);
  width: 20%;
  font-size: clamp(1rem, 2vh, 1.4rem);
