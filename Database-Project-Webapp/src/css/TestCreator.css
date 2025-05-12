@@ -1,0 +1,23 @@
+.TestContainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;   
+}
+.TestHeader{
+    font-size: 1.2rem;
+    text-align: center;
+}
+.TestInput{
+    height: 3rem;
+    width: 50%;
+    align-self: center;
+    font-size: 1rem;
+    text-align: center;
+}
+.Tests{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-self: center;
+}
