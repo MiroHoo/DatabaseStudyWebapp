@@ -1,46 +1,39 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 function App() {
-let questionId = 1
+let questionId = useRef(0)
 const [state, setState] = useState([])
 //initialize first question
-useEffect(()=>{AddQuestion()}, [])
+  useEffect(() => {
+  AddQuestion()
+  }, []);
+
   return (
     <div className='Tests'>  
-          <div>{state}</div>
-          <button onClick={AddQuestion}>+</button>
+    <div>
+    {state.map(Questions=>(
+      <div className='TestContainer' key={Questions.id}>
+        <h className="TestHeader">{Questions.name}</h>
+        <input className='TestInput'></input>
+        <h className="TestHeader">Model Answer</h>
+        <input className='TestInput'></input>
+        <button className='TestVerify'>Verify Model Answer</button>
+        <button onClick={()=>RemoveQuestion(Questions.id)}>-</button>
+      </div>
+    ))}
+    </div>
+    <button onClick={AddQuestion}>+</button>  
     </div>
   )
 //function for adding a question to the question array
 function AddQuestion() {
-  const arraypos = state.length
-  console.log(state)
-  var QuestionArray = [
-    <div className='TestContainer' key={"Question_" + questionId++}>
-    <h className="TestHeader">Question {arraypos}</h>
-    <input className='TestInput'></input>
-    <h className="TestHeader">Model Answer</h>
-    <div className='Testinputcontainer'><input className='TestInput'></input></div>
-    <button className='TestVerify'>Verify Model Answer</button>
-    <button onClick={()=>DeleteQuestion(arraypos+1)}>Delete</button>
-    </div>
-    ]
-    setState([
-      ...state,
-      [QuestionArray]
-    ]);
+questionId.current = questionId.current +1;
+setState([...state, {name: "Question " + (state.length+1), id: questionId.current}])
 }
-function DeleteQuestion(deletepos) {
-  console.log(deletepos)
-  var newstate = state
-  var splice = newstate.splice(deletepos-1,0)
-  console.log(newstate)
-  console.log(splice)
-  setState(newstate)
+function RemoveQuestion(id){
+  setState(state.filter(a => a.id !== id))
 }
 }
-
-
 
 export default App
