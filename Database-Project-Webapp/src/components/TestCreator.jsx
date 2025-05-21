@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 function App() {
 let questionId = useRef(0)
-const [state, setState] = useState([])
+const [questionarray, setQuestions] = useState([])
 //initialize first question
   useEffect(() => {
   AddQuestion()
@@ -12,27 +12,39 @@ const [state, setState] = useState([])
   return (
     <div className='Tests'>  
     <div>
-    {state.map(Questions=>(
+    {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <h className="TestHeader">{Questions.name}</h>
+        <a onClick={()=>{QuestionName(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
         <input className='TestInput'></input>
-        <h className="TestHeader">Model Answer</h>
+        <a className="TestHeader">Model Answer</a>
         <input className='TestInput'></input>
         <button className='TestVerify'>Verify Model Answer</button>
-        <button onClick={()=>RemoveQuestion(Questions.id)}>-</button>
+        <button onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
     ))}
     </div>
     <button onClick={AddQuestion}>+</button>  
+    <button>Submit</button>
     </div>
   )
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
-setState([...state, {name: "Question " + (state.length+1), id: questionId.current}])
+setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 function RemoveQuestion(id){
-  setState(state.filter(a => a.id !== id))
+  setQuestions(questionarray.filter(a => a.id !== id))
+}
+function QuestionName(id){
+  const UpdatedName = questionarray.map((c,i) => {
+    if (i === id){
+      c.name = "Clicked"
+      return c
+    } else {
+      return c
+    }
+  })
+  setQuestions(UpdatedName)
 }
 }
 
