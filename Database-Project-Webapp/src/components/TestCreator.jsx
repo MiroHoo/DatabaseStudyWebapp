@@ -20,7 +20,7 @@ const [inputid, setInputid] = useState(0)
     <div>
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal)}} className="TestHeader">{Questions.name}</a>
+        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal); console.log(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
         <input className='TestInput'></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput'></input>
@@ -33,14 +33,21 @@ const [inputid, setInputid] = useState(0)
     <button>Submit</button>
     </div>
   )
+
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
+console.log(questionId)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
+
+//Removes the question with the provided id from the question array
 function RemoveQuestion(id){
+  questionId.current = questionId.current -1 ;
   setQuestions(questionarray.filter(a => a.id !== id))
 }
+
+//Question Header changer
 function QuestionName(id, text){
   console.log(modal)
   const UpdatedName = questionarray.map((c,i) => {
@@ -52,7 +59,6 @@ function QuestionName(id, text){
     }
   })
   setQuestions(UpdatedName)
-  
 }
 }
 
