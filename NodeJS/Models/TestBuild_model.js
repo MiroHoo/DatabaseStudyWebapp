@@ -1,12 +1,11 @@
-  const db = require('../database');
+  const db = require('../Test_database');
   
   const testbuild = {
     addTest: function() {
-    return db.query(
-        );
+    return 
     },
     verifyQuestion:function() {
-        return db.query(
-        );
+    return 
     }
   }
+  module.exports = testbuild;
