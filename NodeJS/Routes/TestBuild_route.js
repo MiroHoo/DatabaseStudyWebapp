@@ -9,8 +9,15 @@ router.post('/add/',
         response.status(204)
         response.send('missing body')
     }
-    TestModel.addTest(request, function(err, dbResult) {
-      console.log("here")
+   TestModel.getId(function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+      console.log(dbResult["TestId"])
+      request.body["TestId"] = dbResult[0].TestId;
+      console.log(request.body)
+      TestModel.addTest(request, function(err) {
         if(err){
             response.json(err)
         } else {
@@ -18,6 +25,19 @@ router.post('/add/',
             response.send('succesfully added')
         }
     })
+    }
+   });
+});
+
+router.get('/id/',
+    function(request, response) {
+    TestModel.getId(function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
 });
 
 router.get('/verify/',
@@ -26,7 +46,7 @@ router.get('/verify/',
       response.status(204)
       response.send('missing body')
     }
-    TestModel.verifyQuestion(request ,function(err, dbResult) {
+    TestModel.verifyQuestion(request.body ,function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
