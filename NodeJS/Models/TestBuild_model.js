@@ -24,8 +24,9 @@
       ,callback
     );
     },
-    verifyQuestion:function(string) {
-    return 
+    verifyQuestion:function(string, callback) {
+      console.log(string)
+      return db.query(string, callback) 
     }
   }
   module.exports = testbuild;

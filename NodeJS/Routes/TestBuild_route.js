@@ -10,12 +10,15 @@ router.post('/add/',
         response.send('missing body')
     }
    TestModel.getId(function(err, dbResult) {
+    if(dbResult[0] === undefined){
+        request.body["TestId"] = 1
+    } else {
+      request.body["TestId"] = dbResult[0].TestId;
+    }
     if (err) {
       response.json(err);
     } else {
       response.json(dbResult);
-      console.log(dbResult["TestId"])
-      request.body["TestId"] = dbResult[0].TestId;
       console.log(request.body)
       TestModel.addTest(request, function(err) {
         if(err){
@@ -40,13 +43,14 @@ router.get('/id/',
   });
 });
 
-router.get('/verify/',
+router.post('/verify/',
     function(request, response) {
     if(!request.body){
       response.status(204)
       response.send('missing body')
     }
-    TestModel.verifyQuestion(request.body ,function(err, dbResult) {
+    TestModel.verifyQuestion(request.body.query ,function(err, dbResult) {
+      console.log(dbResult  )
     if (err) {
       response.json(err);
     } else {
