@@ -50,7 +50,7 @@ router.post('/verify/',
       response.send('missing body')
     }
     TestModel.verifyQuestion(request.body.query ,function(err, dbResult) {
-      console.log(dbResult  )
+      console.log(dbResult)
     if (err) {
       response.json(err);
     } else {

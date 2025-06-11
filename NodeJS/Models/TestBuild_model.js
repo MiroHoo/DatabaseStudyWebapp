@@ -25,7 +25,6 @@
     );
     },
     verifyQuestion:function(string, callback) {
-      console.log(string)
       return db.query(string, callback) 
     }
   }
