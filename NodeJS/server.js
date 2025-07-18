@@ -1,12 +1,14 @@
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
-var app = express();
+const TestBuilde_router = require('./Routes/TestBuild_route.js');
 
+var app = express();
+app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
-app.use(express.static('public'));
+app.use('/test',TestBuilde_router)
 
 const PORT = process.env.PORT || 3001;
 

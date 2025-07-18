@@ -1,10 +1,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
-import { response } from 'express';
+import Modal from "./Modal.jsx"
 function App() {
 let questionId = useRef(0)
 const [questionarray, setQuestions] = useState([])
+const [modal, setModal] = useState(false)
+const [inputid, setInputid] = useState(0)
 //initialize first question
   useEffect(() => {
   AddQuestion()
@@ -12,12 +14,14 @@ const [questionarray, setQuestions] = useState([])
 
   return (
     <div className='Tests'>  
-    <div>Header</div>
+     {
+      modal ? <Modal Modalsettings={{text:"This is a placeholder text", type:"input"}} stateChanger={setModal} textChanger={{Change:QuestionName, id:inputid}}/> : <></>
+     }
     <div>
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{QuestionName(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
-        <input className='TestInput' id={"Question_" + Questions.id}></input>
+        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal); console.log(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
+        <input className='TestInput'></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
         <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)}className='TestVerify'>Verify Model Answer</button>
@@ -29,18 +33,26 @@ const [questionarray, setQuestions] = useState([])
     <button onClick={Submitquestions}>Submit</button>
     </div>
   )
+
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
+console.log(questionId)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
+
+//Removes the question with the provided id from the question array
 function RemoveQuestion(id){
+  questionId.current = questionId.current -1 ;
   setQuestions(questionarray.filter(a => a.id !== id))
 }
-function QuestionName(id){
+
+//Question Header changer
+function QuestionName(id, text){
+  console.log(modal)
   const UpdatedName = questionarray.map((c,i) => {
     if (i === id){
-      c.name = "Clicked"
+      c.name = text
       return c
     } else {
       return c
