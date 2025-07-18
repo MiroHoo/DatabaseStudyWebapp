@@ -1,9 +1,7 @@
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '../css/index.css'
-import {createBrowserRouter, NavLink, Outlet, RouterProvider } from "react-router-dom";
-import TestPage from './TestCreator.jsx'
-import StartPage from './Start.jsx'
+import {NavLink} from "react-router-dom";
 const BurgerPathOptions = [
   {
     "name": "Home",
@@ -18,27 +16,46 @@ const BurgerPathOptions = [
    "path": "/test"
   },
 ]
+//Json array for holding different burgermenu redirect options. 
 var BurgerArray = []
 const Layout = () =>  {
   const [BurgerVis, setBurgerVis] = useState(false)
-  //Json array for holding different burgermenu redirect options. 
+  const [Animationstate, setAnimationState] = useState(false)
+  const animationref = useRef()
+  
+  useEffect(() => {
+    if(animationref.current !== undefined) {
+        animationref.current.addEventListener("animationcancel", () => {
+            console.log("cancel")
+            setAnimationState(false);
+          });
+        animationref.current.addEventListener("animationend", () => {
+            console.log("End")
+            setAnimationState(false);
+          });
+        }
+  }, [animationref.current]);
+
   return (
     <>
       <div className='HeaderContainer'>
         <div className='HeaderContent'>
           <a className='HeaderName'>Database Learning Webapp</a>
-          <a className='Burgermenu' onClick={() => {setBurgerVis(!BurgerVis)}}>
+          <a className='Burgermenu' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
-          </a>
+          </a> 
         </div>
         <div>
           </div>
       </div>
-      <div className={`BurgerContainer ${BurgerVis ? 'open' : ''}`}>
+      { BurgerVis || Animationstate ?
+      <div ref={animationref} className={`BurgerContainer ${BurgerVis ? 'open' : 'closed'}`}>
       <Burgermaker/>
       </div>
+      : null
+      }
     </>
   )
 }
