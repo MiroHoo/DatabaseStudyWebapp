@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
+import { response } from 'express';
 function App() {
 let questionId = useRef(0)
 const [questionarray, setQuestions] = useState([])
@@ -19,7 +20,7 @@ const [questionarray, setQuestions] = useState([])
         <input className='TestInput' id={"Question_" + Questions.id}></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
-        <button className='TestVerify'>Verify Model Answer</button>
+        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)}className='TestVerify'>Verify Model Answer</button>
         <button onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
     ))}
@@ -48,7 +49,6 @@ function QuestionName(id){
   setQuestions(UpdatedName)
 }
 function Submitquestions(){
-
 var SubmitArray = []
 var index = 1;
 questionarray.forEach(element => {
@@ -62,13 +62,24 @@ questionarray.forEach(element => {
 console.log(SubmitArray)
 PostRequest(SubmitArray)
 }
+
+function VerifyQuestion(Question){
+const options = {
+    method: 'POST',
+    body: { "query" : Question}
+ }
+ fetch( '127.0.0.1:3001/test/verify/', options
+ ).then(response => response.json())
+ .then(response => console.log(response))
+}
+
 function PostRequest(PostData){
   console.log("Post")
   const options = {
     method: 'POST',
     body: JSON.stringify( PostData )
   }
- fetch( 'https://localhost:25565', options
+ fetch( 'https://localhost:3001', options
  )
  .then(response => response.json())
  .then(response => {
