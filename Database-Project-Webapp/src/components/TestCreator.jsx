@@ -21,7 +21,7 @@ const [inputid, setInputid] = useState(0)
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
         <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal); console.log(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
-        <input className='TestInput'></input>
+        <input className='TestInput' id={"Question_" + Questions.id}></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
         <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)}className='TestVerify'>Verify Model Answer</button>
