@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/test',TestBuilde_router)
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 app.listen(PORT, function(){
     console.log("Server is running on port " + PORT)
