@@ -76,12 +76,17 @@ PostRequest(SubmitArray)
 }
 
 function VerifyQuestion(Question){
+var query = document.getElementById(Question).value
 const options = {
     method: 'POST',
-    body: { "query" : Question}
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "query" : query})
  }
- fetch( '127.0.0.1:3001/test/verify/', options
- ).then(response => response.json())
+
+ fetch("http://127.0.0.1:3002/test/verify", options)
+ .then(response => response.json())
  .then(response => console.log(response))
 }
 
@@ -91,7 +96,7 @@ function PostRequest(PostData){
     method: 'POST',
     body: JSON.stringify( PostData )
   }
- fetch( 'https://localhost:3001', options
+ fetch( '127.0.0.1:3002', options
  )
  .then(response => response.json())
  .then(response => {
