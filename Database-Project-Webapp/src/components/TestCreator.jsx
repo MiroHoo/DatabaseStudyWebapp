@@ -39,7 +39,7 @@ const [ModalSettings, setSettings] = useState({
     ))}
     </div>
     <button onClick={AddQuestion}>+</button>  
-    <button onClick={()=>{QuestionModal()}}>Submit</button>
+    <button onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
     </div>
   )
 
@@ -52,21 +52,28 @@ setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), i
 
 function InputModal(){
   console.log("Modal")
-
   setSettings({
   type: "input",
   text:"tempText",
   function:QuestionName
   })
-
   setModal(!modal);
 }
-function QuestionModal(){
+function QuestionModal(text, func, funcvar){
+  if(funcvar){
   setSettings({
   type: "question",
-  text:"Are you sure?",
-  function:Areyousure
-  })
+  text: text,
+  function:func(funcvar)
+  })  
+  } else {
+  setSettings({
+  type: "question",
+  text: text,
+  function:func
+  })  
+  }
+ 
   setModal(!modal);
 }
 function ModalSetter(){

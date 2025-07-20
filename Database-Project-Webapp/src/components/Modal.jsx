@@ -4,7 +4,6 @@ import '../css/Modal.css'
 
 function App({Modalsettings, stateChanger, textChanger}) {
     const [input, setInput] = useState('Default Value')
-    const [text, setText] = useState("Default Value")
     return (
     <div className="ModalContainer">
     { Modalsettings.type === "text" ? 
@@ -22,7 +21,7 @@ function App({Modalsettings, stateChanger, textChanger}) {
     : <></>
     }
     { Modalsettings.type === "question" ? 
-    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); textChanger.Change(true)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></div></dialog>
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.inputfunction(true, Modalsettings.function, Modalsettings.funcvar)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></div></dialog>
     : <></>
     }
     </div>
@@ -31,9 +30,9 @@ function App({Modalsettings, stateChanger, textChanger}) {
 }
 function closemodal(){
     const dialog = document.querySelector("dialog");
-    console.log(dialog)
     dialog.close();
 }
+
 function changeText(){
     setText("changed text")
 }
