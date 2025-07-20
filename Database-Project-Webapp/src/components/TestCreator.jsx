@@ -2,12 +2,19 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
+import changeText from "./Modal.jsx"
 function App() {
 let questionId = useRef(0)
 const [questionarray, setQuestions] = useState([])
 const [modal, setModal] = useState(false)
-const [modal2, setModal2] = useState(false)
 const [inputid, setInputid] = useState(0)
+
+const [ModalSettings, setSettings] = useState({
+  "type":"",
+  "text":"",
+  "function": "",
+})
+
 //initialize first question
   useEffect(() => {
   AddQuestion()
@@ -16,15 +23,13 @@ const [inputid, setInputid] = useState(0)
   return (
     <div className='Tests'>  
      {
-      modal ? <Modal Modalsettings={{type:"input"}} stateChanger={setModal} textChanger={{Change:QuestionName, id:inputid}}/> : <></>
+      modal ? <ModalSetter/> : <></>
      }
-     {
-      modal2 ? <Modal Modalsettings={{type:"question", text:"Do you want to submit the test?"}} stateChanger={setModal2} textChanger={{Change:Areyousure, id:inputid}}/> : <></>
-     }
+
     <div>
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal);}} className="TestHeader">{Questions.name}</a>
+        <a onClick={()=>{setInputid(Questions.id-1); InputModal(); }} className="TestHeader">{Questions.name}</a>
         <input className='TestInput' id={"Question_" + Questions.id}></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
@@ -34,7 +39,7 @@ const [inputid, setInputid] = useState(0)
     ))}
     </div>
     <button onClick={AddQuestion}>+</button>  
-    <button onClick={()=>{setModal2(!modal)}}>Submit</button>
+    <button onClick={()=>{QuestionModal()}}>Submit</button>
     </div>
   )
 
@@ -45,6 +50,28 @@ console.log(questionId)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 
+function InputModal(){
+  console.log("Modal")
+
+  setSettings({
+  type: "input",
+  text:"tempText",
+  function:QuestionName
+  })
+
+  setModal(!modal);
+}
+function QuestionModal(){
+  setSettings({
+  type: "question",
+  text:"Are you sure?",
+  function:Areyousure
+  })
+  setModal(!modal);
+}
+function ModalSetter(){
+  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
+}
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
   questionId.current = questionId.current -1 ;
@@ -64,12 +91,14 @@ function QuestionName(id, text){
   setQuestions(UpdatedName)
 }
 
+//Makes sure the user wants the test to be sent
 function Areyousure(value){
   if(value){
     Submitquestions()
   }
 }
 
+//Sends the test to the database
 function Submitquestions(){
 var SubmitArray = []
 var index = 1;
@@ -98,6 +127,7 @@ const options = {
  fetch("http://127.0.0.1:3002/test/verify", options)
  .then(response => response.json())
  .then(response => console.log(response))
+
 }
 
 function PostRequest(PostData){
