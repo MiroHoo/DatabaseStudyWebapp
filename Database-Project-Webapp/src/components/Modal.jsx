@@ -22,6 +22,10 @@ function App({Modalsettings, stateChanger, textChanger}) {
     </dialog>
     : <></>
     }
+    { Modalsettings.type === "question" ? 
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a><button onClick={()=>{closemodal(); stateChanger(false); textChanger.Change(true)}}>Ok</button><button onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></dialog>
+    : <></>
+    }
     </div>
     )
 

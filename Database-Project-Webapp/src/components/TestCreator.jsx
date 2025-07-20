@@ -6,6 +6,7 @@ function App() {
 let questionId = useRef(0)
 const [questionarray, setQuestions] = useState([])
 const [modal, setModal] = useState(false)
+const [modal2, setModal2] = useState(false)
 const [inputid, setInputid] = useState(0)
 //initialize first question
   useEffect(() => {
@@ -15,12 +16,15 @@ const [inputid, setInputid] = useState(0)
   return (
     <div className='Tests'>  
      {
-      modal ? <Modal Modalsettings={{text:"This is a placeholder text", type:"input"}} stateChanger={setModal} textChanger={{Change:QuestionName, id:inputid}}/> : <></>
+      modal ? <Modal Modalsettings={{type:"input"}} stateChanger={setModal} textChanger={{Change:QuestionName, id:inputid}}/> : <></>
+     }
+     {
+      modal2 ? <Modal Modalsettings={{type:"question", text:"Do you want to submit the test?"}} stateChanger={setModal2} textChanger={{Change:Areyousure, id:inputid}}/> : <></>
      }
     <div>
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal); console.log(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
+        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal);}} className="TestHeader">{Questions.name}</a>
         <input className='TestInput' id={"Question_" + Questions.id}></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
@@ -30,7 +34,7 @@ const [inputid, setInputid] = useState(0)
     ))}
     </div>
     <button onClick={AddQuestion}>+</button>  
-    <button onClick={Submitquestions}>Submit</button>
+    <button onClick={()=>{setModal2(!modal)}}>Submit</button>
     </div>
   )
 
@@ -49,7 +53,6 @@ function RemoveQuestion(id){
 
 //Question Header changer
 function QuestionName(id, text){
-  console.log(modal)
   const UpdatedName = questionarray.map((c,i) => {
     if (i === id){
       c.name = text
@@ -60,6 +63,13 @@ function QuestionName(id, text){
   })
   setQuestions(UpdatedName)
 }
+
+function Areyousure(value){
+  if(value){
+    Submitquestions()
+  }
+}
+
 function Submitquestions(){
 var SubmitArray = []
 var index = 1;
@@ -91,12 +101,19 @@ const options = {
 }
 
 function PostRequest(PostData){
-  console.log("Post")
+  var PostFormat = {
+    "Name": "Test2",
+    "MaxPoints": 20,
+    "Questions": PostData  
+  }
   const options = {
     method: 'POST',
-    body: JSON.stringify( PostData )
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( PostFormat )
   }
- fetch( '127.0.0.1:3002', options
+ fetch('http://127.0.0.1:3002/test/add', options
  )
  .then(response => response.json())
  .then(response => {
