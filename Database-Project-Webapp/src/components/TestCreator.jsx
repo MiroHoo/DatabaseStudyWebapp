@@ -131,7 +131,7 @@ const options = {
     body: JSON.stringify({ "query" : query})
  }
 
- fetch("http://127.0.0.1:3002/test/verify", options)
+ fetch("http://127.0.0.1:3002/build/verify", options)
  .then(response => response.json())
  .then(response => console.log(response))
 
@@ -150,7 +150,7 @@ function PostRequest(PostData){
     },
     body: JSON.stringify( PostFormat )
   }
- fetch('http://127.0.0.1:3002/test/add', options
+ fetch('http://127.0.0.1:3002/build/add', options
  )
  .then(response => response.json())
  .then(response => {
