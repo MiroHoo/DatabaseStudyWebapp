@@ -2,13 +2,17 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
-import changeText from "./Modal.jsx"
+
+import { useNavigate } from "react-router";
+
+
 function App() {
+let navigate = useNavigate();
 let questionId = useRef(0)
 const [questionarray, setQuestions] = useState([])
 const [modal, setModal] = useState(false)
 const [inputid, setInputid] = useState(0)
-
+const [Testname, setTestName] = useState("Testname")
 const [ModalSettings, setSettings] = useState({
   "type":"",
   "text":"",
@@ -25,7 +29,7 @@ const [ModalSettings, setSettings] = useState({
      {
       modal ? <ModalSetter/> : <></>
      }
-
+    <div className="TestHeader" onClick={()=>ChangeTestName()}>{Testname}</div>
     <div>
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
@@ -59,6 +63,18 @@ function InputModal(){
   })
   setModal(!modal);
 }
+
+function ChangeTestName(){
+  setSettings({
+  type: "input",
+  text:"tempText",
+  function:TestName
+  })
+  setModal(!modal);
+}
+function TestName(id, TestName){
+  setTestName(TestName)
+}
 function QuestionModal(text, func, funcvar){
   if(funcvar){
   setSettings({
@@ -73,9 +89,9 @@ function QuestionModal(text, func, funcvar){
   function:func
   })  
   }
- 
   setModal(!modal);
 }
+
 function ModalSetter(){
   return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
 }
@@ -117,8 +133,11 @@ questionarray.forEach(element => {
   SubmitArray.push({"I":index, "Q":Question, "A":Answer})
   index++;
 });
-console.log(SubmitArray)
 PostRequest(SubmitArray)
+}
+
+function Redirect_(){
+  navigate("/")
 }
 
 function VerifyQuestion(Question){
@@ -139,7 +158,7 @@ const options = {
 
 function PostRequest(PostData){
   var PostFormat = {
-    "Name": "Test2",
+    "Name": Testname,
     "MaxPoints": 20,
     "Questions": PostData  
   }
@@ -156,6 +175,15 @@ function PostRequest(PostData){
  .then(response => {
   if(!response){
     console.log("error")
+  }  else {
+    setSettings({
+      type: "text",
+      function:Redirect_,
+      text: "The Test has been created succesfully!",
+    })
+    console.log("Hello")
+    setModal(!modal)
+
   }
  }).catch(error => {
   console.log(error)

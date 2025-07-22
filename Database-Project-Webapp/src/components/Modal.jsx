@@ -4,11 +4,10 @@ import '../css/Modal.css'
 
 function App({Modalsettings, stateChanger, textChanger}) {
     const [input, setInput] = useState('Default Value')
-    const [text, setText] = useState("Default Value")
     return (
     <div className="ModalContainer">
     { Modalsettings.type === "text" ? 
-    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a><button onClick={()=>{closemodal(); stateChanger(false); }}>Close</button></dialog>
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a><button onClick={()=>{console.log(textChanger.Change); optionalFunc(textChanger.Change); closemodal(); stateChanger(false);}}>Close</button></dialog>
     : <></>
     }
     { Modalsettings.type === "input" ? 
@@ -34,8 +33,11 @@ function closemodal(){
     dialog.close();
 }
 
-function changeText(){
-    setText("changed text")
+function optionalFunc(func){
+    console.log(func)
+  if(func !== undefined){
+    func();
+  }
 }
 
 export default App;
