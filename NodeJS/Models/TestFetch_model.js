@@ -2,7 +2,10 @@
   
   const testfetch = {
     getById: function(id,callback) {
-        db.query('select * from questions where Testid(?)'),[id], callback
+        return db.query('select * from question where Testid=?', [id], callback)
+    },
+    getAll: function(callback) {
+       return db.query('select * from test', callback)
     },
   }
   module.exports = testfetch;
