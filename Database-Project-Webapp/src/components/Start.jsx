@@ -2,7 +2,12 @@ import '../css/index.css'
 import '../css/start.css'
 import gif from '../assets/Cool.gif'
 import { useEffect, useState, useRef } from 'react'
+
+import { useNavigate } from "react-router";
+
 const Animation = () => {
+
+    let navigate = useNavigate();
     const [listoftests, setListOfTests] = useState([])
     const [state, setState] = useState(false)
     const [AnimationState, setAnimationState] = useState(false)
@@ -39,7 +44,7 @@ const Animation = () => {
                 { state || AnimationState ?     
                     <>
                     <div ref={animationref} className={`ListofTests ${state ? 'open' : 'closed'}`} >
-                        {listoftests.map(test => (<a key={test.TestId} onClick={() => console.log(test.Name)} className='StartListItem'>{test.Name}</a>))}
+                        {listoftests.map(test => (<a key={test.TestId} onClick={() => navigate(`/testtaking/${test.TestId}`)} className='StartListItem'>{test.Name}</a>))}
                     </div>
                     </>
                  : null}
@@ -47,13 +52,9 @@ const Animation = () => {
             </div>
         </>
     )
-    function ListOfAllTest() {
-        console.log(listoftests)
-   return <>{listoftests}</>
-    }
 function formattests(val){
-    setListOfTests(val)
     console.log(val)
+    setListOfTests(val)
 }
 }
 
