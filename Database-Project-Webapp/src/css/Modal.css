@@ -1,5 +1,6 @@
 .ModalContainer{
     display: flex;
+    z-index: 200;
 }
 .ModalDialog{
     width: 50%;

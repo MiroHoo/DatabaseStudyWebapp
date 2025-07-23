@@ -15,6 +15,10 @@ const BurgerPathOptions = [
    "name": "Login",
    "path": "/test"
   },
+   {
+   "name": "Test",
+   "path": "/testtaking"
+  },
 ]
 //Json array for holding different burgermenu redirect options. 
 var BurgerArray = []

@@ -10,7 +10,7 @@ router.post('/add/',
         response.send('missing body')
     }
    TestModel.getId(function(err, dbResult) {
-    if(dbResult[0] === undefined){
+    if(!dbResult){
         request.body["TestId"] = 1
     } else {
       request.body["TestId"] = dbResult[0].TestId;
@@ -45,7 +45,7 @@ router.get('/id/',
 
 router.post('/verify/',
     function(request, response) {
-    if(!request.body){
+    if(request.body === undefined){
       response.status(204)
       response.send('missing body')
     }
