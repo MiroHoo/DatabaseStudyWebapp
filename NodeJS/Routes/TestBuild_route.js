@@ -9,7 +9,7 @@ router.post('/add/',
         response.status(204)
         response.send('missing body')
     }
-   TestModel.getId(function(err, dbResult) {
+TestModel.getId(function(err, dbResult) {
     if(!dbResult){
         request.body["TestId"] = 1
     } else {
@@ -50,7 +50,6 @@ router.post('/verify/',
       response.send('missing body')
     }
     TestModel.verifyQuestion(request.body.query ,function(err, dbResult) {
-      console.log(dbResult)
     if (err) {
       response.json(err);
     } else {
