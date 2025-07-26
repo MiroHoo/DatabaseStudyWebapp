@@ -21,27 +21,29 @@ router.get('/:id', function(request,response){
     var correctquery; 
     var stundetanswer;
     var teacheranswer;
+    var error1 = "";
+    var error2 = "";
     TestTaker.getById(request.params.id, function(err,dbResult){
+        console.log(request.params.id)
     if (err) {
-      response.json(err);
+        error1 = err
     } else {
-      console.log(dbResult)
-      correctquery = dbResult
+      correctquery = dbResult[0].Answer
     }
     })
- console.log("UserQ")
-    TestModel.verifyQuestion(request.body.studentQ,function(err, dbResult) {
+    console.log(correctquery)
+    TestModel.verifyQuestion(request.body.stundentQ,function(err, dbResult) {
     if (err) {
-      response.json(err);
+        error2 = err
     } else {
-      stundetanswer = dbResult
+        console.log(dbResult[0])
+      stundetanswer = dbResult[0]
     }
   });
-  console.log("correct")
   TestModel.verifyQuestion(correctquery,function(err, dbResult) {
     if (err) {
-      response.json(err);
     } else {
+        console.log("here")
       teacheranswer = dbResult
     }
   });
