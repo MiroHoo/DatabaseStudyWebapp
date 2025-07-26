@@ -17,37 +17,29 @@ router.post('/com',
      })
 })
 
-router.get('/:id', function(request,response){
-    var correctquery; 
-    var stundetanswer;
-    var teacheranswer;
-    TestTaker.getById(request.params.id, function(err,dbResult){
-        console.log(request.params.id)
-    if (err) {
-        error1 = err
-    } else {
-        console.log("Teacher")
-        console.log(dbResult)
-        correctquery = dbResult
-    }
-    })
-    TestModel.verifyQuestion(request.body.stundentQ,function(err, dbResult) {
-    if (err) {
-    } else {
-    console.log(request.body.stundentQ)
-      console.log("Student")
-      console.log(dbResult)
-      stundetanswer = dbResult
-    }
+function asyncverifyQuestion(question) {
+  return new Promise((resolve, reject) => {
+    TestModel.verifyQuestion(question, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
   });
-  TestModel.verifyQuestion(correctquery,function(err, dbResult) {
-    if (err) {
-    } else {
-      console.log("here")
-      teacheranswer = dbResult
-    }
+}
+function asyncgetById(id) {
+  return new Promise((resolve, reject) => {
+    TestTaker.getById(id, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
   });
-    if(stundetanswer === teacheranswer){
+}
+
+router.get('/:id', async function(request,response){
+
+    const correctquery = await asyncgetById(request.params.id);
+    const studentAnswer = await asyncverifyQuestion(request.body.stundentQ);
+    const teacherAnswer = await asyncverifyQuestion(correctquery[0].Answer);
+    if(JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])){
         response.send('correct')
     } else {
         response.send("incorrect")
