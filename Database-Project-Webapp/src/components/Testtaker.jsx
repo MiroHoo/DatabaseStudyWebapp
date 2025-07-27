@@ -8,13 +8,23 @@ import { useParams } from "react-router";
 
 
 const App = () => {
-
+    //url parameter 
     let params = useParams();
+    //Modal state, visible or not.
     const [modal, setModal] = useState(false)
+    //formatted database questions 
     const [FormattedQuestions, setFormatted] = useState([])
+    //bool of if the elements are shown
     const [loading, setLoading] = useState(false)
+    //id of current question shown
     const [currentQuestions, setCurrentQuestion] = useState(0)
+    //the question to render
     const [questionRender, setRender] = useState([])
+  //the question to render
+    const [animationState, setAnimationState] = useState(true)
+    const animationref = useRef()
+
+    //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
@@ -30,6 +40,15 @@ const App = () => {
         setRender(FormattedQuestions.slice(currentQuestions,currentQuestions+1))
     }, [currentQuestions]);
 
+    useEffect(() => {
+        if(animationref.current !== undefined) {
+            animationref.current.addEventListener("animationcancel", () => {
+              });
+            animationref.current.addEventListener("animationend", () => {
+              });
+            }
+    }, [animationref.current]);
+
     return (
         <div className="Taking">
 
@@ -42,7 +61,7 @@ const App = () => {
                     <div className='TakingSelectionContainer'>
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
                     </div>
-                        {questionRender.map((question, index) => (<div id={question.QuestionId} key={question.QuestionId} className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
+                        {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
                 </> : <></>
             }
         </div>

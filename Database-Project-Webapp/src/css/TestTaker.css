@@ -3,6 +3,17 @@
     flex-direction: column;
     margin-top: 1rem;
     margin-bottom: 1rem;   
+    &.closed {
+    animation: open 700ms;
+    transform: translateX(100%);
+    }
+    &.open {
+    animation: closed 700ms;
+    transform: translateX(0);
+    }
+}
+.NoTakingContainer{
+
 }
 .Taking{
     display: flex;
@@ -80,3 +91,23 @@
     background-color: rgba(128, 128, 128, 0.295);
     border-width: 3px;
 }   
+
+@keyframes open {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes closed {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
