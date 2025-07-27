@@ -62,7 +62,7 @@
     transform: translateY(-2px);
     }
 }
-.SelectionContainer{
+.TakingSelectionContainer{
     display: flex;
     flex-direction: row; 
     width: 100%;

@@ -39,7 +39,7 @@ const App = () => {
             <div><img></img></div>
             {loading ?
                 <>
-                    <div className='SelectionContainer'>
+                    <div className='TakingSelectionContainer'>
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
                     </div>
                         {questionRender.map((question, index) => (<div id={question.QuestionId} key={question.QuestionId} className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
