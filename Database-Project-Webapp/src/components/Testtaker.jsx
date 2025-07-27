@@ -8,59 +8,76 @@ import { useParams } from "react-router";
 
 
 const App = () => {
-    
+
     let params = useParams();
     const [modal, setModal] = useState(false)
-    const [TestQuestions, setQuestions] = useState([])
-    
-const [ModalSettings, setSettings] = useState({
-  "type":"",
-  "text":"",
-  "function": "",
-})
+    const [FormattedQuestions, setFormatted] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [currentQuestions, setCurrentQuestion] = useState(1)
+    const [questionRender, setRender] = useState([])
+    const [ModalSettings, setSettings] = useState({
+        "type": "",
+        "text": "",
+        "function": "",
+    })
     useEffect(() => {
-        var url = "http://127.0.0.1:3002/test/id/"+params.testId
+        var url = "http://127.0.0.1:3002/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
-
+      useEffect(() => {
+        console.log(currentQuestions)
+        console.log(FormattedQuestions)
+        setRender(FormattedQuestions.slice(currentQuestions,currentQuestions+1))
+    }, [currentQuestions]);
     return (
-        <div className="Taking"> 
+        <div className="Taking">
+
             {
-                modal ? <ModalSetter/> : <></>
-            }  
-            {TestQuestions.map(question => (<div id={question.QuestionId} key={question.QuestionId}  className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer"onClick={()=>verify(question.QuestionId)}>Submit</button></div>))}
+                modal ? <ModalSetter /> : <></>
+            }
+            {loading ?
+                <>
+                    <div className='SelectionContainer'>
+                        {FormattedQuestions.map((question, index) => (<div key={index}><button className="SelectionButton" onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
+                    </div>
+                    {questionRender.map((question, index) => (<div id={question.QuestionId} key={question.QuestionId} className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
+                </> : <></>
+            }
         </div>
     )
 
-    function Questions(res){
-        setQuestions(res)
+    function Questions(res) {
+        var Arrayofquestions = []
+        res.forEach(element => {
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": -1 })
+        });
+        setFormatted(Arrayofquestions)
+        setRender(Arrayofquestions.slice(0,currentQuestions))
+        setLoading(true)
     }
 
-    function verify(id){
-            var answer = document.getElementById(id+"_input").value
-            let nocapsanswer = answer.toLowerCase();
-            if(nocapsanswer.includes("delete")){
-                setSettings({
-                    type: "text",
-                    text: "Answer cannot include `delete` for obivious reasons! ",
-                })
-                setModal(!modal)
-            } else {
-                 setSettings({
-                    type: "text",
-                    text: "The Answer has been sent",
-                })
-                setModal(!modal)
-            }
+    function verify(id) {
+        var answer = document.getElementById(id + "_input").value
+        let nocapsanswer = answer.toLowerCase();
+        if (nocapsanswer.includes("delete")) {
+            setSettings({
+                type: "text",
+                text: "Answer cannot include `delete` for obivious reasons! ",
+            })
+            setModal(!modal)
+        } else {
+            setSettings({
+                type: "text",
+                text: "The Answer has been sent",
+            })
+            setModal(!modal)
+        }
     }
 
-    function ModalSetter(){
-        return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text}} stateChanger={setModal} textChanger={{Change:ModalSettings.function}}/> 
+    function ModalSetter() {
+        return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text }} stateChanger={setModal} textChanger={{ Change: ModalSettings.function }} />
     }
 
-    function  wronganswer(id) {
-
-    }
 }
 
 export default App
