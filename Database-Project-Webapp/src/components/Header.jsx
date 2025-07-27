@@ -38,11 +38,13 @@ const Layout = () =>  {
       <div className='HeaderContainer'>
         <div className='HeaderContent'>
           <a className='HeaderName'><img className="HeaderGif" src={gif}></img></a>
-          <a className='Burgermenu' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
+          <div className='Burgermenu'>
+            <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
-          </a> 
+            </a>
+          </div> 
         </div>
         <div>
           </div>

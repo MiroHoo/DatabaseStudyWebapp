@@ -44,21 +44,28 @@ body {
   font-size: clamp(1rem, 2.5vh, 3rem);
   font-weight:550;
 }
-
+.BurgerPatties{
+  display: flex;
+  flex-direction: column;
+  &.hover{
+    background-color: rgb(170, 170, 168);
+  }
+}
 .Burgermenu {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
-.Burgermenu:hover{
-  background-color: rgb(170, 170, 168);
-}
+
 .burgerlayer{
   width: 35px;
   height: 5px;
   background-color: rgb(56, 54, 54);
   margin: 3px 0;
+  display: flex;
+  justify-content: center;
 }
 .HeaderGif{
   width: 50%;
