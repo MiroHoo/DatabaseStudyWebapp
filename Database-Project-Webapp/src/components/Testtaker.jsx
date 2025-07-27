@@ -1,7 +1,7 @@
 import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
-import gif from '../assets/Cool.gif'
+import ErModel from "../assets/Images/ErModel.png"
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";
@@ -22,6 +22,8 @@ const App = () => {
     const [questionRender, setRender] = useState([])
   //the question to render
     const [animationState, setAnimationState] = useState(true)
+
+    const [ER, setER] = useState(false)
     const animationref = useRef()
 
     //init of settings for modal system.
@@ -37,17 +39,11 @@ const App = () => {
     }, []);
 
       useEffect(() => {
+        if(currentQuestions !== -1){
         setRender(FormattedQuestions.slice(currentQuestions,currentQuestions+1))
+        } 
     }, [currentQuestions]);
 
-    useEffect(() => {
-        if(animationref.current !== undefined) {
-            animationref.current.addEventListener("animationcancel", () => {
-              });
-            animationref.current.addEventListener("animationend", () => {
-              });
-            }
-    }, [animationref.current]);
 
     return (
         <div className="Taking">
@@ -55,14 +51,26 @@ const App = () => {
             {
                 modal ? <ModalSetter /> : <></>
             }
-            <div><img></img></div>
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton":"SelectionButton"} onClick={()=>{setCurrentQuestion(-1); setER(true)}}>{"ER"}</button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>{setCurrentQuestion(index); setER(false)}}>{index+1}</button></div>))}
                     </div>
-                        {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
-                </> : <></>
+                        { !ER ? 
+                        <>
+                        {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))} 
+                        </>
+                        :
+                        <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
+                            <div className='ErModelCont'>
+                                <img src={ErModel} className='ErModel'></img>          
+                            </div>
+                        </div>
+                        }
+                        </> 
+                : 
+                <></>
             }
         </div>
     )

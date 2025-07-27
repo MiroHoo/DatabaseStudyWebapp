@@ -12,9 +12,6 @@
     transform: translateX(0);
     }
 }
-.NoTakingContainer{
-
-}
 .Taking{
     display: flex;
     width: 100%;
@@ -91,6 +88,14 @@
     background-color: rgba(128, 128, 128, 0.295);
     border-width: 3px;
 }   
+.ErModelCont{
+    display: flex;
+    justify-content: center;
+}
+.ErModel{
+    width: 100%;
+    max-width: 1800px;
+}
 
 @keyframes open {
     from {
