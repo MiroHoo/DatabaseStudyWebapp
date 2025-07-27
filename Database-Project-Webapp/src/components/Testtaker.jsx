@@ -20,7 +20,7 @@ const App = () => {
     const [currentQuestions, setCurrentQuestion] = useState(0)
     //the question to render
     const [questionRender, setRender] = useState([])
-  //the question to render
+    //the question to render
     const [animationState, setAnimationState] = useState(true)
 
     const [ER, setER] = useState(false)
@@ -38,10 +38,10 @@ const App = () => {
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
 
-      useEffect(() => {
-        if(currentQuestions !== -1){
-        setRender(FormattedQuestions.slice(currentQuestions,currentQuestions+1))
-        } 
+    useEffect(() => {
+        if (currentQuestions !== -1) {
+            setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
+        }
     }, [currentQuestions]);
 
 
@@ -54,22 +54,22 @@ const App = () => {
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton":"SelectionButton"} onClick={()=>{setCurrentQuestion(-1); setER(true)}}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>{setCurrentQuestion(index); setER(false)}}>{index+1}</button></div>))}
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(index); setER(false) }}>{index + 1}</button></div>))}
                     </div>
-                        { !ER ? 
+                    {!ER ?
                         <>
-                        {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))} 
+                            {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
                         </>
                         :
                         <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
                             <div className='ErModelCont'>
-                                <img src={ErModel} className='ErModel'></img>          
+                                <img src={ErModel} className='ErModel'></img>
                             </div>
                         </div>
-                        }
-                        </> 
-                : 
+                    }
+                </>
+                :
                 <></>
             }
         </div>
@@ -77,32 +77,40 @@ const App = () => {
 
     function Questions(res) {
         var Arrayofquestions = []
-        res.forEach(element => {
-            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": -1 })
+        res.forEach((element, index) => {
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": -1, "index": index })
         });
         setFormatted(Arrayofquestions)
-        setRender(Arrayofquestions.slice(currentQuestions,currentQuestions+1))
+        setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
         setLoading(true)
     }
 
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
         let nocapsanswer = answer.toLowerCase();
-        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop") ) {
+        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
             setSettings({
                 type: "text",
                 text: "Answer cannot include deleting/dropping for obivious reasons! ",
             })
             setModal(!modal)
         } else {
-            setSettings({
-                type: "text",
-                text: "The Answer has been sent",
-            })
-            setModal(!modal)
+            var url = "http://127.0.0.1:3002/compare/" + id
+            var PostFormat = {
+                "studentQ": document.getElementById(id + "_input").value
+            }
+            console.log(PostFormat)
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(PostFormat)
+            }
+            fetch(url, options).then(response => response.json()).then(response => console.log(response))
         }
     }
-
+    
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text }} stateChanger={setModal} textChanger={{ Change: ModalSettings.function }} />
     }
