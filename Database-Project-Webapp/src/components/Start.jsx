@@ -34,12 +34,12 @@ const Animation = () => {
     return (
         <>
             <div className='StartContainer'>
-                <div className='StartGif'>
-                <img src={gif} className='StupidGif'></img>
+                <div className='HeaderText'>
+                Database learning app 
                 </div>
                 <div className='SelectionContainer'>
                 <div className='ButtonContainer'>
-                <button className='StartSelectButton' onClick={() => {setState(!state); setAnimationState(true);}}>Select a test!</button>    
+                <button className='StartSelectButton' onClick={()=>{setState(!state); setAnimationState(true);}}>Select a test!</button>    
                 </div>
                 { state || AnimationState ?     
                     <>
@@ -53,7 +53,6 @@ const Animation = () => {
         </>
     )
 function formattests(val){
-    console.log(val)
     setListOfTests(val)
 }
 }

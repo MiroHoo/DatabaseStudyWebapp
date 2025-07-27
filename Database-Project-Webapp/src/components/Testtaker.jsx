@@ -17,13 +17,13 @@ const App = () => {
     //bool of if the elements are shown
     const [loading, setLoading] = useState(false)
     //id of current question shown
-    const [currentQuestions, setCurrentQuestion] = useState(0)
+    const [currentQuestions, setCurrentQuestion] = useState(-1)
     //the question to render
     const [questionRender, setRender] = useState([])
     //the question to render
     const [animationState, setAnimationState] = useState(true)
-
-    const [ER, setER] = useState(false)
+    //ER
+    const [ER, setER] = useState(true)
     const animationref = useRef()
 
     //init of settings for modal system.
@@ -107,10 +107,16 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
-            fetch(url, options).then(response => response.json()).then(response => console.log(response))
+            fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
         }
     }
-    
+
+    function userinterface(outcome){
+        if(outcome !== undefined){
+
+        }
+    }
+
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text }} stateChanger={setModal} textChanger={{ Change: ModalSettings.function }} />
     }
