@@ -61,10 +61,10 @@ const App = () => {
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
         let nocapsanswer = answer.toLowerCase();
-        if (nocapsanswer.includes("delete")) {
+        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop") ) {
             setSettings({
                 type: "text",
-                text: "Answer cannot include `delete` for obivious reasons! ",
+                text: "Answer cannot include deleting/dropping for obivious reasons! ",
             })
             setModal(!modal)
         } else {
