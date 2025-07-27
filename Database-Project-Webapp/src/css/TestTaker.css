@@ -73,3 +73,10 @@
     height: 40px;
     font-size: 20px;
 }   
+.SelectedButton{
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    background-color: rgba(128, 128, 128, 0.295);
+    border-width: 3px;
+}   

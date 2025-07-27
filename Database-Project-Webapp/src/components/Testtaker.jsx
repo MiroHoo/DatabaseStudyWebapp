@@ -13,34 +13,36 @@ const App = () => {
     const [modal, setModal] = useState(false)
     const [FormattedQuestions, setFormatted] = useState([])
     const [loading, setLoading] = useState(false)
-    const [currentQuestions, setCurrentQuestion] = useState(1)
+    const [currentQuestions, setCurrentQuestion] = useState(0)
     const [questionRender, setRender] = useState([])
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
         "function": "",
     })
+
     useEffect(() => {
         var url = "http://127.0.0.1:3002/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
+
       useEffect(() => {
-        console.log(currentQuestions)
-        console.log(FormattedQuestions)
         setRender(FormattedQuestions.slice(currentQuestions,currentQuestions+1))
     }, [currentQuestions]);
+
     return (
         <div className="Taking">
 
             {
                 modal ? <ModalSetter /> : <></>
             }
+            <div><img></img></div>
             {loading ?
                 <>
                     <div className='SelectionContainer'>
-                        {FormattedQuestions.map((question, index) => (<div key={index}><button className="SelectionButton" onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton":"SelectionButton"} onClick={()=>setCurrentQuestion(index)}>{index+1}</button></div>))}
                     </div>
-                    {questionRender.map((question, index) => (<div id={question.QuestionId} key={question.QuestionId} className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
+                        {questionRender.map((question, index) => (<div id={question.QuestionId} key={question.QuestionId} className='TakingContainer'><a className="TakingHeader">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
                 </> : <></>
             }
         </div>
@@ -52,7 +54,7 @@ const App = () => {
             Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": -1 })
         });
         setFormatted(Arrayofquestions)
-        setRender(Arrayofquestions.slice(0,currentQuestions))
+        setRender(Arrayofquestions.slice(currentQuestions,currentQuestions+1))
         setLoading(true)
     }
 
