@@ -60,7 +60,7 @@ const App = () => {
                     {!ER ?
                         <>
                             {questionRender.map((question, index) => (
-                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
+                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
                             }
                         </>
                         :
@@ -125,7 +125,6 @@ const App = () => {
         if(outcome !== undefined){
             if(outcome.outcome === true){
                 const updatedBtns = FormattedQuestions.map((c,i) => {
-                    
                     if(i === currentQuestions){
                         c.Correct = 1
                         return c
@@ -138,6 +137,18 @@ const App = () => {
         } else {
             
         }
+    }
+
+    function changeInput(value){
+         const updatedBtns = FormattedQuestions.map((c,i) => {
+                    if(i === currentQuestions){
+                        c.Answer = value
+                        return c
+                    } else {
+                        return c
+                    }
+                })
+        setFormatted(updatedBtns)
     }
 
     function ModalSetter() {
