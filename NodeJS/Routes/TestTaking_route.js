@@ -34,16 +34,37 @@ function asyncgetById(id) {
   });
 }
 
-router.get('/:id', async function(request,response){
-
+router.post('/:id', async function(request,response){
+  console.log(request.body)
+    //Get correct answer
+    console.log("here")
     const correctquery = await asyncgetById(request.params.id);
-    const studentAnswer = await asyncverifyQuestion(request.body.stundentQ);
+    //Run student query
+    const studentAnswer = await asyncverifyQuestion(request.body.studentQ);
+    console.log("here")
+    //Run teacher query
+    console.log("here")
     const teacherAnswer = await asyncverifyQuestion(correctquery[0].Answer);
-    if(JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])){
-        response.send('correct')
+    //Run serialize the json and compare
+    console.log("here")
+    if(correctquery.includes("ORDER BY") || correctquery.includes("order by")){
+      const teacher_arr = JSON.parse(teacherAnswer[0])
+      const student_arr = JSON.parse(studentAnswer[0])
+      console.log("Teachers array: " + teacher_arr)
+      console.log("Students array: " + student_arr)
+      if(JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])){
+        response.json({outcome:true})
+      } else {
+        response.json({outcome:false})
+      } 
     } else {
-        response.send("incorrect")
+     if(JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])){
+        response.json({outcome:true})
+    } else {
+        response.json({outcome:false})
+    } 
     }
+    
 })
 
 
