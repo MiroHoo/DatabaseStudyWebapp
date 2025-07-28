@@ -55,11 +55,13 @@ const App = () => {
                 <>
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(index); setER(false) }}>{index + 1}</button></div>))}
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${question.Correct === 1 ? 'Correct' : 'Neutral'}` : `SelectionButton ${question.Correct === 1 ? 'Correct' : 'Neutral'}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
                     </div>
                     {!ER ?
                         <>
-                            {questionRender.map((question, index) => (<div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))}
+                            {questionRender.map((question, index) => (
+                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
+                            }
                         </>
                         :
                         <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
@@ -88,12 +90,17 @@ const App = () => {
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
         let nocapsanswer = answer.toLowerCase();
-        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
+        var outcome = {
+            outcome: true,
+            message: "temp"
+        }
+        /*if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
             setSettings({
                 type: "text",
                 text: "Answer cannot include deleting/dropping for obivious reasons! ",
             })
             setModal(!modal)
+
         } else {
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
@@ -107,13 +114,29 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
+
             fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
-        }
+      
+        }*/
+          userinterface(outcome)
     }
 
     function userinterface(outcome){
         if(outcome !== undefined){
-
+            if(outcome.outcome === true){
+                const updatedBtns = FormattedQuestions.map((c,i) => {
+                    
+                    if(i === currentQuestions){
+                        c.Correct = 1
+                        return c
+                    } else {
+                        return c
+                    }
+                })
+                setFormatted(updatedBtns)
+            }
+        } else {
+            
         }
     }
 

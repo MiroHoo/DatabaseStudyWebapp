@@ -85,6 +85,7 @@ function asyncgetById(id) {
 }
 
 function checkquery(StudentQ){
+  //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   ListOfAlteringQueries.forEach(element => {
     if(StudentQ.toLowerCase() === element.toLowerCase()){
       return true

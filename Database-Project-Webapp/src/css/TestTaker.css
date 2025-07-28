@@ -106,14 +106,26 @@
     width: 40px;
     height: 40px;
     font-size: 20px;
+    &.Correct{
+         background-color: rgba(29, 214, 29, 0.479);
+    }
 }   
 
 .SelectedButton{
     width: 40px;
     height: 40px;
     font-size: 20px;
-    background-color: rgba(128, 128, 128, 0.295);
     border-width: 3px;
+    &.Correct{
+        animation-name: change-color;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        background-color: rgba(128, 128, 128, 0.295);
+    }
 }   
 
 .ErModelCont{
@@ -144,4 +156,13 @@
     to {
         transform: translateX(0);
     }
+}
+
+@keyframes change-color {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(29, 214, 29, 0.479);
+  }
 }

@@ -16,6 +16,7 @@ const Animation = () => {
        fetch('http://127.0.0.1:3002/test/')
         .then(response => response.json())
         .then(response => formattests(response))
+        .then(response => console.log(response))
         .catch(error => console.log(error))
         }, []);
     useEffect(() => {
