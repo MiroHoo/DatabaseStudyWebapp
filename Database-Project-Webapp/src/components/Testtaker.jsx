@@ -55,7 +55,7 @@ const App = () => {
                 <>
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${question.Correct === 1 ? 'Correct' : 'Neutral'}` : `SelectionButton ${question.Correct === 1 ? 'Correct' : 'Neutral'}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${question.Correct}` : `SelectionButton ${question.Correct}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
                     </div>
                     {!ER ?
                         <>
@@ -80,7 +80,7 @@ const App = () => {
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
-            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": -1, "index": index })
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index })
         });
         setFormatted(Arrayofquestions)
         setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
@@ -94,7 +94,7 @@ const App = () => {
             outcome: true,
             message: "temp"
         }
-        /*if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
+        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
             setSettings({
                 type: "text",
                 text: "Answer cannot include deleting/dropping for obivious reasons! ",
@@ -117,7 +117,7 @@ const App = () => {
 
             fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
       
-        }*/
+        }
           userinterface(outcome)
     }
 
@@ -126,7 +126,28 @@ const App = () => {
             if(outcome.outcome === true){
                 const updatedBtns = FormattedQuestions.map((c,i) => {
                     if(i === currentQuestions){
-                        c.Correct = 1
+                        c.Correct = "Correct"
+                        return c
+                    } else {
+                        return c
+                    }
+                })
+                setFormatted(updatedBtns)
+            }
+            if(outcome.outcome === false){
+                const updatedBtns = FormattedQuestions.map((c,i) => {
+                    if(i === currentQuestions){
+                        c.Correct = "Incorrect"
+                        return c
+                    } else {
+                        return c
+                    }
+                })
+                setFormatted(updatedBtns)
+            } else {
+                const updatedBtns = FormattedQuestions.map((c,i) => {
+                    if(i === currentQuestions){
+                        c.Correct = "Partially"
                         return c
                     } else {
                         return c
