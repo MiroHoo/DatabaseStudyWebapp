@@ -106,8 +106,29 @@
     width: 40px;
     height: 40px;
     font-size: 20px;
+    &.Partially{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
     &.Correct{
-         background-color: rgba(29, 214, 29, 0.479);
+        animation-name: change-color-correct;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        background-color: rgba(187, 186, 186, 0.26);
+    }
+    &.Incorrect {
+        animation-name: change-color-incorrect;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(167, 4, 4, 0.637);
     }
 }   
 
@@ -116,29 +137,29 @@
     height: 40px;
     font-size: 20px;
     border-width: 3px;
+     &.Partially{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
     &.Correct{
-        animation-name: change-color;
+        animation-name: change-color-correct;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
         background-color: rgba(29, 214, 29, 0.479);
     }
     &.Neutral{
-        background-color: rgba(128, 128, 128, 0.295);
-    }
-    &.Partially{
-        animation-name: change-color;
-        animation-duration: 0.5s;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in-out;
-        background-color: rgba(255, 173, 21, 0.295);
+        background-color: rgba(187, 186, 186, 0.26);
     }
     &.Incorrect {
-        animation-name: change-color;
+        animation-name: change-color-incorrect;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        background-color: rgba(80, 2, 2, 0.438);
+        background-color: rgba(167, 4, 4, 0.637);
     }
 
 }   
@@ -173,11 +194,27 @@
     }
 }
 
-@keyframes change-color {
+@keyframes change-color-correct {
   from {
        background-color: rgba(128, 128, 128, 0.295);
   }
   to {
     background-color:  rgba(29, 214, 29, 0.479);
+  }
+}
+@keyframes change-color-incorrect {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color: rgba(167, 4, 4, 0.637);
+  }
+}
+@keyframes change-color-parttially {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(255, 173, 21, 0.295);
   }
 }

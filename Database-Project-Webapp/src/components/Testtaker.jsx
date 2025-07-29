@@ -3,7 +3,7 @@ import '../css/start.css'
 import '../css/TestTaker.css'
 import ErModel from "../assets/Images/ErModel.png"
 import Modal from "./Modal.jsx"
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, use } from 'react'
 import { useParams } from "react-router";
 
 
@@ -24,6 +24,8 @@ const App = () => {
     const [animationState, setAnimationState] = useState(true)
     //ER
     const [ER, setER] = useState(true)
+    //state of test
+    const [TestState, setState] = useState(false)
     const animationref = useRef()
 
     //init of settings for modal system.
@@ -55,7 +57,8 @@ const App = () => {
                 <>
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${question.Correct}` : `SelectionButton ${question.Correct}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}>{"FI"}</button></div>
                     </div>
                     {!ER ?
                         <>
@@ -77,6 +80,29 @@ const App = () => {
         </div>
     )
 
+    function SubmitModal(){
+        const unanswered = document.getElementsByClassName("SelectionButton Neutral")
+        const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
+        const amount = unanswered.length + unanswered_selected.length
+        if(amount > 0){
+            setSettings({
+            type: "question",
+            text:"Are you sure you want to submit the test? There are " + amount + " unanswered questions!",
+            function:Finalize
+        })
+        setModal(!modal);
+        } else {
+        setSettings({
+            type: "question",
+            text:"Are you sure you want to submit the test?",
+            function:Finalize
+        })
+        setModal(!modal);
+        }
+    }
+    function Finalize(){
+        setState(true)
+    }
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
@@ -90,10 +116,6 @@ const App = () => {
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
         let nocapsanswer = answer.toLowerCase();
-        var outcome = {
-            outcome: true,
-            message: "temp"
-        }
         if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
             setSettings({
                 type: "text",
@@ -118,12 +140,13 @@ const App = () => {
             fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
       
         }
-          userinterface(outcome)
     }
 
     function userinterface(outcome){
+        outcome = (outcome === "true")
+        console.log(outcome)
         if(outcome !== undefined){
-            if(outcome.outcome === true){
+            if(outcome === true){
                 const updatedBtns = FormattedQuestions.map((c,i) => {
                     if(i === currentQuestions){
                         c.Correct = "Correct"
@@ -133,8 +156,7 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            }
-            if(outcome.outcome === false){
+            } else if(outcome === false){
                 const updatedBtns = FormattedQuestions.map((c,i) => {
                     if(i === currentQuestions){
                         c.Correct = "Incorrect"
