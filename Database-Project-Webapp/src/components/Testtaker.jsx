@@ -57,13 +57,18 @@ const App = () => {
                 <>
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}` } onClick={() => { setCurrentQuestion(index); setER(false);}}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}>{"FI"}</button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setER(false); }}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-2); SubmitModal() }}>{"FI"}</button></div>
                     </div>
                     {!ER ?
                         <>
                             {questionRender.map((question, index) => (
-                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} readOnly={question.Correct !== "Neutral" ? true : false}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
+                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} >
+                                    <a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a>
+                                    <input className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} readOnly={question.Correct !== "Neutral" ? true : false}></input>
+                                    {question.Correct === "Neutral" ? <button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button>: <></>}
+                                </div>
+                                ))
                             }
                         </>
                         :
@@ -80,27 +85,27 @@ const App = () => {
         </div>
     )
 
-    function SubmitModal(){
+    function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
-        if(amount > 0){
+        if (amount > 0) {
             setSettings({
-            type: "question",
-            text:"Are you sure you want to submit the test? There are " + amount + " unanswered questions!",
-            function:Finalize
-        })
-        setModal(!modal);
+                type: "question",
+                text: "Are you sure you want to submit the test? There are " + amount + " unanswered questions!",
+                function: Finalize
+            })
+            setModal(!modal);
         } else {
-        setSettings({
-            type: "question",
-            text:"Are you sure you want to submit the test?",
-            function:Finalize
-        })
-        setModal(!modal);
+            setSettings({
+                type: "question",
+                text: "Are you sure you want to submit the test?",
+                function: Finalize
+            })
+            setModal(!modal);
         }
     }
-    function Finalize(){
+    function Finalize() {
         setState(true)
     }
     function Questions(res) {
@@ -138,17 +143,17 @@ const App = () => {
             }
 
             fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
-      
+
         }
     }
 
-    function userinterface(outcome){
+    function userinterface(outcome) {
         outcome = (outcome === "true")
         console.log(outcome)
-        if(outcome !== undefined){
-            if(outcome === true){
-                const updatedBtns = FormattedQuestions.map((c,i) => {
-                    if(i === currentQuestions){
+        if (outcome !== undefined) {
+            if (outcome === true) {
+                const updatedBtns = FormattedQuestions.map((c, i) => {
+                    if (i === currentQuestions) {
                         c.Correct = "Correct"
                         return c
                     } else {
@@ -156,9 +161,9 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            } else if(outcome === false){
-                const updatedBtns = FormattedQuestions.map((c,i) => {
-                    if(i === currentQuestions){
+            } else if (outcome === false) {
+                const updatedBtns = FormattedQuestions.map((c, i) => {
+                    if (i === currentQuestions) {
                         c.Correct = "Incorrect"
                         return c
                     } else {
@@ -167,8 +172,8 @@ const App = () => {
                 })
                 setFormatted(updatedBtns)
             } else {
-                const updatedBtns = FormattedQuestions.map((c,i) => {
-                    if(i === currentQuestions){
+                const updatedBtns = FormattedQuestions.map((c, i) => {
+                    if (i === currentQuestions) {
                         c.Correct = "Partially"
                         return c
                     } else {
@@ -178,19 +183,19 @@ const App = () => {
                 setFormatted(updatedBtns)
             }
         } else {
-            
+
         }
     }
 
-    function changeInput(value){
-         const updatedBtns = FormattedQuestions.map((c,i) => {
-                    if(i === currentQuestions){
-                        c.Answer = value
-                        return c
-                    } else {
-                        return c
-                    }
-                })
+    function changeInput(value) {
+        const updatedBtns = FormattedQuestions.map((c, i) => {
+            if (i === currentQuestions) {
+                c.Answer = value
+                return c
+            } else {
+                return c
+            }
+        })
         setFormatted(updatedBtns)
     }
 
