@@ -63,7 +63,7 @@ const App = () => {
                     {!ER ?
                         <>
                             {questionRender.map((question, index) => (
-                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
+                                <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} ><a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a><input className='Answer' value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} readOnly={question.Correct !== "Neutral" ? true : false}></input><button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button></div>))
                             }
                         </>
                         :
