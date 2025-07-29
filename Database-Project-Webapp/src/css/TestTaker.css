@@ -51,6 +51,17 @@
     align-self: center;
     text-align: center;
     z-index: -1;
+    background-color: rgb(255, 253, 253);
+    &.open{
+
+    }
+    &.closed{
+        background-color: rgba(128, 128, 128, 0.418);
+        animation-name: close-input;
+        animation-duration: 0.2s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+    }
 }
 
 .Testinputcontainer{
@@ -216,5 +227,13 @@
   }
   to {
     background-color:  rgba(255, 173, 21, 0.295);
+  }
+}
+@keyframes close-input {
+  from {
+           background-color: rgb(255, 253, 253);
+  }
+  to {
+    background-color: rgba(128, 128, 128, 0.418);
   }
 }
