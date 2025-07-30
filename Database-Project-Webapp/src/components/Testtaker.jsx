@@ -82,8 +82,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <FinalStatistics/>
-                    :   
+                    <><FinalStatistics/> <button>Retry ? </button></>                  :   
                     <></>
                     }
                 </>
@@ -97,7 +96,17 @@ const App = () => {
     function FinalStatistics(){
         console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
-            return <div><div>Question {c.index + 1}</div><div>{c.Question}</div><div>{c.Answer}</div></div>
+            if(FormattedQuestions[i].Correct === "Neutral"){
+                FormattedQuestions[i].Correct = "Incorrect"
+            }
+            return <div className={`FIContainer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`} >
+                        <div className="FIHeader">Question {c.index + 1}</div>
+                        <div className='FIHeader2'>Question: </div>
+                        <div className="FIQuestion">{c.Question}</div>
+                        <div className="FIHeader2">{"Your Answer: "}</div>
+                        <div className={`FIAnswer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`}>{c.Answer}</div>
+                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}</div>
+                    </div>
         })
         return FinalStats
     }
@@ -105,6 +114,10 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+        if(amount === 0){
+            setState("Finished")
+            return
+        }
         if (amount > 0) {
             setSettings({
                 type: "question",
