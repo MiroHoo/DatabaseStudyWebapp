@@ -22,10 +22,8 @@ const App = () => {
     const [questionRender, setRender] = useState([])
     //the question to render
     const [animationState, setAnimationState] = useState(true)
-    //ER
-    const [ER, setER] = useState(true)
     //state of test
-    const [TestState, setState] = useState(false)
+    const [TestState, setState] = useState("ER")
     const animationref = useRef()
 
     //init of settings for modal system.
@@ -56,11 +54,11 @@ const App = () => {
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setER(true) }}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setER(false); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-2); SubmitModal() }}>{"FI"}</button></div>
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}>{"ER"}</button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}>{"FI"}</button></div>
                     </div>
-                    {!ER ?
+                    {TestState === "Question" ?
                         <>
                             {questionRender.map((question, index) => (
                                 <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} >
@@ -72,11 +70,21 @@ const App = () => {
                             }
                         </>
                         :
-                        <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
+                        <>
+                    </>
+                    }
+                    {TestState === "ER" ? 
+                     <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
                             <div className='ErModelCont'>
                                 <img src={ErModel} className='ErModel'></img>
                             </div>
                         </div>
+                        : <></>
+                    }
+                    {TestState === "Finished" ? 
+                    <></>
+                    :   
+                    <></>
                     }
                 </>
                 :
@@ -85,6 +93,11 @@ const App = () => {
         </div>
     )
 
+
+    function FinalStatistics(){
+
+        return <></>
+    }
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
@@ -105,9 +118,12 @@ const App = () => {
             setModal(!modal);
         }
     }
+
     function Finalize() {
+        setCurrentQuestion(-2);
         setState(true)
     }
+
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
@@ -121,14 +137,6 @@ const App = () => {
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
         let nocapsanswer = answer.toLowerCase();
-        if (nocapsanswer.includes("delete") || nocapsanswer.includes("drop")) {
-            setSettings({
-                type: "text",
-                text: "Answer cannot include deleting/dropping for obivious reasons! ",
-            })
-            setModal(!modal)
-
-        } else {
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
@@ -144,7 +152,7 @@ const App = () => {
 
             fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
 
-        }
+        
     }
 
     function userinterface(outcome) {
