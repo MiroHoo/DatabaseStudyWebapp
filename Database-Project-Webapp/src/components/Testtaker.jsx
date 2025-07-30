@@ -82,7 +82,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <></>
+                    <FinalStatistics/>
                     :   
                     <></>
                     }
@@ -95,8 +95,11 @@ const App = () => {
 
 
     function FinalStatistics(){
-
-        return <></>
+        console.log(FormattedQuestions)
+        const FinalStats = FormattedQuestions.map((c,i) => {
+            return <div><div>Question {c.index + 1}</div><div>{c.Question}</div><div>{c.Answer}</div></div>
+        })
+        return FinalStats
     }
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
@@ -121,7 +124,7 @@ const App = () => {
 
     function Finalize() {
         setCurrentQuestion(-2);
-        setState(true)
+        setState("Finished")
     }
 
     function Questions(res) {
