@@ -5,7 +5,7 @@ import ErModel from "../assets/Images/ErModel.png"
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef, use } from 'react'
 import { useParams } from "react-router";
-
+import {NavLink} from "react-router-dom";
 
 const App = () => {
     //url parameter 
@@ -25,7 +25,6 @@ const App = () => {
     //state of test
     const [TestState, setState] = useState("ER")
     const animationref = useRef()
-
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
         "type": "",
@@ -82,7 +81,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <><FinalStatistics/> <button>Retry ? </button></>                  :   
+                    <><FinalStatistics/> <div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
                     <></>
                     }
                 </>
