@@ -86,7 +86,7 @@ function asyncgetById(id) {
 
 function checkquery(StudentQ){
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
-  ListOfAlteringQueries.forEach(element => {
+  ListOfAlteringQueries.Queries.forEach(element => {
     if(StudentQ.toLowerCase() === element.toLowerCase()){
       return true
     }
@@ -98,7 +98,7 @@ router.post('/:id', async function (request, response) {
   //Get correct answer
   const correctquery = await asyncgetById(request.params.id);
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
-  const alteringquery = checkquery()
+  const alteringquery = checkquery(request.body.studentQ)
   console.log(alteringquery)
   if(alteringquery){
     if (correctquery[0].Answer === request.body.studentQ) {
@@ -141,15 +141,15 @@ router.post('/:id', async function (request, response) {
   } else if (request.body.studentQ.includes("ORDER BY") === false && request.body.studentQ.includes("order by") === false) {
     //Run serialize the json and compare
     if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
-      response.json({ outcome: true, message: "The answers are the same!" })
+      response.json({ outcome: true , message: "The answers are the same!" })
       return
     } else {
-      response.json({ outcome: false,message:"incorrect" })
+      response.json({ outcome: false ,message:"incorrect" })
       return
     }
     //student query includes order by when teachers answer doesn't
   } else {
-    response.json({ outcome: false, message:"incorrect" })
+    response.json({ outcome: false , message:"incorrect" })
   }
 
   //see if student query is similar for partial points
