@@ -2,6 +2,8 @@
   
   const testbuild = {
     addTest: function(Test, callback) {
+    console.log("add")
+    console.log(Test.body.TestId)
     const id = Test.body.TestId +1;
     const questions = Test.body.Questions.map((values) => [
       values.Q, 
@@ -10,11 +12,11 @@
     ])
     console.log(questions)
     db.query(
-      'insert into test (Name, MaxPoints) values(?,?)',
-      [Test.body.Name, Test.body.MaxPoints]
+      'insert into test (Name) values(?)',
+      [Test.body.Name, Test.body]
     );
     db.query(
-      'insert into question (Question, Answer, TestId) values ?',
+      'insert into question (Question, Answer, Test_TestId) values ?',
       [questions]
     )
     },
