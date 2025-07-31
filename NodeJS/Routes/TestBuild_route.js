@@ -56,27 +56,34 @@ router.post('/verify/',
       response.json(dbResult);
     }
   });
-
+});
 router.post('/bulk/', 
   function(request, response){
+    console.log(request.body)
+    if(request.body !== undefined){
     TestModel.verifyBulk(request.body.array, function(err, res) {
       var State = 0;
+      console.log(res)
       if(err){
         response.json(err)
       } else {
-        if(res[0] !== undefined){
+        if(res !== "false"){
           res.forEach(element => {
             if(!element){
                response.json({"Message" : "One of the queries is incorrect"})
-            }
+            } 
           });
+          response.json({"Message": "All is fine"})
+        } else {
+          response.json({"Message": "The array is incorrectly formated!"})
         }
         
       }
     })
+  } else {
+    response.json({"Message" : "The query is missing array input"})
   }
-)
-});
+  });
 
 
 module.exports= router;

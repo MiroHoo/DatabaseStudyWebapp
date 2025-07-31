@@ -30,9 +30,14 @@
     },
     verifyBulk:function(strings, callback) {
       var arrayofanswer = [];
+      if(strings[0].query !== undefined){
       strings.forEach(element => {
         arrayofanswer.push(db.query(element))
       });
+    } else {
+      
+      return ("false", callback)
+    }
       return arrayofanswer
     }
   }
