@@ -56,6 +56,27 @@ router.post('/verify/',
       response.json(dbResult);
     }
   });
+
+router.post('/bulk/', 
+  function(request, response){
+    TestModel.verifyBulk(request.body.array, function(err, res) {
+      var State = 0;
+      if(err){
+        response.json(err)
+      } else {
+        if(res[0] !== undefined){
+          res.forEach(element => {
+            if(!element){
+               response.json({"Message" : "One of the queries is incorrect"})
+            }
+          });
+        }
+        
+      }
+    })
+  }
+)
 });
+
 
 module.exports= router;

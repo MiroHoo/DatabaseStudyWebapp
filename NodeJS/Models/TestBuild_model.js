@@ -10,7 +10,6 @@
       values.A,
       id
     ])
-    console.log(questions)
     db.query(
       'insert into test (Name) values(?)',
       [Test.body.Name, Test.body]
@@ -28,6 +27,13 @@
     },
     verifyQuestion:function(string, callback) {
       return db.query(string, callback) 
+    },
+    verifyBulk:function(strings, callback) {
+      var arrayofanswer = [];
+      strings.forEach(element => {
+        arrayofanswer.push(db.query(element))
+      });
+      return arrayofanswer
     }
   }
   module.exports = testbuild;

@@ -98,7 +98,7 @@ router.post('/:id', async function (request, response) {
   //Get correct answer
   const correctquery = await asyncgetById(request.params.id);
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
-  const alteringquery = checkquery(request.body.studentQ)
+  const alteringquery = checkquery(request.body.studentQ);
   console.log(alteringquery)
   if(alteringquery){
     if (correctquery[0].Answer === request.body.studentQ) {
