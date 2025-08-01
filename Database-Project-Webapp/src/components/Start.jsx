@@ -1,6 +1,7 @@
 import '../css/index.css'
 import '../css/start.css'
 import gif from '../assets/Cool.gif'
+import logo from '../assets/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
 
 import { useNavigate } from "react-router";
@@ -36,11 +37,11 @@ const Animation = () => {
         <>
             <div className='StartContainer'>
                 <div className='HeaderText'>
-                Database learning app 
+                <img className="LogoImage" src={logo}/>
                 </div>
                 <div className='SelectionContainer'>
                 <div className='ButtonContainer'>
-                <button className='StartSelectButton' onClick={()=>{setState(!state); setAnimationState(true);}}>Select a test!</button>    
+                <button className='StartSelectButton' onClick={()=>{setState(!state); setAnimationState(true);}}>SELECT A TEST</button>    
                 </div>
                 { state || AnimationState ?     
                     <>

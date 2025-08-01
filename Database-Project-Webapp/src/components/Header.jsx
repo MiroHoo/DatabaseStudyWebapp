@@ -9,8 +9,12 @@ const BurgerPathOptions = [
     "path": "/"
   },
   {
-   "name": "Make a test",
+   "name": "Build",
    "path": "/test"
+  },
+  {
+   "name": "Login",
+   "path": "/Login"
   },
 ]
 //Json array for holding different burgermenu redirect options. 
@@ -37,19 +41,21 @@ const Layout = () =>  {
     <>
       <div className='HeaderContainer'>
         <div className='HeaderContent'>
-          <a className='HeaderName'><img className="HeaderGif" src={gif}></img></a>
+          <div className='HeaderName'><NavLink to={"/"}><img className="HeaderGif" src={gif}></img></NavLink></div>
           <div className='Burgermenu'>
             <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             </a>
+            
           </div> 
         </div>
         <div>
           </div>
+          <div className='HeaderDivider'></div>
       </div>
-      { BurgerVis || Animationstate ?
+       { BurgerVis || Animationstate ?
       <div ref={animationref} className={`BurgerContainer ${BurgerVis ? 'open' : 'closed'}`}>
       <Burgermaker/>
       </div>
