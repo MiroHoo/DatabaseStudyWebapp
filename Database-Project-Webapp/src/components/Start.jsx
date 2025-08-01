@@ -16,6 +16,7 @@ const Animation = () => {
        fetch('http://127.0.0.1:3002/test/')
         .then(response => response.json())
         .then(response => formattests(response))
+        .then(response => console.log(response))
         .catch(error => console.log(error))
         }, []);
     useEffect(() => {
@@ -34,12 +35,12 @@ const Animation = () => {
     return (
         <>
             <div className='StartContainer'>
-                <div className='StartGif'>
-                <img src={gif} className='StupidGif'></img>
+                <div className='HeaderText'>
+                Database learning app 
                 </div>
                 <div className='SelectionContainer'>
                 <div className='ButtonContainer'>
-                <button className='StartSelectButton' onClick={() => {setState(!state); setAnimationState(true);}}>Select a test!</button>    
+                <button className='StartSelectButton' onClick={()=>{setState(!state); setAnimationState(true);}}>Select a test!</button>    
                 </div>
                 { state || AnimationState ?     
                     <>
@@ -53,7 +54,6 @@ const Animation = () => {
         </>
     )
 function formattests(val){
-    console.log(val)
     setListOfTests(val)
 }
 }

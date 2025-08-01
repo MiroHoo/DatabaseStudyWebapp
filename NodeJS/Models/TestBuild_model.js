@@ -2,19 +2,20 @@
   
   const testbuild = {
     addTest: function(Test, callback) {
+    console.log("add")
+    console.log(Test.body.TestId)
     const id = Test.body.TestId +1;
     const questions = Test.body.Questions.map((values) => [
       values.Q, 
       values.A,
       id
     ])
-    console.log(questions)
     db.query(
-      'insert into test (Name, MaxPoints) values(?,?)',
-      [Test.body.Name, Test.body.MaxPoints]
+      'insert into test (Name) values(?)',
+      [Test.body.Name, Test.body]
     );
     db.query(
-      'insert into question (Question, Answer, TestId) values ?',
+      'insert into question (Question, Answer, Test_TestId) values ?',
       [questions]
     )
     },
@@ -26,6 +27,18 @@
     },
     verifyQuestion:function(string, callback) {
       return db.query(string, callback) 
+    },
+    verifyBulk:function(strings, callback) {
+      var arrayofanswer = [];
+      if(strings[0].query !== undefined){
+      strings.forEach(element => {
+        arrayofanswer.push(db.query(element))
+      });
+    } else {
+      
+      return ("false", callback)
+    }
+      return arrayofanswer
     }
   }
   module.exports = testbuild;

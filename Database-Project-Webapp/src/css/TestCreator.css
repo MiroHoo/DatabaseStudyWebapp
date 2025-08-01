@@ -37,7 +37,6 @@
     align-self: center;
 }
 .TestVerify{
-    width: 50%;
     height: clamp(2rem,3vh,12rem);;
     display: flex;
     align-self: center;
@@ -51,7 +50,38 @@
     cursor: pointer;
  }
 }
+.CorrectAnswer {
+    background-color: rgb(2, 240, 2);
+}
+.submitBtn{
+     cursor: pointer;
+    &:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}
+.addBtn{
+    background-color: rgba(80, 250, 80, 0.623);
+    width: 20%;
+    align-self: center;
+    font-size: 15px;
+    cursor: pointer;
+    &:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}
 
+.deleteBtn{
+cursor: pointer;
+    width: 20%;
+    background-color: rgba(219, 83, 83, 0.705);
+    align-self: center;
+&:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}
 
 @keyframes fade-in {
   0% { opacity: 0; }

@@ -31,31 +31,50 @@ body {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+.HeaderText{
+  display: flex;
+  justify-content: center;
+  font-size: 60px;
+  margin-bottom: 60px;
+  margin-top: 60px;
+}
+
 .HeaderName{
   align-self: center;
   font-size: clamp(1rem, 2.5vh, 3rem);
   font-weight:550;
 }
+.BurgerPatties{
+  display: flex;
+  flex-direction: column;
+  &.hover{
+    background-color: rgb(170, 170, 168);
+  }
+}
 .Burgermenu {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
-.Burgermenu:hover{
-  background-color: rgb(170, 170, 168);
-}
+
 .burgerlayer{
   width: 35px;
   height: 5px;
   background-color: rgb(56, 54, 54);
   margin: 3px 0;
+  display: flex;
+  justify-content: center;
 }
-
+.HeaderGif{
+  width: 50%;
+}
 .BurgerContainer{
   position: absolute;
   flex-direction: column;
   display: flex;
+  z-index: 2000;
   align-items: end;
   pointer-events: none;
   width: 100%;
@@ -70,6 +89,8 @@ body {
 }
 .BurgerOption{
  pointer-events: auto;
+ color: black; 
+ text-decoration: none;
  background-color: rgb(199, 197, 195);
  width: 20%;
  font-size: clamp(1rem, 2vh, 1.4rem);
@@ -81,7 +102,24 @@ body {
  border:1px solid rgb(165, 163, 163);
 }
 .BurgerOption:hover {
+  animation: opacity;
   opacity: 0.4;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  animation-duration: 0.25s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes opacity {
+  from {
+      opacity: 1;
+  }
+
+  to {
+      opacity: 0.4;
+  }
 }
 
 

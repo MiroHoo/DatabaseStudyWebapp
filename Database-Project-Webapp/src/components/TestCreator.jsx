@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
 
+
 import { useNavigate } from "react-router";
 
 
@@ -19,38 +20,45 @@ const [ModalSettings, setSettings] = useState({
   "function": "",
 })
 
-//initialize first question
+  useEffect(()=> {
+  if(modal){
+  window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
+  }
+  },[modal])
+  //initialize first question
   useEffect(() => {
   AddQuestion()
   }, []);
 
   return (
     <div className='Tests'>  
-     {
-      modal ? <ModalSetter/> : <></>
-     }
     <div className="TestHeader" onClick={()=>ChangeTestName()}>{Testname}</div>
     <div>
+      {
+      modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
+     }
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
         <a onClick={()=>{setInputid(Questions.id-1); InputModal(); }} className="TestHeader">{Questions.name}</a>
         <input className='TestInput' id={"Question_" + Questions.id}></input>
         <a className="TestHeader">Model Answer</a>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
-        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)}className='TestVerify'>Verify Model Answer</button>
-        <button onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
+        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)} className='TestVerify'>Verify Model Answer</button>
+        <button className="deleteBtn" onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
     ))}
     </div>
-    <button onClick={AddQuestion}>+</button>  
-    <button onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
+    <button className="addBtn"onClick={AddQuestion}>+</button>  
+    <button className="submitBtn" onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
     </div>
   )
 
+
+  
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
-console.log(questionId)
+console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 
@@ -97,8 +105,8 @@ function ModalSetter(){
 }
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
-  questionId.current = questionId.current -1 ;
   setQuestions(questionarray.filter(a => a.id !== id))
+  console.log(questionarray)
 }
 
 //Question Header changer
