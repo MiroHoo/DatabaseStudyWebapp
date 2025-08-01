@@ -1,0 +1,328 @@
+.TakingContainer{
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;  
+
+    &.closed {
+    animation: open 700ms;
+    transform: translateX(100%);
+    }
+
+    &.open {
+    animation: closed 700ms;
+    transform: translateX(0);
+    }
+
+}
+
+.Taking{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-self: center;
+}
+
+.TakingHeader{
+    font-size: 1.2rem;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    background-color: rgb(202, 202, 202);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.TakingQuestion{
+    font-size: 1rem;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    background-color: rgba(202, 202, 202, 0.507);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.Answer{
+    height: clamp(1rem,7vh,12rem);
+    font-size: clamp(1rem,1.7vh,12rem);
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    z-index: -1;
+    background-color: rgb(255, 253, 253);
+    &.open{
+
+    }
+    &.closed{
+        background-color: rgba(128, 128, 128, 0.418);
+        animation-name: close-input;
+        animation-duration: 0.2s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+    }
+}
+
+.Testinputcontainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Tests{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-self: center;
+}
+
+.TestVerify{
+
+    width: 50%;
+    height: clamp(2rem,3vh,12rem);;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(113, 255, 113, 0.719);
+    &:hover{
+    transition: all 0.3s;
+    transform: translateY(-3px);
+    background-color: #bdbdbd83;
+    cursor: pointer;
+ }
+}
+
+.SubmitAnswer{
+    background-color: rgba(29, 214, 29, 0.479);
+    width: 70%;
+    margin-top: 10px;
+    align-self: center;
+    cursor: pointer;
+     &:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}
+
+.TakingSelectionContainer{
+    display: flex;
+    flex-direction: row; 
+    width: 100%;
+    justify-content: center;
+}
+
+.SelectionButton{
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-width: 0.5px;
+    border-style: solid;
+    margin-top: 2px;
+    &.Partially{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
+    &.Correct{
+        animation-name: change-color-correct;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        background-color: rgba(187, 186, 186, 0.26);
+    }
+    &.Incorrect {
+        animation-name: change-color-incorrect;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(167, 4, 4, 0.637);
+    }
+}   
+
+.FIContainer{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    border-style: solid;
+    border-width: 1px;
+    background-color: rgba(160, 158, 158, 0.144);
+}
+.FIQuestion{
+    font-size:  1rem;
+    display: flex;
+    height: 3rem;
+    justify-content: center; 
+
+}
+.FIBtn{
+    color:black;
+    text-decoration: none;
+    display: flex;
+    width: 10%;
+    justify-content: center;
+    background-color: rgba(128, 128, 128, 0.322);
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    &:hover{
+        border-color: rgba(0, 0, 0, 0.438);
+        transition: all 0.3s;
+        transform: translateY(-1px);
+        color: rgba(0, 0, 0, 0.24)
+    }
+}
+.FIBtnContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.FIAnswer{
+    font-size:  1rem;
+    display: flex;
+    height: 3rem;
+    justify-content: center; 
+     &.Incorrect{
+        background-color: rgba(255, 58, 58, 0.219);
+    }
+    &.Correct{
+         background-color: rgba(29, 214, 29, 0.226);
+    }   
+    &.Partial{
+         background-color: rgba(255, 173, 21, 0.295);
+    }
+}
+
+.FIHeader{
+    font-size: 1.3rem;
+    border:rgba(128, 128, 128, 0.295);
+    border-width: 2px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    border-style: solid;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.FIPoints{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size:  1rem;
+}
+.FIHeader2{
+    font-size: 1.2em;
+    border:rgba(128, 128, 128, 0.295);
+    border-width: 2px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    border-style: solid;
+}
+
+.SelectedButton{
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-width: 2px;
+    border-style: solid;
+    margin-top: 2px;
+     &.Partially{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
+    &.Correct{
+        animation-name: change-color-correct;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        background-color: rgba(187, 186, 186, 0.856);
+    }
+    &.Incorrect {
+        animation-name: change-color-incorrect;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(167, 4, 4, 0.637);
+    }
+
+}   
+
+.ErModelCont{
+    display: flex;
+    justify-content: center;
+}
+
+.ErModel{
+    width: 100%;
+    max-width: 1800px;
+}
+
+@keyframes open {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes closed {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes change-color-correct {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(29, 214, 29, 0.479);
+  }
+}
+@keyframes change-color-incorrect {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color: rgba(167, 4, 4, 0.637);
+  }
+}
+@keyframes change-color-parttially {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(255, 173, 21, 0.295);
+  }
+}
+@keyframes close-input {
+  from {
+           background-color: rgb(255, 253, 253);
+  }
+  to {
+    background-color: rgba(128, 128, 128, 0.418);
+  }
+}

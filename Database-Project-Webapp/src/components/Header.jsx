@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/index.css'
+import gif from '../assets/Cool.gif'
 import {NavLink} from "react-router-dom";
 const BurgerPathOptions = [
   {
@@ -8,11 +9,7 @@ const BurgerPathOptions = [
     "path": "/"
   },
   {
-    "name": "Degug",
-    "path": "/start"
-  },
-  {
-   "name": "Login",
+   "name": "Make a test",
    "path": "/test"
   },
 ]
@@ -40,12 +37,14 @@ const Layout = () =>  {
     <>
       <div className='HeaderContainer'>
         <div className='HeaderContent'>
-          <a className='HeaderName'>Database Learning Webapp</a>
-          <a className='Burgermenu' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
+          <a className='HeaderName'><img className="HeaderGif" src={gif}></img></a>
+          <div className='Burgermenu'>
+            <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
-          </a> 
+            </a>
+          </div> 
         </div>
         <div>
           </div>
@@ -63,7 +62,7 @@ function Burgermaker(){
   if(BurgerArray.length < 1) {
   console.log("here")
   BurgerPathOptions.forEach(element => {
-    BurgerArray.push(<NavLink key={element.name + "_Option"} className='BurgerOption' to={element.path}>{element.name}</NavLink>)
+    BurgerArray.push(<NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}>{element.name}</NavLink>)
   });
 }
   return BurgerArray
