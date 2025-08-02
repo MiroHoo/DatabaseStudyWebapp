@@ -31,15 +31,15 @@ const [ModalSettings, setSettings] = useState({
   }, []);
 
   return (
-    <div className='Tests'>  
-    <div className="TestHeader" onClick={()=>ChangeTestName()}>{Testname}</div>
+    <div className='Tests'> 
+    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname}</div>
     <div>
       {
       modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
      }
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <div onClick={()=>{setInputid(Questions.id-1); InputModal(); }} className="TestHeader">{Questions.name}</div>
+        <div onClick={()=>{setInputid(Questions.id-1); InputModal(Questions.id); }} className="TestHeader active">{Questions.name}</div>
         <input className='TestInput' id={"Question_" + Questions.id}></input>
         <div className="TestHeader">Model Answer</div>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
@@ -62,11 +62,11 @@ console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 
-function InputModal(){
-  console.log("Modal")
+function InputModal(id){
+  console.log(id)
   setSettings({
   type: "input",
-  text:"tempText",
+  text:"Change Question " + id +  " Name",
   function:QuestionName
   })
   setModal(!modal);
@@ -75,7 +75,7 @@ function InputModal(){
 function ChangeTestName(){
   setSettings({
   type: "input",
-  text:"tempText",
+  text:"Change Test Name",
   function:TestName
   })
   setModal(!modal);
@@ -101,7 +101,7 @@ function QuestionModal(text, func, funcvar){
 }
 
 function ModalSetter(){
-  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
+  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
 }
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
