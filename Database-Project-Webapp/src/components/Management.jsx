@@ -31,10 +31,10 @@ function App() {
     function ShowTests(){
         
         const TestArray = Testdata.map((c,i) => {
-            <a key={c.TestId} onClick={() => navigate(`/testtaking/${c.TestId}`)} className='StartListItem'>{c.Name}</a>
+            return <a key={c.TestId} onClick={() => navigate(`/testtaking/${c.TestId}`)} className='StartListItem'>{c.Name}</a>
         })
         
-        return <></>
+        return TestArray
     }
 }
 
