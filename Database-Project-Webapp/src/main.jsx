@@ -5,6 +5,7 @@ import Header from './components/Header.jsx'
 import Start from './components/Start.jsx'
 import TestCreator from './components/TestCreator.jsx'
 import TestTaker from './components/TestTaker.jsx'
+import Manage from './components/Management.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/" element={<Start/>}/>
       <Route path="/test" element={<TestCreator/>}/>
       <Route path="/testtaking/:testId" element={<TestTaker/>}/>
+      <Route path="/manage" element={<Manage/>}/>
     </Routes>
   </BrowserRouter>
 )
