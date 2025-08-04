@@ -31,3 +31,17 @@
     flex-direction: column;
     align-items: center;
 }
+.DeleteTest{
+     cursor: pointer;
+    font-weight: 600;
+    width: 80%;
+    margin-top: 5px;
+    background-color: rgba(219, 83, 83, 0.068);
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
+    cursor: pointer;
+    align-self: center;
+&:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}

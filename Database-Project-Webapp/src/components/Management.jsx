@@ -10,7 +10,13 @@ function App() {
     const [ShowData, setShow] = useState(false)
     const [loading, setLoading] = useState(true)
     const [open, setItemsOpen] = useState({})
-  useEffect(() => {
+    const [modal,setModal] = useState(false)
+    const [ModalSettings, setSettings] = useState({
+    "type":"",
+    "text":"",
+    "function": "",
+    })
+    useEffect(() => {
        fetch('http://127.0.0.1:3002/test/')
         .then(response => response.json())
         .then(response => InitOpen(response))
@@ -19,6 +25,9 @@ function App() {
         }, []);
         return (
             <>
+            {
+                modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
+            }
             { loading ? 
             <></>
             :
@@ -28,12 +37,30 @@ function App() {
         )
 
     function ShowTests(props){  
-        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div>{Testdata[props.index].TestId}</div><div>List of testresults</div><div>Average score</div></div>
+        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div>{Testdata[props.index].TestId}</div><div>List of testresults</div><div>Average score</div><button className="DeleteTest" onClick={()=>{InputModal(Testdata[props.index].Name,Testdata[props.index].TestId,props.index);}}>Delete</button></div>
         return TestArray
     }
     function InitOpen(res){
         const arrayofindexes = res.map((c,i)=> {res[i].Open = false; return res[i]})
         setTestdata(arrayofindexes)
+    }
+    function ModalSetter(){
+        return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function, funcvar:ModalSettings.funcvar}} stateChanger={setModal}/> 
+    }
+    function InputModal(Name,id, index){
+          setSettings({
+            type: "question",
+            text:"Delete Question: " + Name + "?",
+            function:DeleteQuestion,
+            funcvar:{"id": id, "i": index}
+            })
+            setModal(!modal);
+    }
+    function RemoveElement(index){   
+        setTestdata(Testdata.filter((c,i) => i !== index))
+    }
+    function DeleteQuestion(id, funcvar){
+        fetch("http://127.0.0.1:3002/manage/delete/"+funcvar.id).then(response => response.json()).then(response => console.log(response)).then(RemoveElement(funcvar.i))
     }
     function setOpen(index){
         if(Testdata[index].Open){

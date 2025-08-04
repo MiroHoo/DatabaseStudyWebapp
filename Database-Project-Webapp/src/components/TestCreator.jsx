@@ -63,7 +63,6 @@ setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), i
 }
 
 function InputModal(id){
-  console.log(id)
   setSettings({
   type: "input",
   text:"Change Question " + id +  " Name",
