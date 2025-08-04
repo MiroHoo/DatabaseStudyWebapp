@@ -165,6 +165,7 @@ const options = {
 }
 
 function PostRequest(PostData){
+  console.log("post")
   var PostFormat = {
     "Name": Testname,
     "MaxPoints": 20,
