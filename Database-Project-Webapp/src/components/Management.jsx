@@ -37,7 +37,7 @@ function App() {
     )
 
     function ShowTests(props) {
-        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index) }}>{Testdata[props.index].Name}</div><div>{Testdata[props.index].TestId}</div><div>List of testresults</div><div>Average score</div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
+        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);  console.log(Testdata) }}>{Testdata[props.index].Name}</div><div>{Testdata[props.index].TestId}</div><div>List of testresults</div><div>Average score</div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
     function InitOpen(res) {
@@ -57,6 +57,7 @@ function App() {
         setModal(!modal);
     }
     function InputModal(name, id, index) {
+         console.log(Testdata)
         setSettings({
             type: "input",
             text: "Change " + name + "'s name",
@@ -67,7 +68,6 @@ function App() {
     }
 
     function ChangeName(id ,input,funcvar) {
-        console.log(funcvar)
         const url = "http://127.0.0.1:3002/manage/update/" + funcvar.id
         console.log(url)
         const options = {
@@ -77,7 +77,7 @@ function App() {
             },
             body: JSON.stringify({ "name" : input })
         }
-        fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateElement(funcvar.name, funcvar.index))
+        fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateElement(input, funcvar.index))
     }
 
     function RemoveElement(index) {
@@ -85,6 +85,8 @@ function App() {
     }
 
     function UpdateElement(name, index){
+        console.log(name)
+        console.log(Testdata)
         const array = Testdata.map((c,i)=> {
             if(i === index){
                 Testdata[i].Name = name; return Testdata[i]
@@ -92,6 +94,8 @@ function App() {
                 return c
             }
         })
+        console.log(array)
+        setTestdata(array)
     }
 
     function DeleteQuestion(id, funcvar) {
