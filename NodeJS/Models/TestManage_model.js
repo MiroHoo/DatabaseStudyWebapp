@@ -1,8 +1,11 @@
   const db = require('../Test_database');
   
   const testfetch = {
-    deletebyid: function(Test, callback) {
-        return db.query('delete from test where TestId=?', [Test.id])
+    deletetestbyid: function(id, callback) {
+        return db.query('delete from test where TestId=?', [id], callback)
+    },
+    deletequestionbyid: function(id, callback) {
+        return db.query('delete from question where Test_TestId=?', [id], callback)
     },
     updateNameByid: function(Test, callback) {
         return db.query('update test set name=? where TestId=?', [Test.name, Test.id])
