@@ -51,9 +51,37 @@ const ListOfAlteringQueries = {
 ]
 }
 
+router.post('/save/',
+  function (request, response) {
+    console.log(request.body)
+    TestTaker.postAnswer(request.body, function (err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult);
+      }
+
+    })
+    
+  }
+)
+router.get('/saved/:id',
+  function (request, response) {
+    TestTaker.getAnswers(request.params.id,function (err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult);
+      }
+
+    })
+    
+  }
+)
+
 router.post('/com',
   function (request, response) {
-    var id = request.body.QuestionId
+    const id = request.body.QuestionId
     TestTaker.getById(id, function (err, dbResult) {
       if (err) {
         response.json(err);
@@ -95,12 +123,15 @@ function checkquery(StudentQ){
 }
 
 router.post('/:id', async function (request, response) {
+  console.log(request.body.studentQ)
   //Get correct answer
   const correctquery = await asyncgetById(request.params.id);
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   const alteringquery = checkquery(request.body.studentQ);
   console.log(alteringquery)
-  if(alteringquery){
+  if(!alteringquery){
+    console.log("Checking")
+    console.log(correctquery[0].Answer)
     if (correctquery[0].Answer === request.body.studentQ) {
     response.json({ outcome: true, message: "The answers are the same!" })
     return

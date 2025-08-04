@@ -8,7 +8,7 @@
         return db.query('delete from question where Test_TestId=?', [id], callback)
     },
     updateNameByid: function(Test, callback) {
-        return db.query('update test set name=? where TestId=?', [Test.name, Test.id])
+        return db.query('update test set name=? where TestId=?', [Test.name, Test.id], callback)
     },
     fetchscoresByid:function(Test, callback) {
         return db.query('select * from Student_Scores where TestId=?' [Test.id])

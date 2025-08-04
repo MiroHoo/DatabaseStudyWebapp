@@ -2,8 +2,6 @@
   
   const testbuild = {
     addTest: function(Test, callback) {
-    console.log("add")
-    console.log(Test.body.TestId)
     const id = Test.body.TestId +1;
     const questions = Test.body.Questions.map((values) => [
       values.Q, 

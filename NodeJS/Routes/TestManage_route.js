@@ -13,6 +13,17 @@ router.get('/delete/:id',
     }
     })
 });
+router.post('/update/:id',
+    function(request, response) {
+    console.log(request.body)
+    TestFetch.updateNameByid({name: request.body.name, id: request.params.id},function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
 router.get('/',
     function(request, response) {
     TestFetch.getAll(function(err, dbResult) {
