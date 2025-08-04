@@ -45,3 +45,21 @@
     transform: translateY(-2px);
     }
 }
+.ManagementContent{
+    font-size: 1.2rem;
+    cursor: default;
+    width: 100%;
+    align-self: center;
+    text-align: center;
+    background-color: rgba(202, 202, 202, 0.158);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
+    border-top: 1.0px solid rgba(0, 0, 0, 0.233);
+    margin-bottom: 3px;
+    font-size: 15px;
+    margin-top: 3px;
+    &:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    cursor: pointer;
+    }
+}

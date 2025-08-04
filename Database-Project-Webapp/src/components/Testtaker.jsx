@@ -109,12 +109,13 @@ const App = () => {
         })
         return FinalStats
     }
+
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
         if(amount === 0){
-            setState("Finished")
+            Finalize()
             return
         }
         if (amount > 0) {
@@ -134,9 +135,34 @@ const App = () => {
         }
     }
 
-    function Finalize() {
+    function Finalize(){
         setCurrentQuestion(-2);
         setState("Finished")
+        console.log("finished")
+        var url = "http://127.0.0.1:3002/compare/save/"
+        const PostFormat = FormattedQuestions.map((c,i) =>{
+            var points = 0
+            if(c.Correct === "Correct"){
+                points = 1
+            }
+            if(c.Correct === "Partially"){
+                points = 0.5
+            }
+            return [
+                params.testId,
+                points, 
+                c.Answer
+            ]
+        })
+        console.log(PostFormat)
+        const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(PostFormat)
+            }
+        fetch(url, options).then(response => response.json()).then(response => console.log(response))
     }
 
     function Questions(res) {
@@ -151,12 +177,10 @@ const App = () => {
 
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
-        let nocapsanswer = answer.toLowerCase();
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
             }
-            console.log(PostFormat)
             const options = {
                 method: 'POST',
                 headers: {
@@ -165,16 +189,15 @@ const App = () => {
                 body: JSON.stringify(PostFormat)
             }
 
-            fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
+            fetch(url, options).then(response => response.json()).then(response => userinterface(response))
 
         
     }
 
-    function userinterface(outcome) {
-        outcome = (outcome === "true")
-        console.log(outcome)
-        if (outcome !== undefined) {
-            if (outcome === true) {
+    function userinterface(response) {
+
+        if (response.outcome !== undefined) {
+            if (response.outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
                         c.Correct = "Correct"
@@ -184,7 +207,7 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            } else if (outcome === false) {
+            } else if (response.outcome === false) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
                         c.Correct = "Incorrect"

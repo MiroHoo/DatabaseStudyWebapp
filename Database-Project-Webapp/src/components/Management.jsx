@@ -37,7 +37,7 @@ function App() {
     )
 
     function ShowTests(props) {
-        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);  console.log(Testdata) }}>{Testdata[props.index].Name}</div><div>{Testdata[props.index].TestId}</div><div>List of testresults</div><div>Average score</div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
+        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div><div>List of testresults</div><div className={"ManagementContent"}>Average score: </div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
     function InitOpen(res) {
