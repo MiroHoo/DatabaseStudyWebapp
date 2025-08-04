@@ -11,17 +11,21 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [open, setItemsOpen] = useState({})
     const [modal, setModal] = useState(false)
+    const [TestAnswer, setAnswer] = useState({} )
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
         "function": "",
     })
     useEffect(() => {
-        fetch('http://127.0.0.1:3002/test/')
+         fetch('http://127.0.0.1:3002/test/')
             .then(response => response.json())
             .then(response => InitOpen(response))
             .then(response => setLoading(!loading))
             .catch(error => console.log(error))
+        fetch('http://127.0.0.1:3002/compare/allsaved/')
+        .then(response => response.json())
+        .then(response => setAnswer(response))
     }, []);
     return (
         <>
@@ -37,16 +41,44 @@ function App() {
     )
 
     function ShowTests(props) {
-        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div><div>List of testresults</div><div className={"ManagementContent"}>Average score: </div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
+        console.log(TestAnswer)
+        console.log(Testdata[props.index].TestId)
+        FetchAnswers(Testdata[props.index].TestId)
+        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>{true ? <FetchAnswers TestId={Testdata[props.index].TestId}/>:<></>}<div className={"ManagementContent"}>Average score: </div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
+
+    function FetchAnswers(props){
+       const Answerarray = TestAnswer.map((c,i)=> {
+        console.log(c.Test_TestId === props.TestId)
+            if(c.Test_TestId === props.TestId){
+                const divs = <div>Answer : {c.Answer}</div>
+                return divs
+            } else {
+                return <></>
+            }
+       })
+       console.log("answer array " + Answerarray)
+       return Answerarray
+    }
+
+    function Initanswerdata(res){
+       const AnswerValues = res.map((c,i)=>{
+            
+        })
+    }
+
     function InitOpen(res) {
+        console.log(res)
+        Initanswerdata(res)
         const arrayofindexes = res.map((c, i) => { res[i].Open = false; return res[i] })
         setTestdata(arrayofindexes)
     }
+
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function, funcvar: ModalSettings.funcvar }} stateChanger={setModal} />
     }
+
     function QuestionModal(Name, id, index) {
         setSettings({
             type: "question",
