@@ -1,15 +1,20 @@
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const TestBuild_router = require('./Routes/TestBuild_route.js');
 const TestFetch_router = require('./Routes/TestFetch_route.js');
 const TestTaking_router = require('./Routes/TestTaking_route.js');
 const TestManaging_router = require('./Routes/TestManage_route.js');
 var app = express();
+app.use(cookieParser())
+app.use(cors({
+  origin: "http://localhost:5173",         // Allow your frontend
+  credentials: true              // Allow sending cookies
+}));
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(cors());
 app.use('/build',TestBuild_router)
 app.use('/test',TestFetch_router)
 app.use('/compare',TestTaking_router)

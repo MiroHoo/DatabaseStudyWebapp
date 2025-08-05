@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const TestFetch = require('../Models/TestManage_model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser');
 
 
 router.get('/delete/:id',
     function(request, response) {
+    const jwttok = request.cookies.jwt
+    jwt.verify(jwttok, process.env.Secret, (err) => {
+        if(err){
+          response.json({token: "Token Invalid"});
+          return;
+        }
+    })
     TestFetch.deletequestionbyid(request.params.id)
     TestFetch.deletetestbyid(request.params.id,function(err,dbResult){
     if (err) {
@@ -16,8 +25,14 @@ router.get('/delete/:id',
     })
 });
 router.post('/update/:id',
-    function(request, response) {
-    console.log(request.body)
+    async function(request, response) {
+    const jwttok = request.cookies.jwt
+    jwt.verify(jwttok, process.env.Secret, (err) => {
+        if(err){
+          response.json({token: "Token Invalid"});
+          return;
+        }
+    })
     TestFetch.updateNameByid({name: request.body.name, id: request.params.id},function(err, dbResult) {
     if (err) {
       response.json(err);
@@ -45,7 +60,15 @@ router.post('/login', async function(request,response) {
       const correctpass = dbResult[0].Password
       const match = await bcrypt.compare(userpass, correctpass)
       if(match){
-          response.json({"success":true})
+        const token = jwt.sign({
+                username: 'Admin'
+          }, process.env.Secret)
+        console.log("setting cookies")
+        response.cookie("jwt",token,{
+              sameSite: "none",
+              secure: true,
+        })
+        response.send({outcome: "success"})
       } else {
           response.json({"success":false})
       }
