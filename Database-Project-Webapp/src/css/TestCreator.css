@@ -25,6 +25,7 @@
     }
     }
 }
+
 .TestInput{
     height: clamp(1rem,7vh,12rem);
     font-size: clamp(1rem,1.7vh,1.3rem);
@@ -35,6 +36,7 @@
     margin-bottom: 3px;
     margin-top: 3px;
 }
+
 .Testinputcontainer{
     display: flex;
     align-items: center;
