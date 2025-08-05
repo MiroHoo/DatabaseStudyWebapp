@@ -67,7 +67,20 @@ router.post('/save/',
 )
 router.get('/saved/:id',
   function (request, response) {
-    TestTaker.getAnswers(request.params.id,function (err, dbResult) {
+    TestTaker.getAnswersbyid(request.params.id,function (err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult);
+      }
+
+    })
+    
+  }
+)
+router.get('/allsaved/',
+  function (request, response) {
+    TestTaker.getAnswers(function (err, dbResult) {
       if (err) {
         response.json(err);
       } else {
