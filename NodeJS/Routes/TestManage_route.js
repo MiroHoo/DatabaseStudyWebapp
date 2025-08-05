@@ -75,8 +75,19 @@ router.post('/login', async function(request,response) {
     }
   })
 })
+router.get('/verify', async function(req,res){
+  const jwttok = req.cookies.jwt
+    jwt.verify(jwttok, process.env.Secret, (err) => {
+        if(err){
+          res.json({token: 0});
+          return;
+        } else {
+          res.json({token: 1})
+        }
+    })
+})
 //Used to create an account if need be 
-/*router.post('/register', 
+router.post('/register', 
   async function(request,response) {
     const passHash = await bcrypt.hash(request.body.Password, 10)
     const body = {"Username":request.body.Username, "Password":passHash}
@@ -89,7 +100,7 @@ router.post('/login', async function(request,response) {
     }
   })
   }
-)*/
+)
 
 
 module.exports= router;

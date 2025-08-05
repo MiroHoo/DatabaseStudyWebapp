@@ -53,16 +53,25 @@ const ListOfAlteringQueries = {
 
 router.post('/save/',
   function (request, response) {
-    console.log(request.body)
-    TestTaker.postAnswer(request.body, function (err, dbResult) {
+    TestTaker.GetLargestid(function(err, dbResult) {
+      console.log(dbResult[0])
+      var id = 1
+      if(dbResult[0] !== undefined){
+          id = dbResult[0].Attempt_id +1
+      } 
+      var dbArray = request.body.map((c,i)=>{
+        c.unshift(id)
+         console.log(c)
+        return c
+      })
+      TestTaker.postAnswer(dbArray, function (err, dbResult) {
       if (err) {
         response.json(err);
       } else {
         response.json(dbResult);
       }
-
     })
-    
+    })  
   }
 )
 router.get('/saved/:id',
@@ -86,7 +95,6 @@ router.get('/allsaved/',
       } else {
         response.json(dbResult);
       }
-
     })
     
   }

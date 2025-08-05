@@ -19,7 +19,7 @@
     },
     CreateUser:function(Login, callback){  
         return db.query('insert into login (Username,Password) values (?,?)',[Login.Username, Login.Password],callback)
-    }      
+    },      
 
   }
   module.exports = testfetch;
