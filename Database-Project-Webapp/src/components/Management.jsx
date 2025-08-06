@@ -9,9 +9,9 @@ function App() {
     const [Testdata, setTestdata] = useState({})
     const [ShowData, setShow] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [open, setItemsOpen] = useState({})
     const [modal, setModal] = useState(false)
-    const [TestAnswer, setAnswer] = useState({} )
+    const [TestAnswer, setAnswer] = useState([])
+    const [Average, setAverage] = useState([])
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
@@ -23,10 +23,14 @@ function App() {
             .then(response => InitOpen(response))
             .then(response => setLoading(!loading))
             .catch(error => console.log(error))
-        fetch('http://127.0.0.1:3002/compare/allsaved/')
-        .then(response => response.json())
-        .then(response => setAnswer(response))
     }, []);
+    useEffect(()=> {
+       if(TestAnswer[0] !== undefined){
+            console.log("here")
+            console.log(TestAnswer)
+             setShow(true)
+       }
+    },[TestAnswer])
     return (
         <>
             {
@@ -35,55 +39,31 @@ function App() {
             {loading ?
                 <></>
                 :
-                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={"ManagementHeader"} onClick={() => setOpen(i)}>{c.Name}</div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
+                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={"ManagementHeader"} onClick={() => FetchAnswers(c.TestId, i)}>{c.Name}</div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
             }
         </>
     )
 
     function ShowTests(props) {
-        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>{true ? <FetchAnswers TestId={Testdata[props.index].TestId}/>:<></>}<div className={"ManagementContent"}>Average score: </div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
+        const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
+            <div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>
+            {ShowData ? 
+            <>
+          <TestSetter/>
+            </>
+            :
+            <></>
+            }
+            <div className={"ManagementContent"}>Average score: </div>
+            <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
 
-    function FetchAnswers(props){
-        var Attempt_id = 1; 
-        var ListOfelements = {}
-        var Index = 0
-        TestAnswer.forEach(c => {
-           if(Attempt_id !== c.Attempt_id){
-                console.log("change")
-                Attempt_id = c.Attempt_id
-                Index = 0;
-            }
-            ListOfelements[Attempt_id + " " + Index] = {index: Index, c}
-            Index++;
-        });
-        console.log(ListOfelements[1 +" " +1])
-       const Answerarray = TestAnswer.map((c,i)=> {
-            
-            if(c.Test_TestId === props.TestId){
-                if(c.Answer){
-                const divs = <div><div>Answer : {c.Answer}</div><div>Points : {c.Score}</div></div>
-                return divs
-                } else {
-                const divs = <div><div>Empty Answer</div><div>Points : {c.Score}</div></div>
-                return divs    
-                }
-            } else {
-                return <></>
-            }
-       })
-       console.log(Answerarray)
-       return <>{Answerarray}</>
+    function FetchAnswers(TestId,i){
+       fetch("http://localhost:3002/manage/fetchscores/"+TestId).then(res => res.json()).then(res => setAnswer(res)).then(setOpen(i))
     }
-    function Initanswerdata(res){
-       const AnswerValues = res.map((c,i)=>{
-            
-        })
-    }
+
     function InitOpen(res) {
-        console.log(res)
-        Initanswerdata(res)
         const arrayofindexes = res.map((c, i) => { res[i].Open = false; return res[i] })
         setTestdata(arrayofindexes)
     }
@@ -91,7 +71,40 @@ function App() {
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function, funcvar: ModalSettings.funcvar }} stateChanger={setModal} />
     }
-
+    function TestSetter(){
+    var attemptid = TestAnswer[0].Attempt_id
+    var index = 0;
+    var temparray = []
+    var elemarray = []
+    TestAnswer.forEach((c,i)=>{
+        if(c.Attempt_id !== attemptid){
+            elemarray.push(temparray)
+            attemptid = c.Attempt_id
+            index=0;
+            temparray=[]
+        }
+        temparray.push(c)
+        index++;  
+    })
+    elemarray.push(temparray)
+    temparray = []
+    const array = elemarray.map((cont,i)=>{
+    if(i < 5){
+        var pusharray = []
+        cont.forEach((c,i)=>{
+            if(c.Answer.length < 2){
+              pusharray.push(<div><>No Answer</><>{c.Score}</></div>)  
+            } else {
+            pusharray.push(<div><>{c.Answer}</><>{c.Score}</></div>)
+            }
+        })
+        return <div className='AttemptClass'><div className='AttemotHeader'>Attempt {i+1}</div>{pusharray}</div>
+    } else {
+        return; 
+    }
+    })
+    return array
+    }
     function QuestionModal(Name, id, index) {
         setSettings({
             type: "question",
@@ -147,6 +160,7 @@ function App() {
         fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(response => console.log(response)).then(RemoveElement(funcvar.i))
     }
     function setOpen(index) {
+        closed()
         if (Testdata[index].Open) {
             const updatedarray = Testdata.map((c, i) => {
                 if (i === index) {
@@ -166,6 +180,13 @@ function App() {
             })
             setTestdata(updatedarray)
         }
+    }
+    function closed() {
+       
+            const updatedarray = Testdata.map((c, i) => {
+                Testdata[i].Open = false; return Testdata[i]
+            })
+            setTestdata(updatedarray)
     }
 
 }
