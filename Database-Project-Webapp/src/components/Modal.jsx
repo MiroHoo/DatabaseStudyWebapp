@@ -17,7 +17,7 @@ function App({Modalsettings, stateChanger}) {
     <dialog id={"Modal"} className="ModalDialog" open={true}>
         <input className='ModalInput' onChange={e => setInput(e.target.value)} placeholder={Modalsettings.text}></input>
         <div className='ModalButtons'>
-        <button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(Modalsettings.id,input,Modalsettings.funcvar)}}>Submit</button>
+        <button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(input,Modalsettings.funcvar)}}>Submit</button>
         <button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false);}}>Cancel</button>
         </div>
     </dialog>

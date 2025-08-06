@@ -66,7 +66,8 @@ function InputModal(id){
   setSettings({
   type: "input",
   text:"Change Question " + id +  " Name",
-  function:QuestionName
+  function:QuestionName,
+  funcvar: id
   })
   setModal(!modal);
 }
@@ -75,11 +76,11 @@ function ChangeTestName(){
   setSettings({
   type: "input",
   text:"Change Test Name",
-  function:TestName
+  function:TestName,
   })
   setModal(!modal);
 }
-function TestName(id, TestName){
+function TestName(TestName){
   setTestName(TestName)
 }
 function QuestionModal(text, func, funcvar){
@@ -87,20 +88,21 @@ function QuestionModal(text, func, funcvar){
   setSettings({
   type: "question",
   text: text,
-  function:func(funcvar)
+  function:func,
+  funcvar: funcvar
   })  
   } else {
   setSettings({
   type: "question",
   text: text,
-  function:func
+  function:func,
   })  
   }
   setModal(!modal);
 }
 
 function ModalSetter(){
-  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
+  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function, funcvar:ModalSettings.funcvar}} stateChanger={setModal}/> 
 }
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
@@ -109,15 +111,17 @@ function RemoveQuestion(id){
 }
 
 //Question Header changer
-function QuestionName(id, text){
+function QuestionName(text, id){
+  console.log(text, id)
   const UpdatedName = questionarray.map((c,i) => {
-    if (i === id){
+    if (i === id-1){
       c.name = text
       return c
     } else {
       return c
     }
   })
+  console.log(UpdatedName)
   setQuestions(UpdatedName)
 }
 
