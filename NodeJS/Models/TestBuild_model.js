@@ -2,27 +2,23 @@
   
   const testbuild = {
     addTest: function(Test, callback) {
-      console.log(Test.body.Name)
     db.query(
       'insert into test (Name) values(?)',
       [Test.body.Name], callback
     );
     },
     insertQuestions:function(Test, callback){
-      console.log(Test)
     const questions = Test.Questions.map((values) => [
       values.Q, 
       values.A,
       Test.TestId
     ])
-    console.log(questions)
     db.query(
       'insert into question (Question, Answer, Test_TestId) values ?',
       [questions],callback
     )
     },
     getId:function(callback) {
-      console.log("grift3")
       return db.query(
       'select TestId from test ORDER BY TestId DESC LIMIT 1;'
       ,callback

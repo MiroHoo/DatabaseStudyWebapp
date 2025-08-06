@@ -12,12 +12,10 @@ router.post('/add/',
     await asyncsettest(request);
     TestModel.getId(function(err, dbResult){
               request.body["TestId"] = dbResult[0].TestId;
-              console.log(request.body)
               TestModel.insertQuestions(request.body,function(err,dbResult){
                 if(err){
                   response.json(err)
                 } else {
-                  console.log("res sent")
                   response.json(dbResult)
                 }
               })
