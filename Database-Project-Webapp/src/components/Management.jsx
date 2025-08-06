@@ -92,13 +92,17 @@ function App() {
     if(i < 5){
         var pusharray = []
         cont.forEach((c,i)=>{
-            if(c.Answer.length < 2){
-              pusharray.push(<div><>No Answer</><>{c.Score}</></div>)  
+            if(c.Answer.length < 2 ){
+              pusharray.push(<div className='AnswerCont'><div className='AnswerText'>No Answer</div><div>{c.Score}/1</div></div>)  
             } else {
-            pusharray.push(<div><>{c.Answer}</><>{c.Score}</></div>)
+                if(c.Answer.length < 70){
+                    pusharray.push(<div className='AnswerCont'><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                } else {
+                    pusharray.push(<div className='AnswerCont'><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                }
             }
         })
-        return <div className='AttemptClass'><div className='AttemotHeader'>Attempt {i+1}</div>{pusharray}</div>
+        return <><div className='AttemptClass'><div className='AttemptHeader'>Attempt {i+1}</div>{pusharray}</div><div className='AttemptDivider'></div></>
     } else {
         return; 
     }

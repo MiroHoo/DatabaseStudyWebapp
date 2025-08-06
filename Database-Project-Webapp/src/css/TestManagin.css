@@ -1,9 +1,9 @@
 .TestDataHeader{
+
     display: flex;
 }
 .AttemptClass{
-    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
-    border-top: 1.5px solid rgba(0, 0, 0, 0.233);
+    
     margin-top:10px;
     display: flex;
     flex-direction: column;
@@ -12,7 +12,32 @@
 .AttemptHeader{
     display: flex;
     justify-content: center;
-    font-size: 60px;
+    font-size: clamp(1.1rem,1.7vh,1.9rem);
+}
+.AnswerText{
+    display: flex;
+    flex-direction: row;
+    font-size: clamp(0.8rem,1.7vh,1.2rem);
+    &.query{
+       font-size: clamp(0.8rem,1.7vh,1.2rem);
+    }
+    &.long{
+       width: 80%;
+    }
+    
+}
+.AttemptDivider{
+    border-top: 1.5px solid rgba(0, 0, 0, 1);
+    width: 100%;
+}
+.AnswerCont{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-self: center;
+    justify-content: space-between;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
+    white-space:nowrap;
 }
 .ManagementHeader{
     font-size: 1.2rem;
@@ -38,12 +63,13 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
+
 }
 .ManagementItemCont{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width:80%;
+    width:90%;
 }
 .DeleteTest{
      cursor: pointer;
@@ -76,4 +102,34 @@
     transform: translateY(-2px);
     cursor: pointer;
     }
+}
+@keyframes marquee {
+}
+ @media (max-aspect-ratio: 9/16) {
+    .AnswerText{
+    display: flex;
+    flex-direction: row;
+    font-size: clamp(0.8rem,1.7vh,1.2rem);
+    &.query{
+       font-size: clamp(0.8rem,1.7vh,1.2rem);
+    }
+    &.long{
+       width: 80%;
+      overflow: hidden;
+    }
+}
+}
+  @media (max-aspect-ratio: 16/9) {
+   .AnswerText{
+    display: flex;
+    flex-direction: row;
+    font-size: clamp(0.8rem,1.7vh,1.2rem);
+    &.query{
+       font-size: clamp(0.8rem,1.7vh,1.2rem);
+    }
+    &.long{
+       width: 80%;
+      overflow: scroll;
+    }
+}
 }
