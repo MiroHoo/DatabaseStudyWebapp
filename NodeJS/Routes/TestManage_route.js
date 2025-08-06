@@ -9,13 +9,17 @@ const cookieParser = require('cookie-parser');
 router.get('/delete/:id',
     function(request, response) {
     const jwttok = request.cookies.jwt
+    console.log(jwttok)
     jwt.verify(jwttok, process.env.Secret, (err) => {
         if(err){
+          console.log(err)
           response.json({token: "Token Invalid"});
           return;
         }
     })
-    TestFetch.deletequestionbyid(request.params.id)
+    console.log(request.params.id)
+    TestFetch.deletequestionbyid(request.params.id,)
+    TestFetch.deletestudentdatabyid(request.params.id)
     TestFetch.deletetestbyid(request.params.id,function(err,dbResult){
     if (err) {
       response.json(err);

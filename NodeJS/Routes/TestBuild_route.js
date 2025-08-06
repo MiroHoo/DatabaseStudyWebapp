@@ -4,32 +4,33 @@ const TestModel = require('../Models/TestBuild_model');
 
 
 router.post('/add/', 
-    function (request, response) {
+    async function (request, response) {
     if(!request.body){
         response.status(204)
         response.send('missing body')
     }
-TestModel.getId(function(err, dbResult) {
-    if(dbResult[0] === undefined){
-        request.body["TestId"] = 1
-    } else {
-      request.body["TestId"] = dbResult[0].TestId;
-    }
-    if (err) {
-      response.json(err);
-    } else {
-      response.json(dbResult);
-      console.log("here")
-      TestModel.addTest(request, function(err) {
-        if(err){
-            response.json(err)
-        } else {
-            response.status(202);
-            response.send('succesfully added')
-        }
+    await asyncsettest(request);
+    TestModel.getId(function(err, dbResult){
+              request.body["TestId"] = dbResult[0].TestId;
+              console.log(request.body)
+              TestModel.insertQuestions(request.body,function(err,dbResult){
+                if(err){
+                  response.json(err)
+                } else {
+                  console.log("res sent")
+                  response.json(dbResult)
+                }
+              })
     })
-    }
-   });
+function asyncsettest(request) {
+  //async way of getting the data so that the other logic has to wait
+  return new Promise((resolve, reject) => {
+    TestModel.addTest(request, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+}
 });
 
 router.get('/id/',

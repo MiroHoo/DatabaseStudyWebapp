@@ -8,6 +8,9 @@
     deletequestionbyid: function(id, callback) {
         return db.query('delete from question where Test_TestId=?', [id], callback)
     },
+    deletestudentdatabyid: function(id, callback) {
+        return db.query('delete from student_scores where Test_TestId=?', [id], callback)
+    },
     updateNameByid: function(Test, callback) {
         return db.query('update test set name=? where TestId=?', [Test.name, Test.id], callback)
     },
