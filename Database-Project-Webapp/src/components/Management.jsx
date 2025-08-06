@@ -41,33 +41,46 @@ function App() {
     )
 
     function ShowTests(props) {
-        console.log(TestAnswer)
-        console.log(Testdata[props.index].TestId)
-        FetchAnswers(Testdata[props.index].TestId)
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont"><div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>{true ? <FetchAnswers TestId={Testdata[props.index].TestId}/>:<></>}<div className={"ManagementContent"}>Average score: </div><button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
 
     function FetchAnswers(props){
+        var Attempt_id = 1; 
+        var ListOfelements = {}
+        var Index = 0
+        TestAnswer.forEach(c => {
+           if(Attempt_id !== c.Attempt_id){
+                console.log("change")
+                Attempt_id = c.Attempt_id
+                Index = 0;
+            }
+            ListOfelements[Attempt_id + " " + Index] = {index: Index, c}
+            Index++;
+        });
+        console.log(ListOfelements[1 +" " +1])
        const Answerarray = TestAnswer.map((c,i)=> {
-        console.log(c.Test_TestId === props.TestId)
+            
             if(c.Test_TestId === props.TestId){
-                const divs = <div>Answer : {c.Answer}</div>
+                if(c.Answer){
+                const divs = <div><div>Answer : {c.Answer}</div><div>Points : {c.Score}</div></div>
                 return divs
+                } else {
+                const divs = <div><div>Empty Answer</div><div>Points : {c.Score}</div></div>
+                return divs    
+                }
             } else {
                 return <></>
             }
        })
-       console.log("answer array " + Answerarray)
-       return Answerarray
+       console.log(Answerarray)
+       return <>{Answerarray}</>
     }
-
     function Initanswerdata(res){
        const AnswerValues = res.map((c,i)=>{
             
         })
     }
-
     function InitOpen(res) {
         console.log(res)
         Initanswerdata(res)
@@ -131,7 +144,7 @@ function App() {
     }
 
     function DeleteQuestion(id, funcvar) {
-        fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id).then(response => response.json()).then(response => console.log(response)).then(RemoveElement(funcvar.i))
+        fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(response => console.log(response)).then(RemoveElement(funcvar.i))
     }
     function setOpen(index) {
         if (Testdata[index].Open) {

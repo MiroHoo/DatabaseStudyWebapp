@@ -3,12 +3,18 @@ import '../css/start.css'
 import gif from '../assets/Cool.gif'
 import logo from '../assets/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
-
-import { useNavigate } from "react-router";
+import Modal from "./Modal.jsx"
+import { redirect, useNavigate } from "react-router";
 
 const Animation = () => {
 
     let navigate = useNavigate();
+    const [modal, setModal] = useState(false)
+    const [ModalSettings, setSettings] = useState({
+        "type": "",
+        "text": "",
+        "function": "",
+    })
     const [listoftests, setListOfTests] = useState([])
     const [state, setState] = useState(false)
     const [AnimationState, setAnimationState] = useState(false)
@@ -40,13 +46,16 @@ const Animation = () => {
                 <img className="LogoImage" src={logo}/>
                 </div>
                 <div className='SelectionContainer'>
+                    {
+                modal ? <ModalSetter /> : <></>
+                    }
                 <div className='ButtonContainer'>
                 <button className='StartSelectButton' onClick={()=>{setState(!state); setAnimationState(true);}}>SELECT A TEST</button>    
                 </div>
                 { state || AnimationState ?     
                     <>
                     <div ref={animationref} className={`ListofTests ${state ? 'open' : 'closed'}`} >
-                        {listoftests.map(test => (<a key={test.TestId} onClick={() => navigate(`/testtaking/${test.TestId}`)} className='StartListItem'>{test.Name}</a>))}
+                        {listoftests.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}
                     </div>
                     </>
                  : null}
@@ -57,6 +66,21 @@ const Animation = () => {
 function formattests(val){
     setListOfTests(val)
 }
+function StartTest(name, id){
+  setSettings({
+  type: "question",
+  text:"Do you want to start " + name +"?",
+  function:direct,
+  funcvar:id
+  })
+  setModal(!modal);
+}
+function direct(ok, id){
+    redirect(navigate(`/testtaking/${id}`))
+}
+  function ModalSetter() {
+        return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function, funcvar: ModalSettings.funcvar }} stateChanger={setModal} />
+    }
 }
 
 //For listing all the tests inside the database

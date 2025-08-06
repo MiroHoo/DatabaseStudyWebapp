@@ -24,6 +24,8 @@ const App = () => {
     const [animationState, setAnimationState] = useState(true)
     //state of test
     const [TestState, setState] = useState("ER")
+    //has been sent
+    const [Sent, SetSent] =useState(false)
     const animationref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
@@ -115,7 +117,11 @@ const App = () => {
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
         if(amount === 0){
-            Finalize()
+            if(!Sent){
+                Finalize()
+            } else {
+                setState("Finished")
+            }
             return
         }
         if (amount > 0) {
@@ -136,9 +142,9 @@ const App = () => {
     }
 
     function Finalize(){
+        SetSent(true)
         setCurrentQuestion(-2);
         setState("Finished")
-        console.log("finished")
         var url = "http://127.0.0.1:3002/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
             var points = 0
@@ -154,7 +160,6 @@ const App = () => {
                 c.Answer
             ]
         })
-        console.log(PostFormat)
         const options = {
                 method: 'POST',
                 headers: {

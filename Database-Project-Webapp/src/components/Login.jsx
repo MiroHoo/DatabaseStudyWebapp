@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal.jsx"
 import '../css/Login.css'
+import { useNavigate } from "react-router";
 
 function App() {
     const [Username, setUsername] = useState("")
@@ -11,6 +12,7 @@ function App() {
         "text": "",
         "function": "",
     })
+    const navigate = useNavigate()
     return (
         <div className="LoginContainer"> 
             {
@@ -21,20 +23,22 @@ function App() {
             <h className="LoginHeader" >Password</h>
             <input className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
             </input>
-            <button className="LoginButton">Login</button>
+            <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
     )
 
     function Loginfetch(){
-
+      const url = "http://127.0.0.1:3002/manage/login/"
       const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
+                    
                 },
-                body: JSON.stringify({username: Username, password: Password})
+                credentials: 'include',
+                body: JSON.stringify({"username": Username, "Password": Password})
             }
-        fetch(url,options).then(response => response.json()).then(reponse => LoginVerify(res) )
+        fetch(url,options).then(response => response.json()).then(reponse => LoginVerify(reponse) )
     }
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
@@ -47,8 +51,8 @@ function App() {
         setModal(!modal)
     }
     function LoginVerify(res){
-        if(res.outcome === true){
-            //set cookies
+        if(res.outcome === "success"){
+            navigate("/")
         } else {    
             MessageModal()
         }
