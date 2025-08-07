@@ -3,8 +3,8 @@
     display: flex;
 }
 .AttemptClass{
-    
-    margin-top:10px;
+    margin-top:20px;
+    margin-bottom:20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -13,11 +13,14 @@
     display: flex;
     justify-content: center;
     font-size: clamp(1.1rem,1.7vh,1.9rem);
+    background-color: rgba(202, 202, 202, 0.411);
 }
 .AnswerText{
     display: flex;
     flex-direction: row;
-    font-size: clamp(0.8rem,1.7vh,1.2rem);
+    font-size: clamp(1rem,1.7vh,1.2rem);
+    margin-top: 5px;
+    margin-bottom: 5px; 
     &.query{
        font-size: clamp(0.8rem,1.7vh,1.2rem);
     }
@@ -38,16 +41,26 @@
     justify-content: space-between;
     border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
     white-space:nowrap;
+    &.Sucessful{
+        background-color: rgba(29, 214, 29, 0.1);
+    }
+    &.Failure{
+        background-color: rgba(167, 4, 4, 0.1);
+    }
+    &.Partial{
+        background-color: rgba(255, 173, 21, 0.1);
+    }
 }
 .ManagementHeader{
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
     cursor: default;
-    width: 60%;
+    width: 70%;
     align-self: center;
     text-align: center;
     background-color: rgba(202, 202, 202, 0.158);
-    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
-    border-top: 1.5px solid rgba(0, 0, 0, 0.233);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.267);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.267);
     margin-bottom: 3px;
     margin-top: 3px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -55,6 +68,13 @@
         cursor: pointer;
     transition: all 0.3s;
     transform: translateY(-2px);
+    }
+    &.open{
+        background-color: rgba(67, 73, 66, 0.185);
+        animation-name: change-color-selection;
+        animation-duration: 0.2s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
     }
 }
 .ManagementContainer{
@@ -75,7 +95,8 @@
      cursor: pointer;
     font-weight: 600;
     width: 80%;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: rgba(219, 83, 83, 0.068);
     box-shadow: 0 1px 1px 1px #c4c4c45b;
     cursor: pointer;
@@ -86,17 +107,16 @@
     }
 }
 .ManagementContent{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: default;
     width: 100%;
     align-self: center;
     text-align: center;
-    background-color: rgba(202, 202, 202, 0.158);
+    background-color: rgba(250, 250, 250, 0.664);
     border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
     border-top: 1.0px solid rgba(0, 0, 0, 0.233);
-    margin-bottom: 3px;
-    font-size: 15px;
-    margin-top: 3px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
@@ -119,16 +139,28 @@
     }
 }
 }
+@keyframes change-color-selection {
+  from {
+          background-color: rgba(202, 202, 202, 0.158);
+  }
+  to {
+    background-color: rgba(67, 73, 66, 0.253);
+  }
+}
   @media (max-aspect-ratio: 16/9) {
+    .AnswerCont{
+        flex-direction: column;
+        align-items: center;
+    }
    .AnswerText{
     display: flex;
     flex-direction: row;
-    font-size: clamp(0.8rem,1.7vh,1.2rem);
+    font-size: clamp(1.2rem,1.7vh,1.2rem);
     &.query{
-       font-size: clamp(0.8rem,1.7vh,1.2rem);
+       font-size: clamp(1.2rem,1.7vh,1.2rem);
     }
     &.long{
-       width: 80%;
+       width: 90%;
       overflow: scroll;
     }
 }

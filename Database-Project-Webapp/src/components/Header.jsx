@@ -2,27 +2,35 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/index.css'
 import gif from '../assets/Cool.gif'
+import home from '../assets/home.svg'
+import plus from '../assets/plus.svg'
+import db from '../assets/database.svg'
+import user from '../assets/user.svg'
 import {NavLink} from "react-router-dom";
 const BurgerPathOptions = [
   {
     "name": "Home",
     "path": "/",
-    "auth": false
+    "auth": false,
+    "icon": home
   },
   {
    "name": "Login",
    "path": "/login",
-   "auth": false
+   "auth": false,
+   "icon": user
   },
   {
    "name": "Build",
    "path": "/test",
-   "auth": true
+   "auth": true,
+   "icon": plus
   },
   {
    "name": "Manage",
    "path": "/manage",
-   "auth": true
+   "auth": true,
+   "icon": db
   },
 ]
 //Json array for holding different burgermenu redirect options. 
@@ -72,7 +80,7 @@ const Layout = () =>  {
       </div>
        { BurgerVis || Animationstate ?
       <div ref={animationref} className={`BurgerContainer ${BurgerVis ? 'open' : 'closed'}`}>
-      <Burgermaker auth={Auth}/>
+      <div className={"BurgerStack"}><Burgermaker auth={Auth}/></div>
       </div>
       : null
       }
@@ -86,10 +94,15 @@ function Burgermaker(props){
   console.log("here")
   BurgerPathOptions.forEach(element => {
     if(!element.auth){
-    BurgerArray.push(<NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}>{element.name}</NavLink>)
+    if(element.name !== "Login"){
+    BurgerArray.push(<><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>) 
+    } else if (!props.auth){
+    BurgerArray.push(<NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>) 
+    }
+    
     } else {
       if(props.auth){
-        BurgerArray.push(<NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}>{element.name}</NavLink>)
+        BurgerArray.push(<NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(!BurgerVis); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>)
       } 
     }
   });

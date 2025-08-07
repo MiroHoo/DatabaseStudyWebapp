@@ -18,9 +18,9 @@ function App() {
             {
                 modal ? <ModalSetter /> : <></>
             }
-            <h className="LoginHeader">Username</h>
+            <div className="LoginHeader">Username</div>
             <input className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="username"></input>
-            <h className="LoginHeader" >Password</h>
+            <div className="LoginHeader" >Password</div>
             <input className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
             </input>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
@@ -50,12 +50,23 @@ function App() {
         })
         setModal(!modal)
     }
+    function LoginMessage(){
+        setSettings({
+            "type": "question",
+            "text": "The Login was succesfull",
+            "function": Nav
+        })
+        setModal(!modal)
+    }
     function LoginVerify(res){
         if(res.outcome === "success"){
-            navigate("/")
+            LoginMessage()
         } else {    
             MessageModal()
         }
+    }
+    function Nav(){
+        navigate("/")
     }
 }
 

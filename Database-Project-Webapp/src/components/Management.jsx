@@ -12,6 +12,7 @@ function App() {
     const [modal, setModal] = useState(false)
     const [TestAnswer, setAnswer] = useState([])
     const [Average, setAverage] = useState([])
+    const [selection, SetSelection] = useState("")
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
@@ -26,8 +27,6 @@ function App() {
     }, []);
     useEffect(()=> {
        if(TestAnswer[0] !== undefined){
-            console.log("here")
-            console.log(TestAnswer)
              setShow(true)
        }
     },[TestAnswer])
@@ -39,12 +38,13 @@ function App() {
             {loading ?
                 <></>
                 :
-                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={"ManagementHeader"} onClick={() => FetchAnswers(c.TestId, i)}>{c.Name}</div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
+                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => FetchAnswers(c.TestId, i)}>{c.Name}</div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
             }
         </>
     )
 
     function ShowTests(props) {
+        SetSelection(Testdata[props.index].TestId)
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
             <div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>
             {ShowData ? 
@@ -91,14 +91,24 @@ function App() {
     const array = elemarray.map((cont,i)=>{
     if(i < 5){
         var pusharray = []
+        var Class = ""
         cont.forEach((c,i)=>{
-            if(c.Answer.length < 2 ){
-              pusharray.push(<div className='AnswerCont'><div className='AnswerText'>No Answer</div><div>{c.Score}/1</div></div>)  
+            console.log(c.Score)
+            if(c.Score === "1"){
+                Class = "Sucessful"
+            } else if (c.Score === "0"){
+                Class = "Failure"
             } else {
-                if(c.Answer.length < 70){
-                    pusharray.push(<div className='AnswerCont'><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                Class = "Partial"
+            }
+            console.log(Class)
+            if(c.Answer.length < 2 ){
+              pusharray.push(<div className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div className='AnswerText'>{c.Score}/1</div></div>)  
+            } else {
+                if(c.Answer.length < 50){
+                    pusharray.push(<div className={"AnswerCont " + Class} ><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
                 } else {
-                    pusharray.push(<div className='AnswerCont'><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                    pusharray.push(<div className={"AnswerCont " + Class}><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
                 }
             }
         })
@@ -119,7 +129,6 @@ function App() {
         setModal(!modal);
     }
     function InputModal(name, id, index) {
-         console.log(Testdata)
         setSettings({
             type: "input",
             text: "Change " + name + "'s name",
@@ -129,14 +138,14 @@ function App() {
         setModal(!modal);
     }
 
-    function ChangeName(id ,input,funcvar) {
+    function ChangeName(input,funcvar) {
         const url = "http://127.0.0.1:3002/manage/update/" + funcvar.id
-        console.log(url)
         const options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ "name" : input })
         }
         fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateElement(input, funcvar.index))
@@ -147,8 +156,6 @@ function App() {
     }
 
     function UpdateElement(name, index){
-        console.log(name)
-        console.log(Testdata)
         const array = Testdata.map((c,i)=> {
             if(i === index){
                 Testdata[i].Name = name; return Testdata[i]
@@ -156,12 +163,11 @@ function App() {
                 return c
             }
         })
-        console.log(array)
         setTestdata(array)
     }
 
     function DeleteQuestion(id, funcvar) {
-        fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(response => console.log(response)).then(RemoveElement(funcvar.i))
+        fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(RemoveElement(funcvar.i))
     }
     function setOpen(index) {
         closed()
