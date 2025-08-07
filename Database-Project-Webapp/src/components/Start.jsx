@@ -16,8 +16,10 @@ const Animation = () => {
         "function": "",
     })
     const [listoftests, setListOfTests] = useState([])
+    const [searchList, setSearch] = useState([])
     const [state, setState] = useState(false)
     const [AnimationState, setAnimationState] = useState(false)
+    const [input, setInput] = useState("")
     const animationref = useRef()
       useEffect(() => {
        fetch('http://127.0.0.1:3002/test/')
@@ -55,7 +57,8 @@ const Animation = () => {
                 { state || AnimationState ?     
                     <>
                     <div ref={animationref} className={`ListofTests ${state ? 'open' : 'closed'}`} >
-                        {listoftests.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}
+                        <input className={"SearchFunc"} onChange={(e)=> {setInput(e.target.value), SearchFilter(e.target.value)}} value={input} placeholder='Search'/>
+                        {searchList.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}
                     </div>
                     </>
                  : null}
@@ -64,8 +67,14 @@ const Animation = () => {
         </>
     )
 function formattests(val){
+    setSearch(val)
     setListOfTests(val)
 }
+
+function SearchFilter(text){
+    setSearch(listoftests.filter((tests) => tests.Name.toLowerCase().includes(text.toLowerCase())))
+}
+
 function StartTest(name, id){
   setSettings({
   type: "question",
