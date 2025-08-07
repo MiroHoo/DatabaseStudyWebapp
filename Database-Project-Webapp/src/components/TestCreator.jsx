@@ -31,19 +31,19 @@ const [ModalSettings, setSettings] = useState({
   }, []);
 
   return (
-    <div className='Tests'>  
-    <div className="TestHeader" onClick={()=>ChangeTestName()}>{Testname}</div>
+    <div className='Tests'> 
+    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname}</div>
     <div>
       {
       modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
      }
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{setInputid(Questions.id-1); InputModal(); }} className="TestHeader">{Questions.name}</a>
+        <div onClick={()=>{setInputid(Questions.id-1); InputModal(Questions.id); }} className="TestHeader active">{Questions.name}</div>
         <input className='TestInput' id={"Question_" + Questions.id}></input>
-        <a className="TestHeader">Model Answer</a>
+        <div className="TestHeader">Model Answer</div>
         <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
-        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)} className='TestVerify'>Verify Model Answer</button>
+        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)} className='TestVerify'>Verify Answer</button>
         <button className="deleteBtn" onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
     ))}
@@ -62,12 +62,12 @@ console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 
-function InputModal(){
-  console.log("Modal")
+function InputModal(id){
   setSettings({
   type: "input",
-  text:"tempText",
-  function:QuestionName
+  text:"Change Question " + id +  " Name",
+  function:QuestionName,
+  funcvar: id
   })
   setModal(!modal);
 }
@@ -75,12 +75,12 @@ function InputModal(){
 function ChangeTestName(){
   setSettings({
   type: "input",
-  text:"tempText",
-  function:TestName
+  text:"Change Test Name",
+  function:TestName,
   })
   setModal(!modal);
 }
-function TestName(id, TestName){
+function TestName(TestName){
   setTestName(TestName)
 }
 function QuestionModal(text, func, funcvar){
@@ -88,20 +88,21 @@ function QuestionModal(text, func, funcvar){
   setSettings({
   type: "question",
   text: text,
-  function:func(funcvar)
+  function:func,
+  funcvar: funcvar
   })  
   } else {
   setSettings({
   type: "question",
   text: text,
-  function:func
+  function:func,
   })  
   }
   setModal(!modal);
 }
 
 function ModalSetter(){
-  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text}} stateChanger={setModal} textChanger={{Change:ModalSettings.function, id:inputid}}/> 
+  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function, funcvar:ModalSettings.funcvar}} stateChanger={setModal}/> 
 }
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
@@ -110,15 +111,17 @@ function RemoveQuestion(id){
 }
 
 //Question Header changer
-function QuestionName(id, text){
+function QuestionName(text, id){
+  console.log(text, id)
   const UpdatedName = questionarray.map((c,i) => {
-    if (i === id){
+    if (i === id-1){
       c.name = text
       return c
     } else {
       return c
     }
   })
+  console.log(UpdatedName)
   setQuestions(UpdatedName)
 }
 
@@ -165,6 +168,7 @@ const options = {
 }
 
 function PostRequest(PostData){
+  console.log("post")
   var PostFormat = {
     "Name": Testname,
     "MaxPoints": 20,
