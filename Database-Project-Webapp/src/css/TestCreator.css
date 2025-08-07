@@ -6,25 +6,37 @@
     animation: fade-in 200ms;
 }
 .TestHeader{
-    cursor: pointer;
     font-size: 1.2rem;
+    cursor: default;
     width: 60%;
     align-self: center;
     text-align: center;
-    background-color: rgb(202, 202, 202);
+    background-color: rgba(202, 202, 202, 0.158);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.233);
+    margin-bottom: 3px;
+    margin-top: 3px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    &:hover{
+    &.active{
+    cursor: pointer;
+        &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
     }
+    }
 }
+
 .TestInput{
     height: clamp(1rem,7vh,12rem);
-    font-size: clamp(1rem,1.7vh,12rem);
+    font-size: clamp(1rem,1.7vh,1.3rem);
     width: 60%;
     align-self: center;
     text-align: center;
+    padding:10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
+
 .Testinputcontainer{
     display: flex;
     align-items: center;
@@ -35,14 +47,19 @@
     width: 100%;
     flex-direction: column;
     align-self: center;
+    margin-top: 1.2rem;
 }
 .TestVerify{
-    height: clamp(2rem,3vh,12rem);;
+    height: clamp(2rem,1vh,12rem);
+    width: 40%;
+    background-color: rgba(80, 250, 80, 0.158);
+    margin-top: 0.2rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
     display: flex;
     align-self: center;
     align-items: center;
     justify-content: center;
-    background-color: rgba(113, 255, 113, 0.719);
     &:hover{
     transition: all 0.3s;
     transform: translateY(-3px);
@@ -54,18 +71,26 @@
     background-color: rgb(2, 240, 2);
 }
 .submitBtn{
+     margin-top: 0.8rem;
+     margin-bottom: 0.8rem;
      cursor: pointer;
+     width: 30%;
+     align-self: center;
+     font-size: 15px;
+     font-weight:600;
+     box-shadow: 0 1px 1px 1px #c4c4c45b;
     &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
     }
 }
 .addBtn{
-    background-color: rgba(80, 250, 80, 0.623);
+    background-color: rgba(80, 250, 80, 0.158);
     width: 20%;
     align-self: center;
     font-size: 15px;
     cursor: pointer;
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
     &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
@@ -73,9 +98,12 @@
 }
 
 .deleteBtn{
-cursor: pointer;
+    cursor: pointer;
+    font-weight: 600;
     width: 20%;
-    background-color: rgba(219, 83, 83, 0.705);
+    background-color: rgba(219, 83, 83, 0.068);
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
+    cursor: pointer;
     align-self: center;
 &:hover{
     transition: all 0.3s;

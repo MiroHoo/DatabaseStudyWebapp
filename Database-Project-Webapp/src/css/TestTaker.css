@@ -77,23 +77,6 @@
     align-self: center;
 }
 
-.TestVerify{
-
-    width: 50%;
-    height: clamp(2rem,3vh,12rem);;
-    display: flex;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(113, 255, 113, 0.719);
-    &:hover{
-    transition: all 0.3s;
-    transform: translateY(-3px);
-    background-color: #bdbdbd83;
-    cursor: pointer;
- }
-}
-
 .SubmitAnswer{
     background-color: rgba(29, 214, 29, 0.479);
     width: 70%;
@@ -169,8 +152,10 @@
     color:black;
     text-decoration: none;
     display: flex;
-    width: 10%;
+    width: 20%;
+    height: 30px;
     justify-content: center;
+    align-items: center;
     background-color: rgba(128, 128, 128, 0.322);
     border-style: solid;
     border-color: black;
