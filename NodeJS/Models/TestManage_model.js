@@ -14,8 +14,8 @@
     updateNameByid: function(Test, callback) {
         return db.query('update test set name=? where TestId=?', [Test.name, Test.id], callback)
     },
-    fetchscoresByid:function(Test, callback) {
-        return db.query('select * from Student_Scores where TestId=?',[Test.id], callback)
+    fetchscoresByid:function(id, callback) {
+        return db.query('select * from student_scores where Test_TestId=? ORDER BY Attempt_id DESC LIMIT 200;',id, callback)
     },
     Login:function(callback){  
         return db.query('select * from Login',callback)
