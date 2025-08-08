@@ -136,15 +136,28 @@ function Areyousure(value){
 function Submitquestions(){
 var SubmitArray = []
 var index = 1;
+var fail = 0;
 questionarray.forEach(element => {
   var Qid = "Question_" + element.id
   var Aid = "ModelAnswer_" + element.id
   var Question = document.getElementById(Qid).value
   var Answer = document.getElementById(Aid).value
+  if(Question.length < 2 || Answer.length < 2){
+    fail = 1
+  }
   SubmitArray.push({"I":index, "Q":Question, "A":Answer})
   index++;
 });
+if(fail === 1){
+setSettings({
+      type: "text",
+      text: "One of the Question/Answer fields is empty!",
+})
+console.log("Hello")
+setModal(!modal)
+} else {
 PostRequest(SubmitArray)
+}
 }
 
 function Redirect_(){

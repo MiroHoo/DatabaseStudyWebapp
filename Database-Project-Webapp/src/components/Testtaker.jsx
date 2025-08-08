@@ -26,6 +26,8 @@ const App = () => {
     const [TestState, setState] = useState("ER")
     //has been sent
     const [Sent, SetSent] =useState(false)
+
+    var testPoints = 0;
     const animationref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
@@ -83,7 +85,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <><FinalStatistics/> <div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
+                    <><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
                     <></>
                     }
                 </>
@@ -93,7 +95,18 @@ const App = () => {
         </div>
     )
 
-
+    function CalcPoints(){
+        var points = 0
+        FormattedQuestions.forEach((c,i) =>{
+            if(c.Correct === "Correct"){
+                points = points + 1
+            }
+            if(c.Correct === "Partially"){
+                points = points + 0.5
+            }
+        })
+        return <div className='FIPoints'>Score: {points}/{FormattedQuestions.length}</div>
+    }   
     function FinalStatistics(){
         console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
@@ -109,7 +122,7 @@ const App = () => {
                         <div className="FIQuestion">{c.CAnswer}</div>
                         <div className="FIHeader2">{"Your Answer: "}</div>
                         <div className={`FIAnswer ${c.Correct}`}>{c.Answer}</div>
-                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}</div>
+                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}/1</div>
                     </div>
         })
         return FinalStats
