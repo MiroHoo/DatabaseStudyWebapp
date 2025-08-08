@@ -53,17 +53,19 @@ const ListOfAlteringQueries = {
 
 router.post('/save/',
   function (request, response) {
+
     TestTaker.GetLargestid(function(err, dbResult) {
-      console.log(dbResult[0])
       var id = 1
       if(dbResult[0] !== undefined){
           id = dbResult[0].Attempt_id +1
       } 
+      
       var dbArray = request.body.map((c,i)=>{
         c.unshift(id)
          console.log(c)
         return c
       })
+      
       TestTaker.postAnswer(dbArray, function (err, dbResult) {
       if (err) {
         response.json(err);
@@ -135,12 +137,15 @@ function asyncgetById(id) {
 
 function checkquery(StudentQ){
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
+  var includes = false
   ListOfAlteringQueries.Queries.forEach(element => {
-    if(StudentQ.toLowerCase() === element.toLowerCase()){
-      return true
+    console.log(StudentQ.toLowerCase() === element.toLowerCase())
+    console.log(element.toLowerCase())
+    if(StudentQ.toLowerCase().includes(element.toLowerCase())){
+      includes = true
     }
   });
-  return false
+  return includes
 }
 
 router.post('/:id', async function (request, response) {
@@ -149,15 +154,17 @@ router.post('/:id', async function (request, response) {
   const correctquery = await asyncgetById(request.params.id);
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   const alteringquery = checkquery(request.body.studentQ);
-  console.log(alteringquery)
-  if(!alteringquery){
+
+  console.log("Includes bad words: " + alteringquery)
+  //check if the query is the same as the teachers when there's database altering queries like "drop" "delete" "update" etc
+  if(alteringquery === true){
     console.log("Checking")
     console.log(correctquery[0].Answer)
     if (correctquery[0].Answer === request.body.studentQ) {
     response.json({ outcome: true, message: "The answers are the same!" })
     return
     } else {
-    response.json({ outcome: false,message:"incorrect" })
+    response.json({ outcome: false,message:"includes bad words and not similar" })
     return
     }
   }
@@ -169,6 +176,7 @@ router.post('/:id', async function (request, response) {
     response.json({ outcome: false, message: "The answer was incorrect since it was missing the `;`" })
     return
   }
+  console.log("running queries")
   //Run student query
   const studentAnswer = await asyncverifyQuestion(request.body.studentQ);
   //Run teacher query
@@ -178,9 +186,6 @@ router.post('/:id', async function (request, response) {
     //turn both jsons into arrays for the comparison to compare each index in the array without foreach loops
     const teacher_arr = JSON.parse(teacherAnswer[0])
     const student_arr = JSON.parse(studentAnswer[0])
-
-    console.log("Teachers array: " + teacher_arr)
-    console.log("Students array: " + student_arr)
 
     if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
       response.json({ outcome: true, message: "The answers were similar!" })
@@ -204,7 +209,6 @@ router.post('/:id', async function (request, response) {
     response.json({ outcome: false , message:"incorrect" })
   }
 
-  //see if student query is similar for partial points
 
 })
 
