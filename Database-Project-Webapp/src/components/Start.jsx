@@ -59,7 +59,9 @@ const Animation = () => {
                     <div ref={animationref} className={`ListofTests ${state ? 'open' : 'closed'}`} >
                         <input name={"Search"} id={"Search"} className={"SearchFunc"} onChange={(e)=> {setInput(e.target.value), SearchFilter(e.target.value)}} value={input} placeholder='Search'/>
                         <div className='StartListCont'>
-                        {searchList.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}
+                        { searchList.length > 0 ?
+                        <>{searchList.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}</> :<div className='NoTestsFound'>None Found</div>
+                        }   
                         </div>
                     </div>
                     </>

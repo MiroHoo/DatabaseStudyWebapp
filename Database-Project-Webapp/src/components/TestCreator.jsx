@@ -153,8 +153,6 @@ setSettings({
       type: "text",
       text: "One of the Question/Answer fields is empty!",
 })
-console.log("Hello")
-setModal(!modal)
 } else {
 PostRequest(SubmitArray)
 }
