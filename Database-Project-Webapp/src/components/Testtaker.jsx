@@ -100,12 +100,15 @@ const App = () => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
             }
-            return <div className={`FIContainer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`} >
+            console.log(c)
+            return <div className={`FIContainer ${c.Correct}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
                         <div className='FIHeader2'>Question: </div>
                         <div className="FIQuestion">{c.Question}</div>
+                        <div className='FIHeader2'>Right Answer: </div>
+                        <div className="FIQuestion">{c.CAnswer}</div>
                         <div className="FIHeader2">{"Your Answer: "}</div>
-                        <div className={`FIAnswer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`}>{c.Answer}</div>
+                        <div className={`FIAnswer ${c.Correct}`}>{c.Answer}</div>
                         <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}</div>
                     </div>
         })
@@ -173,7 +176,7 @@ const App = () => {
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
-            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index })
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index, "CAnswer": element.Answer })
         });
         setFormatted(Arrayofquestions)
         setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
@@ -212,10 +215,10 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            } else if (response.outcome === false) {
+            } else if (response.half === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Incorrect"
+                        c.Correct = "Partially"
                         return c
                     } else {
                         return c
@@ -225,7 +228,7 @@ const App = () => {
             } else {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Partially"
+                        c.Correct = "Incorrect"
                         return c
                     } else {
                         return c
