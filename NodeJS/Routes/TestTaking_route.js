@@ -124,7 +124,7 @@ function checkquery(StudentQ){
 
 function checkforsimilarities(TeachQ){
   console.log(TeachQ)
-  var includes = ["empty"]
+  var includes = []
   ListOfQueries.Queries.forEach(element => {
     if(TeachQ.toLowerCase().includes(element.toLowerCase())){
       includes.push(element)
@@ -133,26 +133,29 @@ function checkforsimilarities(TeachQ){
   return includes
 }
 
-function checkforhalfscore(inc){
+function checkforhalfscore(inc,stundetQ){
   var halfscore = false
-  inc.Queries.forEach(element => {
-    if(inc.toLowerCase().includes(element.toLowerCase())){
-      halfscore = true
-    }
-  });
+    inc.forEach(e => {
+      console.log(e)
+       if(stundetQ.toLowerCase().includes(e.toLowerCase())){
+        halfscore = true
+      }
+    })
   return halfscore
 }
 
 router.post('/:id', async function (request, response) {
+
+  var varoutcome = false
   //Get correct answer
   const correctquery = await asyncgetById(request.params.id);
 
   const includes = checkforsimilarities(correctquery[0].Answer);
-  console.log(includes)
-  if(includes[0] !== "empty"){
-  const halfscore = checkforhalfscore(includes);
-  console.log("halfscore: " + halfscore)  
+
+  if(includes.length > 0){
+  varoutcome = checkforhalfscore(includes, request.body.studentQ);
   }
+
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   const alteringquery = checkquery(request.body.studentQ);
 
@@ -160,25 +163,22 @@ router.post('/:id', async function (request, response) {
   console.log("Includes bad words: " + alteringquery)
   //check if the query is the same as the teachers when there's database altering queries like "drop" "delete" "update" etc
   if(alteringquery === true){
-    console.log("Checking")
-    console.log(correctquery[0].Answer)
     if (correctquery[0].Answer === request.body.studentQ) {
     response.json({ outcome: true, message: "The answers are the same!" })
     return
     } else {
-    response.json({ outcome: false,message:"includes bad words and not similar" })
+    response.json({ outcome: false, half: varoutcome, message:"includes bad words and not similar" })
     return
     }
   }
   //compare queries to make sure if they are identical
   if (correctquery[0].Answer === request.body.studentQ) {
-    response.json({ outcome: true, message: "The answers are the same!" })
+    response.json({ outcome: true, half: varoutcome, message: "The answers are the same!" })
     return
   } else if (request.body.studentQ.includes(";") === false) {
-    response.json({ outcome: false, message: "The answer was incorrect since it was missing the `;`" })
+    response.json({ outcome: false, half: varoutcome, message: "The answer was incorrect since it was missing the `;`" })
     return
-  }
-  console.log("running queries")
+  } 
   //Run student query
   const studentAnswer = await asyncverifyQuestion(request.body.studentQ);
   //Run teacher query
@@ -193,22 +193,22 @@ router.post('/:id', async function (request, response) {
       response.json({ outcome: true, message: "The answers were similar!" })
       return
     } else {
-      response.json({ outcome: false, message: "The answer was incorrect" })
+      response.json({ outcome: false, half: varoutcome, message: "The answer was incorrect" })
       return
     }
 
   } else if (request.body.studentQ.includes("ORDER BY") === false && request.body.studentQ.includes("order by") === false) {
     //Run serialize the json and compare
     if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
-      response.json({ outcome: true , message: "The answers are the same!" })
+      response.json({ outcome: true,  message: "The answers are the same!" })
       return
     } else {
-      response.json({ outcome: false ,message:"incorrect" })
+      response.json({ outcome: false, half: varoutcome,message:"incorrect" })
       return
     }
     //student query includes order by when teachers answer doesn't
   } else {
-    response.json({ outcome: false , message:"incorrect" })
+    response.json({ outcome: false, half: varoutcome, message:"incorrect" })
   }
 
 
