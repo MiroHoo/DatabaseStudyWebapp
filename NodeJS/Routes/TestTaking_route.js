@@ -5,40 +5,16 @@ const TestModel = require('../Models/TestBuild_model');
 
 const ListOfQueries = {
   Queries: [
-  "SELECT",
-  "INSERT",
+  "ORDER BY",
   "UPDATE",
   "DELETE",
-  "CREATE",
-  "ALTER",
-  "DROP",
-  "TRUNCATE",
-  "RENAME",
-  "GRANT",
-  "REVOKE",
-  "COMMIT",
-  "ROLLBACK",
-  "SAVEPOINT",
-  "BEGIN",
-  "JOIN",
-  "UNION",
-  "INTERSECT",
-  "EXCEPT",
   "WHERE",
-  "GROUP BY",
-  "HAVING",
-  "ORDER BY",
+  "DESC",
+  "ASC",
   "LIMIT",
-  "OFFSET",
-  "SUBQUERY",
-  "AGGREGATE",
-  "INDEX",
-  "VIEW",
-  "TRIGGER",
-  "PROCEDURE",
-  "FUNCTION",
-  "CURSOR",
-  "TRANSACTION"
+  "MAX",
+  "AVG",
+  "MIN",
 ]
 }
 const ListOfAlteringQueries = {
@@ -139,8 +115,6 @@ function checkquery(StudentQ){
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   var includes = false
   ListOfAlteringQueries.Queries.forEach(element => {
-    console.log(StudentQ.toLowerCase() === element.toLowerCase())
-    console.log(element.toLowerCase())
     if(StudentQ.toLowerCase().includes(element.toLowerCase())){
       includes = true
     }
@@ -148,12 +122,40 @@ function checkquery(StudentQ){
   return includes
 }
 
+function checkforsimilarities(TeachQ){
+  console.log(TeachQ)
+  var includes = ["empty"]
+  ListOfQueries.Queries.forEach(element => {
+    if(TeachQ.toLowerCase().includes(element.toLowerCase())){
+      includes.push(element)
+    }
+  });
+  return includes
+}
+
+function checkforhalfscore(inc){
+  var halfscore = false
+  inc.Queries.forEach(element => {
+    if(inc.toLowerCase().includes(element.toLowerCase())){
+      halfscore = true
+    }
+  });
+  return halfscore
+}
+
 router.post('/:id', async function (request, response) {
-  console.log(request.body.studentQ)
   //Get correct answer
   const correctquery = await asyncgetById(request.params.id);
+
+  const includes = checkforsimilarities(correctquery[0].Answer);
+  console.log(includes)
+  if(includes[0] !== "empty"){
+  const halfscore = checkforhalfscore(includes);
+  console.log("halfscore: " + halfscore)  
+  }
   //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   const alteringquery = checkquery(request.body.studentQ);
+
 
   console.log("Includes bad words: " + alteringquery)
   //check if the query is the same as the teachers when there's database altering queries like "drop" "delete" "update" etc
