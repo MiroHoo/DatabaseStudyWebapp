@@ -6,6 +6,7 @@ import home from '../assets/home.svg'
 import plus from '../assets/plus.svg'
 import db from '../assets/database.svg'
 import user from '../assets/user.svg'
+import play from '../assets/play-circle.svg'
 import {NavLink} from "react-router-dom";
 const BurgerPathOptions = [
   {
@@ -32,6 +33,12 @@ const BurgerPathOptions = [
    "auth": true,
    "icon": db
   },
+  {
+    "name": "Arcade",
+    "path": "/arcade",
+    "auth": false,
+    "icon": play
+  }
 ]
 //Json array for holding different burgermenu redirect options. 
 const Layout = () =>  {
