@@ -10,7 +10,7 @@ function App({Modalsettings, stateChanger}) {
     return (
     <div className="ModalContainer">
     { Modalsettings.type === "text" ? 
-    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a><button onClick={()=>{optionalFunc(Modalsettings.function); closemodal(); stateChanger(false);}}>Close</button></dialog>
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a className={"ModalText"}>{Modalsettings.text}</a><button onClick={()=>{optionalFunc(Modalsettings.function); closemodal(); stateChanger(false);}}  className="ModalButton">Close</button></dialog>
     : <></>
     }
     { Modalsettings.type === "input" ? 
@@ -24,7 +24,7 @@ function App({Modalsettings, stateChanger}) {
     : <></>
     }
     { Modalsettings.type === "question" ? 
-    <dialog id={"Modal"} className="ModalDialog" open={true}><a>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(true, Modalsettings.funcvar)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></div></dialog>
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a className={"ModalText"}>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(true, Modalsettings.funcvar)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></div></dialog>
     : <></>
     }
     </div>
@@ -37,8 +37,8 @@ function closemodal(){
 }
 
 function optionalFunc(func){
-    console.log(func)
   if(func !== undefined){
+    console.log(func)
     func();
   }
 }

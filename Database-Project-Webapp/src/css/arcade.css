@@ -99,6 +99,9 @@
     width: 80%;
     margin-top: 20px;
 }
+.StatContainer{
+    border: 1.5px solid rgba(0, 0, 0, 0.267);
+}
 .SubmitBtn{
     border-radius: 4px;
     width: 20%;
@@ -117,6 +120,14 @@
     flex-direction: column;
     align-content: center;
     text-align: center;
+    &.Reroll{
+        cursor: pointer;
+        &:hover{
+            transition: all 0.3s;
+
+            background-color: #bdbdbd46;
+        }
+    }
 }
 .ArcadeInput{
     height: clamp(1rem,7vh,12rem);
@@ -146,6 +157,13 @@
         animation-timing-function: ease-in-out;
         background-color: rgba(29, 214, 29, 0.479);
     }
+    &.Neutral{
+        animation-name: change-color-neutral;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+    }
+    
 }
 .ArcadeHeader{
     font-size: 1.2rem;
@@ -190,6 +208,15 @@
   }
   to {
     background-color:  rgba(255, 173, 21, 0.295);
+  }
+
+}
+@keyframes change-color-neutral {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(255, 255, 255, 0.295);
   }
 
 }

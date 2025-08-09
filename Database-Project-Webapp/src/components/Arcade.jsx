@@ -2,9 +2,11 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/arcade.css'
 import reroll from '../assets/rotate-cw.svg'
+import Modal from "./Modal.jsx"
 import hp from '../assets/shield.svg'
 import { useNavigate } from "react-router";
 const Layout = () => {
+    let navigate = useNavigate();
     const [Loading, SetLoading] = useState(true)
     const [MinMax, setMinMax] = useState({})
     const [Question, setQuestion] = useState({})
@@ -17,6 +19,12 @@ const Layout = () => {
     const [points, setPoints] = useState(0)
     const [showScores, setShowScores] =  useState(true)
     const animationref = useRef()
+    const [modal, setModal] = useState(false)
+    const [ModalSettings, setSettings] = useState({
+        "type": "",
+        "text": "",
+        "function": "",
+    })
     useEffect(() => {
         var QuestionID = Math.random() * (MinMax.MaxId - MinMax.MinId) + MinMax.MinId
         fetch("http://127.0.0.1:3002/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
@@ -25,7 +33,9 @@ const Layout = () => {
     useEffect(() => {
         if (ArcadeState !== "") {
             setTimeout(() => {
-                getQuestion(MinMax)
+                setTimeout(()=> {
+                    getQuestion(MinMax)
+                }, "1000")
                 setAnimation(true)
                 setArcadeState("")
             }, "2000");
@@ -52,17 +62,20 @@ const Layout = () => {
         <>
         <>
             {
+                modal ? <ModalSetter /> : <></>
+            }
+            {
                 Loading ? <></> : <div ref={animationref} className={`ArcadeContainer ${AnimationState ? 'open' : 'closed'}`}><div className={"ArcadeQuestHeader"}>Question: </div><div className={"ArcadeHeader"}>{Question[0].Question}</div><input placeholder={"Think carefully"} name="QuestionInput" className={"ArcadeInput " + ArcadeState} value={Input} onChange={(e) => { setInput(e.target.value) }}></input></div>
             }
             <div className='iconContainer'>
-                <div>
-                    <div className='Stats' onClick={() => { Roll()}}>
+                <div className='StatContainer'>
+                    <div className='Stats Reroll' onClick={() => { Roll()}}>
                         <>Rerolls</>
                         <img className={"IconClass"} src={reroll} /><>{rerolls}/3</>
                     </div>
                 </div>
-                <button className={"SubmitBtn"} onClick={() => { verifyAnswer() }}>Submit</button>
-                <div>
+                <button className={`SubmitBtn`} disabled={Shields !== 0 ? false : true} onClick={() => { verifyAnswer() }}>Submit</button>
+                <div className='StatContainer'>
                     <div className='Stats'><>Health</>
                         <img className={"IconClass"} src={hp} /><>{Shields}/3</>
                     </div>
@@ -75,10 +88,13 @@ const Layout = () => {
     function Roll(){
         if(rerolls > 0 ){
         setRerolls(rerolls - 1);
-        setArcadeState("Success")
+        setArcadeState("Neutral")
         } else {
-            //modal
+           
         }
+    }
+    function ModalSetter() {
+        return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }
     function getQuestion(res) {
         var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
@@ -100,6 +116,9 @@ const Layout = () => {
 
         fetch(url, options).then(response => response.json()).then(response => updateui(response))
     }
+    function RedirectPage(){
+        navigate("/scores")
+    }
     function updateui(res) {
         if (res.outcome === true) {
             setPoints(points + 1);
@@ -107,10 +126,15 @@ const Layout = () => {
         } else {
             if (Shields === 1) {
                 setShields(Shields - 1)
+                setSettings({
+            "type": "text",
+            "text": "You scored " + points,
+            "function": RedirectPage
+            })
+            setModal(!modal)
 
             } else {
                 setShields(Shields - 1)
-               
             }
             setArcadeState("Failure")
         }

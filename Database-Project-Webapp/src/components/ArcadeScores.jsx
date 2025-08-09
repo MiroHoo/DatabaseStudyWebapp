@@ -23,6 +23,29 @@ const Layout = () => {
             pos:""
         }
     ]
+    const positions = [
+        {
+            Name:"unclaimed",
+            Score:0
+            
+        },
+        {
+            Name:"unclaimed",
+            Score:0
+        },
+        {
+            Name:"unclaimed",
+            Score:0
+        },
+        {
+            Name:"unclaimed",
+            Score:0
+        },
+        {
+            Name:"unclaimed",
+            Score:0
+        }
+    ]
     useEffect(() => {
        fetch("http://127.0.0.1:3002/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
     }, [])
@@ -48,8 +71,12 @@ const Layout = () => {
         </>
     )
     function settingScores(res){
-        console.log(res)
-        SetScores(res)
+        if(res.length !== undefined){
+            for(let i = 0; i<res.length; i++){
+                positions[i] = res[i]
+            }
+        }
+        SetScores(positions)
     }
 }
 
