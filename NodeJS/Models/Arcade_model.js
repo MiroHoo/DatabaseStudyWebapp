@@ -8,11 +8,10 @@
     },
     GetBestScores: function(callback){
         db.query(
-        'select * from arcade_scores ORDER BY Score'
-        ,callback)
+        'select * from arcade_scores ORDER BY Score DESC LIMIT 5;', callback)
     },
     InsertScore: function(score, callback){
-        db.query("insert into arcade_scores (Score, Name) values (?,?)", [score], callback)
+        db.query("insert into arcade_scores (Score, Name) values (?,?);", [score.Score, score.Name], callback)
     }
   }
   module.exports = Arcade;

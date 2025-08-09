@@ -28,7 +28,7 @@ const Layout = () => {
                 getQuestion(MinMax)
                 setAnimation(true)
                 setArcadeState("")
-            }, "3000");
+            }, "2000");
         }
     }, [ArcadeState])
 
@@ -56,7 +56,7 @@ const Layout = () => {
             }
             <div className='iconContainer'>
                 <div>
-                    <div className='Stats' onClick={() => { getQuestion(MinMax); setRerolls(rerolls - 1) }}>
+                    <div className='Stats' onClick={() => { Roll()}}>
                         <>Rerolls</>
                         <img className={"IconClass"} src={reroll} /><>{rerolls}/3</>
                     </div>
@@ -72,6 +72,14 @@ const Layout = () => {
     </>
     )
     
+    function Roll(){
+        if(rerolls > 0 ){
+        setRerolls(rerolls - 1);
+        setArcadeState("Success")
+        } else {
+            //modal
+        }
+    }
     function getQuestion(res) {
         var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
         setId(QuestionID)

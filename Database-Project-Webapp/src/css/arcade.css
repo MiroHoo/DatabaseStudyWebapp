@@ -10,6 +10,7 @@
 .IconClass{
     width: 35px;
     height: 35px;
+    align-self: center;
 }
 .ArcadeContainer{
     display: flex;
@@ -114,6 +115,8 @@
 .Stats{
     display: flex;
     flex-direction: column;
+    align-content: center;
+    text-align: center;
 }
 .ArcadeInput{
     height: clamp(1rem,7vh,12rem);
@@ -216,5 +219,15 @@
     }
     .ScorePos{
         width: 15%;
+    }
+    .iconContainer{
+        flex-direction: column;
+    }
+    .Stats{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .SubmitBtn{
+        width: 60%;
     }
 }

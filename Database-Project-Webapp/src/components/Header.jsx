@@ -35,7 +35,7 @@ const BurgerPathOptions = [
   },
   {
     "name": "Arcade",
-    "path": "/arcade",
+    "path": "/scores",
     "auth": false,
     "icon": play
   }

@@ -24,7 +24,6 @@ const Layout = () => {
         }
     ]
     useEffect(() => {
-        console.log("here")
        fetch("http://127.0.0.1:3002/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
     }, [])
     useEffect(() => {
