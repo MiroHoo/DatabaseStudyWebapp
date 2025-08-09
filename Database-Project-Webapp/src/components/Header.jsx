@@ -118,7 +118,6 @@ var Temparray = []
       } 
     }
   });
-console.log("temp: " + Temparray)
 setBurger(Temparray)
 }
 
