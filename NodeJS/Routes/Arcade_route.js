@@ -24,6 +24,16 @@ router.get("/:id", function (req, res){
     })
 })
 
+router.get("/verifyid/:id", function(req,res){
+    ArcadeModel.VerifyId(req.params.id, function(err,dbResult){
+        if(err){    
+            res.json(err)
+        }else{
+            res.json(dbResult)
+        }
+    })
+})
+
 router.post("/scores", function (req,res){
     ArcadeModel.GetBestScores(function (err,dbResult){
         if(err){
@@ -35,7 +45,6 @@ router.post("/scores", function (req,res){
 })
 
 router.post("/insert", function (req,res){
-    console.log("heer")
     ArcadeModel.InsertScore(req.body, function (err,dbResult){
         if(err){
             res.json(err)

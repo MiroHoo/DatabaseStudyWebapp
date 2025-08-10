@@ -12,6 +12,9 @@
     },
     InsertScore: function(score, callback){
         db.query("insert into arcade_scores (Score, Name) values (?,?);", [score.Score, score.Name], callback)
-    }
+    },
+    VerifyId: function(id, callback){
+      db.query("select * from question WHERE QuestionId=?;",[id], callback)
+    },
   }
   module.exports = Arcade;
