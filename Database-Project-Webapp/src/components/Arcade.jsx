@@ -46,6 +46,7 @@ const Layout = () => {
         if (ArcadeState !== "") {
             setTimeout(() => {
                 setTimeout(()=> {
+                    setInput("")
                     getQuestion(MinMax)
                     setDisabled(false)
                 }, "1000")
@@ -112,9 +113,15 @@ const Layout = () => {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }
     //gets question
-    function getQuestion(res) {
-        var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
-        setId(QuestionID)
+    async function getQuestion(res) {
+        var notVerified = true
+        while(notVerified === true){
+            var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
+            console.log("while")
+            setId(QuestionID)
+            await fetch("http://127.0.0.1:3002/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
+        }
+        console.log("out of while")
         fetch("http://127.0.0.1:3002/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
     }
     //verifies answer and updates ui 
