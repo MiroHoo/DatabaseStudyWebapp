@@ -141,7 +141,7 @@ const App = () => {
         if (amount > 0) {
             setSettings({
                 type: "question",
-                text: "Are you sure you want to submit the test? There are " + amount + " unanswered questions!",
+                text: "Are you sure you want to submit the test? There are " + amount + " unsubmitted questions!",
                 function: Finalize
             })
             setModal(!modal);

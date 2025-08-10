@@ -165,6 +165,7 @@ function Redirect_(){
 
 function VerifyQuestion(Question){
 var query = document.getElementById(Question).value
+console.log(query)
 const options = {
     method: 'POST',
     headers: {
@@ -175,8 +176,25 @@ const options = {
 
  fetch("http://127.0.0.1:3002/build/verify", options)
  .then(response => response.json())
- .then(response => console.log(response))
+ .then(response => verification(response))
 
+}
+
+function verification(res){
+  console.log(res)
+  if(res.code === undefined){
+    setSettings({
+      type: "text",
+      text: "Query was successfull!"
+    })
+    setModal(true)
+  } else {
+    setSettings({
+      type: "text",
+      text: "Query has failed!"
+    })
+    setModal(true)
+  }
 }
 
 function PostRequest(PostData){
