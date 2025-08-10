@@ -83,10 +83,12 @@ function App() {
     }
     //quite the long function, but it groups, tags and renders the stundet queries from the database based on the attempt of the test they were inside
     function TestSetter(){
-    var attemptid = TestAnswer[0].Attempt_id
+    console.log(TestAnswer[0])
     var index = 0;
     var temparray = []
     var elemarray = []
+    if(TestAnswer[0] !== undefined){
+    var attemptid = TestAnswer[0].Attempt_id
     //group based on attempt id
     TestAnswer.forEach((c,i)=>{
         if(c.Attempt_id !== attemptid){
@@ -106,7 +108,6 @@ function App() {
         var pusharray = []
         var Class = ""
         cont.forEach((c,i)=>{
-            console.log(c.Score)
             if(c.Score === "1"){
                 Class = "Sucessful"
             } else if (c.Score === "0"){
@@ -114,7 +115,6 @@ function App() {
             } else {
                 Class = "Partial"
             }
-            console.log(Class)
             if(c.Answer.length < 2 ){
               pusharray.push(<div className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div className='AnswerText'>{c.Score}/1</div></div>)  
             } else {
@@ -131,6 +131,8 @@ function App() {
     }
     })
     return array
+    }    
+
     }
     //asks if user wants to delete question
     function QuestionModal(Name, id, index) {

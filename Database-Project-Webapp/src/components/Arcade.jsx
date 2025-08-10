@@ -55,7 +55,7 @@ const Layout = () => {
             }, "2000");
         }
     }, [ArcadeState])
-
+    //
     useEffect(() => {
         if (animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
