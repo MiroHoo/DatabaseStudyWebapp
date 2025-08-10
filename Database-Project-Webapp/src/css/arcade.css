@@ -17,6 +17,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top:20px;
     &.open{
     transform: translateX(-100%);
     animation-name: fade-out;
@@ -100,7 +101,6 @@
     margin-top: 20px;
 }
 .StatContainer{
-    border: 1.5px solid rgba(0, 0, 0, 0.267);
 }
 .SubmitBtn{
     border-radius: 4px;

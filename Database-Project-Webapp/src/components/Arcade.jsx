@@ -18,6 +18,7 @@ const Layout = () => {
     const [rerolls, setRerolls] = useState(3)
     const [points, setPoints] = useState(0)
     const [showScores, setShowScores] =  useState(true)
+    const [disabled, setDisabled] = useState(false)
     const animationref = useRef()
     const [modal, setModal] = useState(false)
     const [ModalSettings, setSettings] = useState({
@@ -35,6 +36,7 @@ const Layout = () => {
             setTimeout(() => {
                 setTimeout(()=> {
                     getQuestion(MinMax)
+                    setDisabled(false)
                 }, "1000")
                 setAnimation(true)
                 setArcadeState("")
@@ -69,12 +71,12 @@ const Layout = () => {
             }
             <div className='iconContainer'>
                 <div className='StatContainer'>
-                    <div className='Stats Reroll' onClick={() => { Roll()}}>
+                    <button disabled={disabled || rerolls === 0} className='Stats Reroll' onClick={() => { Roll()}}>
                         <>Rerolls</>
                         <img className={"IconClass"} src={reroll} /><>{rerolls}/3</>
-                    </div>
+                    </button>
                 </div>
-                <button className={`SubmitBtn`} disabled={Shields !== 0 ? false : true} onClick={() => { verifyAnswer() }}>Submit</button>
+                <button className={`SubmitBtn`} disabled={Shields !== 0 || disabled ? false : true} onClick={() => { verifyAnswer() }}>Submit</button>
                 <div className='StatContainer'>
                     <div className='Stats'><>Health</>
                         <img className={"IconClass"} src={hp} /><>{Shields}/3</>
@@ -87,6 +89,7 @@ const Layout = () => {
     
     function Roll(){
         if(rerolls > 0 ){
+        setDisabled(true)
         setRerolls(rerolls - 1);
         setArcadeState("Neutral")
         } else {
@@ -116,7 +119,19 @@ const Layout = () => {
 
         fetch(url, options).then(response => response.json()).then(response => updateui(response))
     }
-    function RedirectPage(){
+    function RedirectPage(name){
+        var PostFormat = {
+            "Name": name,
+            "Score": points
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(PostFormat)
+        }
+        fetch("http://127.0.0.1:3002/arcade/insert",options)    
         navigate("/scores")
     }
     function updateui(res) {
@@ -127,8 +142,8 @@ const Layout = () => {
             if (Shields === 1) {
                 setShields(Shields - 1)
                 setSettings({
-            "type": "text",
-            "text": "You scored " + points,
+            "type": "input",
+            "text": "You scored " + points + ", What's your name for the leaderboards?",
             "function": RedirectPage
             })
             setModal(!modal)

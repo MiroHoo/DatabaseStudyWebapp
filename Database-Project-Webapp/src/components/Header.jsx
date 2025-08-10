@@ -46,6 +46,7 @@ const Layout = () =>  {
   const [BurgerVis, setBurgerVis] = useState(false)
   const [Animationstate, setAnimationState] = useState(false)
   const [Auth, setAuth] = useState(false)
+  const [BurgerDis, SetBurgerDIs] = useState(false)
   const animationref = useRef()
   
    useEffect(() => {
@@ -56,12 +57,11 @@ const Layout = () =>  {
 
   useEffect(() => {
     if(animationref.current !== undefined) {
+      console.log(animationref.current)
         animationref.current.addEventListener("animationcancel", () => {
-            console.log("cancel")
             setAnimationState(false);
           });
         animationref.current.addEventListener("animationend", () => {
-            console.log("End")
             setAnimationState(false);
           });
         }
@@ -82,7 +82,7 @@ const Layout = () =>  {
         <div className='HeaderContent'>
           <div className='HeaderName'><NavLink to={"/"}><img className="HeaderGif" src={gif}></img></NavLink></div>
           <div className='Burgermenu'>
-            <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); setAnimationState(true);}}>
+            <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); SetBurgerDIs(true); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
             <div className='burgerlayer'></div>
@@ -95,7 +95,7 @@ const Layout = () =>  {
           <div className='HeaderDivider'></div>
       </div>
        { BurgerVis || Animationstate ?
-      <div ref={animationref} className={`BurgerContainer ${BurgerVis ? 'open' : 'closed'}`}>
+      <div ref={animationref} className={`BurgerContainer ${BurgerVis ? 'open' : 'closed'} ${BurgerDis ? 'shown' : 'hidden'}`}>
       <div className={"BurgerStack"}>{BurgerArray}</div>
       </div>
       : null
