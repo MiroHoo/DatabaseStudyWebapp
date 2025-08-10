@@ -8,6 +8,7 @@ import db from '../assets/database.svg'
 import user from '../assets/user.svg'
 import play from '../assets/play-circle.svg'
 import {NavLink} from "react-router-dom";
+//all the options inside the burger menu, this contains the icon, if you need to be authenticated, path and text
 const BurgerPathOptions = [
   {
     "name": "Home",
@@ -48,16 +49,15 @@ const Layout = () =>  {
   const [Auth, setAuth] = useState(false)
   const [BurgerDis, SetBurgerDIs] = useState(false)
   const animationref = useRef()
-  
+  //fetches and sets auth depending of token was set "theres no token inside the frontend, it's only inside the headers"
    useEffect(() => {
       fetch("http://127.0.0.1:3002/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   }, []);
-
+  //keeps up with the animations
   useEffect(() => {
     if(animationref.current !== undefined) {
-      console.log(animationref.current)
         animationref.current.addEventListener("animationcancel", () => {
             setAnimationState(false);
           });
@@ -66,11 +66,13 @@ const Layout = () =>  {
           });
         }
   }, [animationref.current]);
+  //updates burger if needs
   useEffect(()=>{
     fetch("http://127.0.0.1:3002/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   },[BurgerVis])
+  //if auth changes rerender burger
   useEffect(()=>{
     Burgermaker()
   },[Auth])
@@ -103,6 +105,7 @@ const Layout = () =>  {
     </>
   )
   
+//renders burger
 function Burgermaker(){
 var Temparray = []
   Temparray = BurgerPathOptions.map(element => {

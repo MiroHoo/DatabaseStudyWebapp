@@ -35,12 +35,12 @@ const App = () => {
         "text": "",
         "function": "",
     })
-
+    //fetches the questions
     useEffect(() => {
         var url = "http://127.0.0.1:3002/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
-
+    //on changing the currect questions id rerender with new contents
     useEffect(() => {
         if (currentQuestions !== -1) {
             setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
@@ -94,7 +94,7 @@ const App = () => {
             }
         </div>
     )
-
+    //calculates points to render
     function CalcPoints(){
         var points = 0
         FormattedQuestions.forEach((c,i) =>{
@@ -106,7 +106,8 @@ const App = () => {
             }
         })
         return <div className='FIPoints'>Score: {points}/{FormattedQuestions.length}</div>
-    }   
+    }  
+    //makes the final screen with known data 
     function FinalStatistics(){
         console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
@@ -125,7 +126,7 @@ const App = () => {
         })
         return FinalStats
     }
-
+    //Asks if student/user wants to end test before sending it
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
@@ -154,7 +155,7 @@ const App = () => {
             setModal(!modal);
         }
     }
-
+    //saves test data to database
     function Finalize(){
         SetSent(true)
         setCurrentQuestion(-2);
@@ -183,7 +184,7 @@ const App = () => {
             }
         fetch(url, options).then(response => response.json()).then(response => console.log(response))
     }
-
+    //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
@@ -193,9 +194,8 @@ const App = () => {
         setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
         setLoading(true)
     }
-
+    //verifies answers validity
     function verify(id) {
-        var answer = document.getElementById(id + "_input").value
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
@@ -212,7 +212,7 @@ const App = () => {
 
         
     }
-
+    //Lights up the buttons with colors after finishing the test
     function userinterface(response) {
         if (response.outcome !== undefined) {
             if (response.outcome === true) {
@@ -250,7 +250,7 @@ const App = () => {
 
         }
     }
-
+    //changes the input value of currently selected question
     function changeInput(value) {
         const updatedBtns = FormattedQuestions.map((c, i) => {
             if (i === currentQuestions) {
@@ -262,7 +262,7 @@ const App = () => {
         })
         setFormatted(updatedBtns)
     }
-
+    //modal init
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }

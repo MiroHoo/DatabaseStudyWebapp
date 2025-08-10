@@ -3,10 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 import '../css/Modal.css'
 
 function App({Modalsettings, stateChanger}) {
+    //modal input value
     const [input, setInput] = useState('Default Value')
-     useEffect(() => {
-    console.log(Modalsettings)
-  }, []);
+    //this returns the right modal depending on the value inside the "modalsettings" variable found inside every component code. I will rewrite this if I get around to it. Not my best code.
     return (
     <div className="ModalContainer">
     { Modalsettings.type === "text" ? 
@@ -31,14 +30,14 @@ function App({Modalsettings, stateChanger}) {
     )
 
 }
+//closes modal
 function closemodal(){
     const dialog = document.querySelector("dialog");
     dialog.close();
 }
-
+//takes in function to be used
 function optionalFunc(func){
   if(func !== undefined){
-    console.log(func)
     func();
   }
 }

@@ -9,8 +9,11 @@ import { useNavigate } from "react-router";
 
 function App() {
 let navigate = useNavigate();
+//current question
 let questionId = useRef(0)
+//formatted questions to display
 const [questionarray, setQuestions] = useState([])
+//modal state on/off
 const [modal, setModal] = useState(false)
 const [inputid, setInputid] = useState(0)
 const [Testname, setTestName] = useState("Testname")
@@ -19,12 +22,13 @@ const [ModalSettings, setSettings] = useState({
   "text":"",
   "function": "",
 })
-
+  //scrolls to the modal if called
   useEffect(()=> {
   if(modal){
   window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
   }
   },[modal])
+
   //initialize first question
   useEffect(() => {
   AddQuestion()
@@ -61,7 +65,7 @@ questionId.current = questionId.current +1;
 console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
-
+//input modal base
 function InputModal(id){
   setSettings({
   type: "input",
@@ -71,7 +75,7 @@ function InputModal(id){
   })
   setModal(!modal);
 }
-
+//changes the testname
 function ChangeTestName(){
   setSettings({
   type: "input",
@@ -80,9 +84,11 @@ function ChangeTestName(){
   })
   setModal(!modal);
 }
+//sets the usestate of testname
 function TestName(TestName){
   setTestName(TestName)
 }
+//Modal for asking the user something
 function QuestionModal(text, func, funcvar){
   if(funcvar){
   setSettings({
@@ -101,9 +107,11 @@ function QuestionModal(text, func, funcvar){
   setModal(!modal);
 }
 
+//modal element init
 function ModalSetter(){
   return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function, funcvar:ModalSettings.funcvar}} stateChanger={setModal}/> 
 }
+
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
   setQuestions(questionarray.filter(a => a.id !== id))
@@ -121,7 +129,6 @@ function QuestionName(text, id){
       return c
     }
   })
-  console.log(UpdatedName)
   setQuestions(UpdatedName)
 }
 
@@ -137,11 +144,13 @@ function Submitquestions(){
 var SubmitArray = []
 var index = 1;
 var fail = 0;
+//formats data
 questionarray.forEach(element => {
   var Qid = "Question_" + element.id
   var Aid = "ModelAnswer_" + element.id
   var Question = document.getElementById(Qid).value
   var Answer = document.getElementById(Aid).value
+  //checks if anyone of them is empty
   if(Question.length < 2 || Answer.length < 2){
     fail = 1
   }
@@ -159,10 +168,12 @@ PostRequest(SubmitArray)
 }
 }
 
+//redirects to home from site after being called
 function Redirect_(){
   navigate("/")
 }
 
+//takes in a query string and runs it inside the database depending on the contents, altering queries will not run!
 function VerifyQuestion(Question){
 var query = document.getElementById(Question).value
 console.log(query)
@@ -179,9 +190,8 @@ const options = {
  .then(response => verification(response))
 
 }
-
+//shows user if the query inserted is valid or not.
 function verification(res){
-  console.log(res)
   if(res.code === undefined){
     setSettings({
       type: "text",
@@ -197,6 +207,7 @@ function verification(res){
   }
 }
 
+//Posts the given questions as a test into the database! and gives a modal to the user if successfull
 function PostRequest(PostData){
   console.log("post")
   var PostFormat = {

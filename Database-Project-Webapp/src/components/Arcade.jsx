@@ -7,30 +7,41 @@ import hp from '../assets/shield.svg'
 import { useNavigate } from "react-router";
 const Layout = () => {
     let navigate = useNavigate();
+    
     const [Loading, SetLoading] = useState(true)
+    //minimum and maximum database ids 
     const [MinMax, setMinMax] = useState({})
+    //question to be rendered
     const [Question, setQuestion] = useState({})
+    //question database id 
     const [DbId, setId] = useState(0)
+    //animation states
     const [ArcadeState, setArcadeState] = useState("")
+
     const [AnimationState, setAnimation] = useState(false)
+
     const [Input, setInput] = useState("")
+    //health
     const [Shields, setShields] = useState(3)
+    //rerolls
     const [rerolls, setRerolls] = useState(3)
+
     const [points, setPoints] = useState(0)
     const [showScores, setShowScores] =  useState(true)
     const [disabled, setDisabled] = useState(false)
     const animationref = useRef()
     const [modal, setModal] = useState(false)
+
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
         "function": "",
     })
+    //sets questions and minimum and maximum
     useEffect(() => {
-        var QuestionID = Math.random() * (MinMax.MaxId - MinMax.MinId) + MinMax.MinId
         fetch("http://127.0.0.1:3002/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
     }, [])
-
+    //depending on the state of the arcade get new questions and disable buttons with times set to the animation lenghts
     useEffect(() => {
         if (ArcadeState !== "") {
             setTimeout(() => {
@@ -54,7 +65,7 @@ const Layout = () => {
             });
         }
     }, [animationref.current]);
-
+    //if theres data, render
     useEffect(() => {
         if (Question[0]) {
             SetLoading(false)
@@ -86,7 +97,7 @@ const Layout = () => {
         </>
     </>
     )
-    
+    //reroll the question
     function Roll(){
         if(rerolls > 0 ){
         setDisabled(true)
@@ -96,14 +107,17 @@ const Layout = () => {
            
         }
     }
+
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }
+    //gets question
     function getQuestion(res) {
         var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
         setId(QuestionID)
         fetch("http://127.0.0.1:3002/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
     }
+    //verifies answer and updates ui 
     function verifyAnswer() {
         var url = "http://127.0.0.1:3002/compare/" + DbId
         var PostFormat = {
@@ -119,6 +133,7 @@ const Layout = () => {
 
         fetch(url, options).then(response => response.json()).then(response => updateui(response))
     }
+    //redirects after sending score
     function RedirectPage(name){
         var PostFormat = {
             "Name": name,
@@ -134,6 +149,7 @@ const Layout = () => {
         fetch("http://127.0.0.1:3002/arcade/insert",options)    
         navigate("/scores")
     }
+    //updates ui
     function updateui(res) {
         if (res.outcome === true) {
             setPoints(points + 1);
