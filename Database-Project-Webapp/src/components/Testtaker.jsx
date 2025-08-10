@@ -85,7 +85,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
+                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></div>                  :   
                     <></>
                     }
                 </>
@@ -109,7 +109,6 @@ const App = () => {
     }  
     //makes the final screen with known data 
     function FinalStatistics(){
-        console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
@@ -196,6 +195,7 @@ const App = () => {
     }
     //verifies answers validity
     function verify(id) {
+            
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
@@ -209,8 +209,6 @@ const App = () => {
             }
 
             fetch(url, options).then(response => response.json()).then(response => userinterface(response))
-
-        
     }
     //Lights up the buttons with colors after finishing the test
     function userinterface(response) {
@@ -249,6 +247,16 @@ const App = () => {
         } else {
 
         }
+        var index = 0
+        FormattedQuestions.forEach(e => {
+            console.log(e.Correct)
+            if(e.Correct !== "Neutral"){
+                index++; 
+            }
+            if(index === FormattedQuestions.length){
+                setState("Finished")
+            }
+        })
     }
     //changes the input value of currently selected question
     function changeInput(value) {

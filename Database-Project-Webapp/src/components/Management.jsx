@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestManagin.css'
 import Modal from "./Modal.jsx"
-
+import up from "../assets/chevron-up.svg"
+import down from "../assets/chevron-down.svg"
 
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
             {loading ?
                 <></>
                 :
-                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => FetchAnswers(c.TestId, i)}>{c.Name}</div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
+                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} <div><img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/></div></div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
             }
         </>
     )
@@ -56,7 +57,8 @@ function App() {
     function ShowTests(props) {
         SetSelection(Testdata[props.index].TestId)
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
-            <div className={"ManagementContent"}onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>
+            <div className={"ManagementContent"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>
+            <div><buttton>here</buttton></div>
             {ShowData ? 
             <>
           <TestSetter/>

@@ -130,7 +130,15 @@
         background-color: rgba(167, 4, 4, 0.637);
     }
 }   
+.FinishContainer{
+    display: flex;
+    flex-direction: column;
+    animation-name: opacity;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
 
+}
 .FIContainer{
     margin-top: 20px;
     display: flex;
@@ -139,6 +147,7 @@
     width: 80%;
     align-self: center;
     justify-content: center;
+    align-self: center;
     margin-bottom: 1.2rem;
     border-style: solid;
     border-width: 2px;
@@ -276,7 +285,14 @@
         transform: translateX(100%);
     }
 }
-
+@keyframes opacity{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 @keyframes closed {
     from {
         transform: translateX(100%);

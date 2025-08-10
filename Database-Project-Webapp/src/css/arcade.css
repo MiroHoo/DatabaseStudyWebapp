@@ -8,8 +8,8 @@
 
 }
 .IconClass{
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
     align-self: center;
 }
 .ArcadeContainer{
@@ -101,11 +101,12 @@
     margin-top: 20px;
 }
 .StatContainer{
+
 }
 .SubmitBtn{
     border-radius: 4px;
     width: 20%;
-    font-size: 20px;
+    font-size: clamp(2rem,1vh,12rem);
     box-shadow: 0 5px 5px 0px #c4c4c491;
     box-sizing: border-box;
     cursor: pointer;
@@ -120,6 +121,7 @@
     flex-direction: column;
     align-content: center;
     text-align: center;
+    font-size: clamp(1rem,1.7vh,2rem);
     &.Reroll{
         cursor: pointer;
         &:hover{
