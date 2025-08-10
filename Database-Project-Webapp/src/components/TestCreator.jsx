@@ -153,6 +153,7 @@ setSettings({
       type: "text",
       text: "One of the Question/Answer fields is empty!",
 })
+setModal(true)
 } else {
 PostRequest(SubmitArray)
 }

@@ -116,8 +116,6 @@ const App = () => {
             console.log(c)
             return <div className={`FIContainer ${c.Correct}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
-                        <div className='FIHeader2'>Question: </div>
-                        <div className="FIQuestion">{c.Question}</div>
                         <div className='FIHeader2'>Right Answer: </div>
                         <div className="FIQuestion">{c.CAnswer}</div>
                         <div className="FIHeader2">{"Your Answer: "}</div>
@@ -216,7 +214,6 @@ const App = () => {
     }
 
     function userinterface(response) {
-
         if (response.outcome !== undefined) {
             if (response.outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {

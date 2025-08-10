@@ -51,18 +51,19 @@ background-color: white;
     align-items: center;
 
 }
+
 .ListofTests{
 display: flex; 
 margin: 2rem;
 align-items: center;
 flex-direction: column;
 &.closed {
-   animation: open 700ms;
-   transform: translateX(100%);
+   animation: OpacityClosed 500ms;
+   opacity: 0;
 }
 &.open {
-    animation: closed 700ms;
-    transform: translateX(0);
+    animation: OpacityOpen 500ms;
+    opacity: 1;
   }
 }
 
@@ -92,22 +93,22 @@ box-sizing: border-box;
  justify-content: center; 
 }
 
-@keyframes open {
+@keyframes OpacityOpen {
     from {
-        transform: translateX(0);
+        opacity: 0;
     }
 
     to {
-        transform: translateX(100%);
+        opacity: 1;
     }
 }
 
-@keyframes closed {
+@keyframes OpacityClosed {
     from {
-        transform: translateX(100%);
+         opacity: 1;
     }
 
     to {
-        transform: translateX(0);
+        opacity: 0;
     }
 }
