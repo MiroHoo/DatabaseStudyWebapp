@@ -116,6 +116,9 @@ router.post('/register',
     })
   }
 )
+router.post("/insert", function (req,res){
+    
+})
 
 
 module.exports = router;
