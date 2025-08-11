@@ -5,9 +5,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-body {
+html, body {
   margin: 0;
   overflow-x: hidden;
+  height: 100%;
+}
+body {
+  position: relative;
+
 }
 .StupidGif{
   height: clamp(5rem, 80vw,30rem);
@@ -33,6 +38,11 @@ body {
   margin-top: 0.9rem;
   align-self: center;
   border-bottom: 2.5px solid rgba(0, 0, 0, 0.233);
+}
+.BurgerImg{
+  width: 20px;
+  margin-right: 20px;
+  margin-left: 10px;
 }
 .LogoImage{
   width: clamp(5rem, 80vw,30rem);
@@ -80,7 +90,6 @@ body {
   justify-content: center;
 }
 .HeaderGif{
-  
   width: clamp(5rem, 20vw,7rem);
 }
 .BurgerContainer{
@@ -90,29 +99,47 @@ body {
   z-index: 2000;
   align-items: end;
   pointer-events: none;
-  width: 100%;  
+  overflow-x: hidden;
+  width: 99%;  
   &.open{
     transform: translateX(0);
     animation: closed 700ms;
+    animation-duration: 1s;
   }
   &.closed{
     transform: translateX(100%);
     animation: open 700ms;
+    animation-duration: 0.5s;
+  }
+  &.hidden{
+    display: none;
   }
 }
+.BurgerStack{
+  width: 20%;
+  border-radius: 5px;
+  border: 1.5px solid rgba(0, 0, 0, 0.842);
+  box-shadow: 0 5px 5px 0px #c4c4c491;
+  background-color: rgb(255, 255, 255);
+}
+.BurgerCondiment{
+  width:80%;
+  display: flex;
+  align-self: center;
+  text-align: right;
+}
 .BurgerOption{
+ overflow: hidden;
  pointer-events: auto;
  color: rgb(0, 0, 0); 
  text-decoration: none;
- background-color: rgb(255, 255, 255);
  width: clamp(10rem, 30vw, 20rem);
  font-size: clamp(1rem, 2vh, 1.4rem);
- height: clamp(2.5rem, 10vh, 3.5rem);
+ height: clamp(2.5rem, 10vh, 3.1rem);
  display: flex;
  align-items: center;
  justify-content: center;
  cursor: pointer;
- border: 1px solid rgba(165, 163, 163, 0.795);
 }
 .BurgerOption:hover {
   animation: opacity;
@@ -154,4 +181,9 @@ body {
   to {
       transform: translateX(0);
   }
+}
+  @media (max-aspect-ratio: 16/9) {
+    .BurgerStack{
+      width: 50%;
+    }
 }

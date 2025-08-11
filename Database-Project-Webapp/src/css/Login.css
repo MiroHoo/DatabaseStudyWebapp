@@ -1,0 +1,42 @@
+.LoginContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+.LoginHeader{
+     font-size: 1.2rem;
+    cursor: default;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    background-color: rgba(202, 202, 202, 0.158);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.233);
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.LoginInput{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    height: 2.5rem;
+    font-size: clamp(1rem,1.7vh,1.3rem);
+    width:70%;
+}
+.LoginButton{
+    margin-top: 0.8rem;
+     margin-bottom: 0.8rem;
+     cursor: pointer;
+     width: 30%;
+     align-self: center;
+     font-size: 15px;
+     font-weight:600;
+     box-shadow: 0 1px 1px 1px #c4c4c45b;
+    &:hover{
+    transition: all 0.3s;
+    transform: translateY(-2px);
+    }
+}

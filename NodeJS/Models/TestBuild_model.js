@@ -2,21 +2,20 @@
   
   const testbuild = {
     addTest: function(Test, callback) {
-    console.log("add")
-    console.log(Test.body.TestId)
-    const id = Test.body.TestId +1;
-    const questions = Test.body.Questions.map((values) => [
-      values.Q, 
-      values.A,
-      id
-    ])
     db.query(
       'insert into test (Name) values(?)',
-      [Test.body.Name, Test.body]
+      [Test.body.Name], callback
     );
+    },
+    insertQuestions:function(Test, callback){
+    const questions = Test.Questions.map((values) => [
+      values.Q, 
+      values.A,
+      Test.TestId
+    ])
     db.query(
       'insert into question (Question, Answer, Test_TestId) values ?',
-      [questions]
+      [questions],callback
     )
     },
     getId:function(callback) {
@@ -35,7 +34,6 @@
         arrayofanswer.push(db.query(element))
       });
     } else {
-      
       return ("false", callback)
     }
       return arrayofanswer

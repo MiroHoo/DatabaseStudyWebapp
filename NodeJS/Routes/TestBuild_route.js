@@ -3,34 +3,55 @@ const router = express.Router();
 const TestModel = require('../Models/TestBuild_model');
 
 
+const ListOfAlteringQueries = {
+  Queries: [
+    "DROP",
+    "DELETE",
+    "ALTER",
+    "INSERT INTO",
+    "UPDATE"
+]
+}
+
 router.post('/add/', 
-    function (request, response) {
+    async function (request, response) {
     if(!request.body){
         response.status(204)
         response.send('missing body')
     }
-TestModel.getId(function(err, dbResult) {
-    if(dbResult[0] === undefined){
-        request.body["TestId"] = 1
-    } else {
-      request.body["TestId"] = dbResult[0].TestId;
-    }
-    if (err) {
-      response.json(err);
-    } else {
-      response.json(dbResult);
-      console.log("here")
-      TestModel.addTest(request, function(err) {
-        if(err){
-            response.json(err)
-        } else {
-            response.status(202);
-            response.send('succesfully added')
-        }
+    await asyncsettest(request);
+    TestModel.getId(function(err, dbResult){
+              request.body["TestId"] = dbResult[0].TestId;
+              TestModel.insertQuestions(request.body,function(err,dbResult){
+                if(err){
+                  response.json(err)
+                } else {
+                  response.json(dbResult)
+                }
+              })
     })
-    }
-   });
+function asyncsettest(request) {
+  //async way of getting the data so that the other logic has to wait
+  return new Promise((resolve, reject) => {
+    TestModel.addTest(request, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+}
 });
+
+
+function checkquery(query){
+  //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
+  var includes = false
+  ListOfAlteringQueries.Queries.forEach(element => {
+    if(query.toLowerCase().includes(element.toLowerCase())){
+      includes = true
+    }
+  });
+  return includes
+}
 
 router.get('/id/',
     function(request, response) {
@@ -48,14 +69,21 @@ router.post('/verify/',
     if(request.body === undefined){
       response.status(204)
       response.send('missing body')
+      return;
     }
+    const alteringquery = checkquery(request.body.query);
+    if(!alteringquery){
     TestModel.verifyQuestion(request.body.query ,function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
       response.json(dbResult);
     }
-  });
+    });  
+    } else [
+      response.json({"Message": "Altering Query"})
+    ]
+    
 });
 router.post('/bulk/', 
   function(request, response){
