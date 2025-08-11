@@ -130,6 +130,7 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
@@ -181,6 +182,7 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
+        console.log(url)
         fetch(url, options).then(response => response.json()).then(response => console.log(response))
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
@@ -254,7 +256,7 @@ const App = () => {
                 index++; 
             }
             if(index === FormattedQuestions.length){
-                setState("Finished")
+               Finalize()
             }
         })
     }
