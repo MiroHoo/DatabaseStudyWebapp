@@ -134,7 +134,7 @@ const App = () => {
             if(!Sent){
                 Finalize()
             } else {
-                setState("Finished")
+                Finalize()
             }
             return
         }
@@ -155,7 +155,7 @@ const App = () => {
         }
     }
     //saves test data to database
-    function Finalize(){
+    async function Finalize(){
         SetSent(true)
         setCurrentQuestion(-2);
         setState("Finished")
@@ -181,7 +181,13 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
-        fetch(url, options).then(response => response.json()).then(response => console.log(response))
+        console.log(url)
+        await fetch(url, options).then(response => response.json())
+        Calculateavg()
+    }
+    function Calculateavg(){
+        console.log("http://127.0.0.1:3002/compare/avg/" + params.testId)
+        fetch("http://127.0.0.1:3002/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
