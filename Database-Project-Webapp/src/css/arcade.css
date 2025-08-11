@@ -133,7 +133,7 @@
 }
 .ArcadeInput{
     height: clamp(1rem,7vh,12rem);
-    font-size: clamp(1rem,1.7vh,12rem);
+    font-size: clamp(1rem,1.9vh,2rem);
     width: 60%;
     align-self: center;
     text-align: center;     
@@ -168,7 +168,7 @@
     
 }
 .ArcadeHeader{
-    font-size: 1.2rem;
+    font-size: 1.7rem;
     cursor: default;
     width: 60%;
     align-self: center;
@@ -181,7 +181,7 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .ArcadeQuestHeader{
-    font-size: 1.2rem;
+    font-size: 2rem;
     width: 60%;
     align-self: center;
     text-align: center;

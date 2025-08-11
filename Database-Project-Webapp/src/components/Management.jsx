@@ -4,6 +4,7 @@ import '../css/TestManagin.css'
 import Modal from "./Modal.jsx"
 import up from "../assets/chevron-up.svg"
 import down from "../assets/chevron-down.svg"
+import edit from "../assets/edit.svg"
 
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
             {loading ?
                 <></>
                 :
-                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} <div><img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/></div></div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
+                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader active ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} <div><img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/></div></div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
             }
         </>
     )
@@ -57,8 +58,7 @@ function App() {
     function ShowTests(props) {
         SetSelection(Testdata[props.index].TestId)
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
-            <div className={"ManagementContent"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}</div>
-            <div><buttton>here</buttton></div>
+            <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={edit}/></div>
             {ShowData ? 
             <>
           <TestSetter/>
@@ -66,7 +66,7 @@ function App() {
             :
             <></>
             }
-            <div className={"ManagementContent"}>Average score: </div>
+            <div className={"ManagementContent"}>Average score: {Testdata[props.index].Average_score*100 + "%"}</div>
             <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
@@ -157,6 +157,7 @@ function App() {
     }
     //Changes name inside the backend
     function ChangeName(input,funcvar) {
+        console.log(input)
         const url = "http://127.0.0.1:3002/manage/update/" + funcvar.id
         const options = {
             method: 'POST',

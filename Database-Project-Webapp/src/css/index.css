@@ -142,17 +142,17 @@ body {
  cursor: pointer;
 }
 .BurgerOption:hover {
-  animation: opacity;
+  animation: burgeropacity;
   opacity: 0.4;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
-  transition: all 0.3s;
+  transition: all 0.4;
   animation-duration: 0.25s;
   animation-iteration-count: 1;
   animation-timing-function: ease-in-out;
 }
 
-@keyframes opacity {
+@keyframes burgeropacity {
   from {
       opacity: 1;
   }
