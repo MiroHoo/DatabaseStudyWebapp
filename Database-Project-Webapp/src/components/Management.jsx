@@ -85,7 +85,6 @@ function App() {
     }
     //quite the long function, but it groups, tags and renders the stundet queries from the database based on the attempt of the test they were inside
     function TestSetter(){
-    console.log(TestAnswer[0])
     var index = 0;
     var temparray = []
     var elemarray = []

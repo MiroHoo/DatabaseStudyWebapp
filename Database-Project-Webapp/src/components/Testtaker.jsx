@@ -1,7 +1,12 @@
 import '../css/index.css'
 import '../css/start.css'
-import gif from '../assets/Cool.gif'
-import { useEffect, useState, useRef } from 'react'
+import '../css/TestTaker.css'
+import ErModel from "../assets/Images/ErModel.png"
+import Modal from "./Modal.jsx"
+import { useEffect, useState, useRef, use } from 'react'
+import { useParams } from "react-router";
+import {NavLink} from "react-router-dom";
+
 const App = () => {
     //url parameter 
     let params = useParams();
@@ -32,6 +37,8 @@ const App = () => {
     })
     //fetches the questions
     useEffect(() => {
+        var url = "http://127.0.0.1:3002/test/id/" + params.testId
+        fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
     //on changing the currect questions id rerender with new contents
     useEffect(() => {
