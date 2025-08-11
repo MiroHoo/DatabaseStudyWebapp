@@ -24,10 +24,6 @@ const App = () => {
     const [animationState, setAnimationState] = useState(true)
     //state of test
     const [TestState, setState] = useState("ER")
-    //has been sent
-    const [Sent, SetSent] =useState(false)
-
-    var testPoints = 0;
     const animationref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
@@ -85,7 +81,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
+                    <><FinalStatistics/> <div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
                     <></>
                     }
                 </>
@@ -95,49 +91,30 @@ const App = () => {
         </div>
     )
 
-    function CalcPoints(){
-        var points = 0
-        FormattedQuestions.forEach((c,i) =>{
-            if(c.Correct === "Correct"){
-                points = points + 1
-            }
-            if(c.Correct === "Partially"){
-                points = points + 0.5
-            }
-        })
-        return <div className='FIPoints'>Score: {points}/{FormattedQuestions.length}</div>
-    }   
+
     function FinalStatistics(){
         console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
             }
-            console.log(c)
-            return <div className={`FIContainer ${c.Correct}`} >
+            return <div className={`FIContainer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
                         <div className='FIHeader2'>Question: </div>
                         <div className="FIQuestion">{c.Question}</div>
-                        <div className='FIHeader2'>Right Answer: </div>
-                        <div className="FIQuestion">{c.CAnswer}</div>
                         <div className="FIHeader2">{"Your Answer: "}</div>
-                        <div className={`FIAnswer ${c.Correct}`}>{c.Answer}</div>
-                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}/1</div>
+                        <div className={`FIAnswer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`}>{c.Answer}</div>
+                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}</div>
                     </div>
         })
         return FinalStats
     }
-
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
         if(amount === 0){
-            if(!Sent){
-                Finalize()
-            } else {
-                setState("Finished")
-            }
+            setState("Finished")
             return
         }
         if (amount > 0) {
@@ -157,39 +134,15 @@ const App = () => {
         }
     }
 
-    function Finalize(){
-        SetSent(true)
+    function Finalize() {
         setCurrentQuestion(-2);
         setState("Finished")
-        var url = "http://127.0.0.1:3002/compare/save/"
-        const PostFormat = FormattedQuestions.map((c,i) =>{
-            var points = 0
-            if(c.Correct === "Correct"){
-                points = 1
-            }
-            if(c.Correct === "Partially"){
-                points = 0.5
-            }
-            return [
-                params.testId,
-                points, 
-                c.Answer
-            ]
-        })
-        const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(PostFormat)
-            }
-        fetch(url, options).then(response => response.json()).then(response => console.log(response))
     }
 
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
-            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index, "CAnswer": element.Answer })
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index })
         });
         setFormatted(Arrayofquestions)
         setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
@@ -198,10 +151,12 @@ const App = () => {
 
     function verify(id) {
         var answer = document.getElementById(id + "_input").value
+        let nocapsanswer = answer.toLowerCase();
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
             }
+            console.log(PostFormat)
             const options = {
                 method: 'POST',
                 headers: {
@@ -210,15 +165,16 @@ const App = () => {
                 body: JSON.stringify(PostFormat)
             }
 
-            fetch(url, options).then(response => response.json()).then(response => userinterface(response))
+            fetch(url, options).then(response => response.json()).then(response => userinterface(response.outcome))
 
         
     }
 
-    function userinterface(response) {
-
-        if (response.outcome !== undefined) {
-            if (response.outcome === true) {
+    function userinterface(outcome) {
+        outcome = (outcome === "true")
+        console.log(outcome)
+        if (outcome !== undefined) {
+            if (outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
                         c.Correct = "Correct"
@@ -228,10 +184,10 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            } else if (response.half === true) {
+            } else if (outcome === false) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Partially"
+                        c.Correct = "Incorrect"
                         return c
                     } else {
                         return c
@@ -241,7 +197,7 @@ const App = () => {
             } else {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Incorrect"
+                        c.Correct = "Partially"
                         return c
                     } else {
                         return c
