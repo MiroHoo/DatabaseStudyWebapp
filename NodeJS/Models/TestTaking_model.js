@@ -1,6 +1,12 @@
 const db = require('../Test_database');
 
  const testtaking = {
+    getTestAttempts: function(id,callback){
+      return db.query('select * from student_scores where Test_TestId=?', [id], callback)
+    },
+    saveAverage: function(id,callback){
+      return db.query('update test set Average_score=? where TestId=?', [id.avg, id.id], callback)
+    },
     getById: function(id,callback) {
         return db.query('select * from question where QuestionId=?', [id], callback)
     },

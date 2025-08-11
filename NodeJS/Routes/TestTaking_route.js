@@ -27,9 +27,49 @@ const ListOfAlteringQueries = {
 ]
 }
 
+
+router.get('/avg/:id', function (req,res){
+    TestTaker.getTestAttempts(req.params.id,function(err,dbResult){
+    var temparray = []
+    var elemarray = []
+    var attemptid = dbResult[0].Attempt_id
+    var index = 0; 
+    console.log(attemptid)
+    //group based on attempt id
+    dbResult.forEach((c,i)=>{
+        if(c.Attempt_id !== attemptid){
+            elemarray.push(temparray)
+            attemptid = c.Attempt_id
+            index=0;
+            temparray=[]
+        }
+        temparray.push(c)
+        index++;  
+    })
+    elemarray.push(temparray)
+    var testlength = 0;
+    temparray = []
+    var scoreAmount = 0;
+    elemarray.forEach((scores,index)=>{
+      testlength = testlength + scores.length
+      scores.forEach((c,i)=>{
+        scoreAmount = scoreAmount + parseInt(c.Score)
+      })
+    })
+    const avg = scoreAmount/testlength
+    TestTaker.saveAverage({"id": req.params.id, "avg":avg},function(err,dbResult){
+      if(err){
+        res.json(err)
+      } else{
+        res.json("Saved")
+      }
+    })
+    })
+})  
+
+
 router.post('/save/',
   function (request, response) {
-
     TestTaker.GetLargestid(function(err, dbResult) {
       var id = 1
       if(dbResult[0] !== undefined){
