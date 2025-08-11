@@ -79,7 +79,7 @@ const Layout = () => {
                 modal ? <ModalSetter /> : <></>
             }
             {
-                Loading ? <></> : <div ref={animationref} className={`ArcadeContainer ${AnimationState ? 'open' : 'closed'}`}><div className={"ArcadeQuestHeader"}>Question: </div><div className={"ArcadeHeader"}>{Question[0].Question}</div><input placeholder={"Think carefully"} name="QuestionInput" className={"ArcadeInput " + ArcadeState} value={Input} onChange={(e) => { setInput(e.target.value) }}></input></div>
+                Loading ? <></> : <><div><div className={"UiPoints"}>Score: {points}</div></div><div ref={animationref} className={`ArcadeContainer ${AnimationState ? 'open' : 'closed'}`}><div className={"ArcadeQuestHeader"}>Question: </div><div className={"ArcadeHeader"}>{Question[0].Question}</div><input autoComplete={"off"} placeholder={"Think carefully"} name="QuestionInput" className={"ArcadeInput " + ArcadeState} value={Input} onChange={(e) => { setInput(e.target.value) }}></input></div></>
             }
             <div className='iconContainer'>
                 <div className='StatContainer'>
@@ -90,7 +90,7 @@ const Layout = () => {
                 </div>
                 <button className={`SubmitBtn`} disabled={Shields !== 0 || disabled ? false : true} onClick={() => { verifyAnswer() }}>Submit</button>
                 <div className='StatContainer'>
-                    <div className='Stats'><>Health</>
+                    <div className='Stats'><>Attempts</>
                         <img className={"IconClass"} src={hp} /><>{Shields}/3</>
                     </div>
                 </div>

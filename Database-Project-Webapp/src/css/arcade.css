@@ -183,6 +183,15 @@
     }
     
 }
+.UiPoints{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: clamp(1.5rem,3vh,7rem);
+    font-weight: 600;
+}
 .ArcadeHeader{
     font-size: 1.7rem;
     cursor: default;

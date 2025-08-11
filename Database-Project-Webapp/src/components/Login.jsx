@@ -19,9 +19,9 @@ function App() {
                 modal ? <ModalSetter /> : <></>
             }
             <div className="LoginHeader">Username</div>
-            <input className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="username"></input>
+            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="username"></input>
             <div className="LoginHeader" >Password</div>
-            <input className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
+            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
             </input>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>

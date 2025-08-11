@@ -44,9 +44,9 @@ const [ModalSettings, setSettings] = useState({
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
         <div onClick={()=>{setInputid(Questions.id-1); InputModal(Questions.id); }} className="TestHeader active">{Questions.name}</div>
-        <input className='TestInput' id={"Question_" + Questions.id}></input>
+        <input autoComplete={"off"} className='TestInput' id={"Question_" + Questions.id}></input>
         <div className="TestHeader">Model Answer</div>
-        <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
+        <input autoComplete={"off"} className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
         <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)} className='TestVerify'>Verify Answer</button>
         <button className="deleteBtn" onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
