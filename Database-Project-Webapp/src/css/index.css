@@ -5,9 +5,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-body {
+html, body {
   margin: 0;
   overflow-x: hidden;
+  height: 100%;
+}
+body {
+  position: relative;
+
 }
 .StupidGif{
   height: clamp(5rem, 80vw,30rem);
@@ -94,14 +99,20 @@ body {
   z-index: 2000;
   align-items: end;
   pointer-events: none;
+  overflow-x: hidden;
   width: 99%;  
   &.open{
     transform: translateX(0);
     animation: closed 700ms;
+    animation-duration: 1s;
   }
   &.closed{
     transform: translateX(100%);
     animation: open 700ms;
+    animation-duration: 0.5s;
+  }
+  &.hidden{
+    display: none;
   }
 }
 .BurgerStack{

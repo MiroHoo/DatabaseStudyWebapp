@@ -4,11 +4,17 @@ height: 100%;
 width: 100%;
 flex: 1;
 }
+.SearchFunc{
+    width: 50%;
+    text-align: center;
+    font-size: clamp(1.3rem, 2.5vh, 5rem);
+}
 
 .StartListItem{
 display: flex;
 flex: 1;
-width: 80%;
+width: 60%;
+border-radius: 6px;
 color: black;
 justify-content: space-around;
 align-items: center;
@@ -17,10 +23,33 @@ margin: 0.7rem;
 font-size: clamp(1.3rem, 2.5vh, 5rem);
 font-weight: 650;
 border: 0.1rem solid;
+background-color: white;
  &:hover{
-    background-color:#bdbdbd;
+    background-color:#b1b1b11e;
     cursor: pointer;
  }
+}
+.NoTestsFound{
+display: flex;
+flex: 1;
+width: 40%;
+border-radius: 6px;
+color: black;
+justify-content: space-around;
+align-items: center;
+text-align: center;
+margin: 0.7rem;
+font-size: clamp(1.3rem, 2.5vh, 5rem);
+font-weight: 650;
+background-color: white;
+}
+.StartListCont{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .ListofTests{
@@ -29,17 +58,17 @@ margin: 2rem;
 align-items: center;
 flex-direction: column;
 &.closed {
-   animation: open 700ms;
-   transform: translateX(100%);
+   animation: OpacityClosed 500ms;
+   opacity: 0;
 }
 &.open {
-    animation: closed 700ms;
-    transform: translateX(0);
+    animation: OpacityOpen 500ms;
+    opacity: 1;
   }
 }
 
 .StartSelectButton{
-background-color: #bdbdbd62;
+background-color: #ffffff62;
 border-radius: 10px;
 font-size: 100%;
 line-height: 2;
@@ -64,22 +93,22 @@ box-sizing: border-box;
  justify-content: center; 
 }
 
-@keyframes open {
+@keyframes OpacityOpen {
     from {
-        transform: translateX(0);
+        opacity: 0;
     }
 
     to {
-        transform: translateX(100%);
+        opacity: 1;
     }
 }
 
-@keyframes closed {
+@keyframes OpacityClosed {
     from {
-        transform: translateX(100%);
+         opacity: 1;
     }
 
     to {
-        transform: translateX(0);
+        opacity: 0;
     }
 }

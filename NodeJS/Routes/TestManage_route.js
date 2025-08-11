@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser');
 
-
 router.get('/delete/:id',
   function (request, response) {
     const jwttok = request.cookies.jwt
@@ -28,8 +27,9 @@ router.get('/delete/:id',
       }
     })
   });
+
 router.get('/fetchscores/:id', async function (req, res) {
-  TestFetch.fetchscoresByid(req.params.id, function (err, reslt) {
+     TestFetch.fetchscoresByid(req.params.id, function (err, reslt) {
     if (err) {
       res.json(err)
     } else {

@@ -8,6 +8,8 @@ import TestCreator from './components/TestCreator.jsx'
 import TestTaker from './components/TestTaker.jsx'
 import Manage from './components/Management.jsx'
 import Login from './components/Login.jsx'
+import Arcade from './components/Arcade.jsx'
+import ArcadeScores from './components/ArcadeScores.jsx'
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Header/>
@@ -17,6 +19,8 @@ createRoot(document.getElementById('root')).render(
       <Route path="/testtaking/:testId" element={<TestTaker/>}/>
       <Route path="/manage" element={<Manage/>}/>
       <Route path="/login" element={<Login/>}/>
+      <Route path="/arcade" element={<Arcade/>}/>
+      <Route path="/scores" element={<ArcadeScores/>}/>
     </Routes>
   </BrowserRouter>
 )

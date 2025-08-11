@@ -26,6 +26,8 @@ const App = () => {
     const [TestState, setState] = useState("ER")
     //has been sent
     const [Sent, SetSent] =useState(false)
+
+    var testPoints = 0;
     const animationref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
@@ -33,12 +35,12 @@ const App = () => {
         "text": "",
         "function": "",
     })
-
+    //fetches the questions
     useEffect(() => {
         var url = "http://127.0.0.1:3002/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
-
+    //on changing the currect questions id rerender with new contents
     useEffect(() => {
         if (currentQuestions !== -1) {
             setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
@@ -83,7 +85,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <><FinalStatistics/> <div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></>                  :   
+                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></div>                  :   
                     <></>
                     }
                 </>
@@ -92,26 +94,38 @@ const App = () => {
             }
         </div>
     )
-
-
+    //calculates points to render
+    function CalcPoints(){
+        var points = 0
+        FormattedQuestions.forEach((c,i) =>{
+            if(c.Correct === "Correct"){
+                points = points + 1
+            }
+            if(c.Correct === "Partially"){
+                points = points + 0.5
+            }
+        })
+        return <div className='FIPoints'>Score: {points}/{FormattedQuestions.length}</div>
+    }  
+    //makes the final screen with known data 
     function FinalStatistics(){
-        console.log(FormattedQuestions)
         const FinalStats = FormattedQuestions.map((c,i) => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
             }
-            return <div className={`FIContainer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`} >
+            console.log(c)
+            return <div className={`FIContainer ${c.Correct}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
-                        <div className='FIHeader2'>Question: </div>
-                        <div className="FIQuestion">{c.Question}</div>
+                        <div className='FIHeader2'>Right Answer: </div>
+                        <div className="FIQuestion">{c.CAnswer}</div>
                         <div className="FIHeader2">{"Your Answer: "}</div>
-                        <div className={`FIAnswer ${c.Correct === "Correct" ? "Correct" : "Incorrect"}`}>{c.Answer}</div>
-                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}</div>
+                        <div className={`FIAnswer ${c.Correct}`}>{c.Answer}</div>
+                        <div className="FIPoints">Points: {c.Correct === "Correct" ? "1" : `${c.Correct === "Partially" ? "0.5" : "0"}`}/1</div>
                     </div>
         })
         return FinalStats
     }
-
+    //Asks if student/user wants to end test before sending it
     function SubmitModal() {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
@@ -127,7 +141,7 @@ const App = () => {
         if (amount > 0) {
             setSettings({
                 type: "question",
-                text: "Are you sure you want to submit the test? There are " + amount + " unanswered questions!",
+                text: "Are you sure you want to submit the test? There are " + amount + " unsubmitted questions!",
                 function: Finalize
             })
             setModal(!modal);
@@ -140,7 +154,7 @@ const App = () => {
             setModal(!modal);
         }
     }
-
+    //saves test data to database
     function Finalize(){
         SetSent(true)
         setCurrentQuestion(-2);
@@ -169,19 +183,19 @@ const App = () => {
             }
         fetch(url, options).then(response => response.json()).then(response => console.log(response))
     }
-
+    //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
         var Arrayofquestions = []
         res.forEach((element, index) => {
-            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index })
+            Arrayofquestions.push({ "Question": element.Question, "Answer": "", "QuestionId": element.QuestionId, "Correct": "Neutral", "index": index, "CAnswer": element.Answer })
         });
         setFormatted(Arrayofquestions)
         setRender(Arrayofquestions.slice(currentQuestions, currentQuestions + 1))
         setLoading(true)
     }
-
+    //verifies answers validity
     function verify(id) {
-        var answer = document.getElementById(id + "_input").value
+            
             var url = "http://127.0.0.1:3002/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
@@ -195,12 +209,9 @@ const App = () => {
             }
 
             fetch(url, options).then(response => response.json()).then(response => userinterface(response))
-
-        
     }
-
+    //Lights up the buttons with colors after finishing the test
     function userinterface(response) {
-
         if (response.outcome !== undefined) {
             if (response.outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
@@ -212,10 +223,10 @@ const App = () => {
                     }
                 })
                 setFormatted(updatedBtns)
-            } else if (response.outcome === false) {
+            } else if (response.half === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Incorrect"
+                        c.Correct = "Partially"
                         return c
                     } else {
                         return c
@@ -225,7 +236,7 @@ const App = () => {
             } else {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
                     if (i === currentQuestions) {
-                        c.Correct = "Partially"
+                        c.Correct = "Incorrect"
                         return c
                     } else {
                         return c
@@ -236,8 +247,18 @@ const App = () => {
         } else {
 
         }
+        var index = 0
+        FormattedQuestions.forEach(e => {
+            console.log(e.Correct)
+            if(e.Correct !== "Neutral"){
+                index++; 
+            }
+            if(index === FormattedQuestions.length){
+                setState("Finished")
+            }
+        })
     }
-
+    //changes the input value of currently selected question
     function changeInput(value) {
         const updatedBtns = FormattedQuestions.map((c, i) => {
             if (i === currentQuestions) {
@@ -249,7 +270,7 @@ const App = () => {
         })
         setFormatted(updatedBtns)
     }
-
+    //modal init
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }

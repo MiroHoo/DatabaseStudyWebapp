@@ -1,0 +1,262 @@
+.iconContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+    justify-content:space-between;
+    justify-self: center;
+
+}
+.IconClass{
+    width: 70px;
+    height: 70px;
+    align-self: center;
+}
+.ArcadeContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top:20px;
+    &.open{
+    transform: translateX(-100%);
+    animation-name: fade-out;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    }
+    &.closed{
+    animation-name: fade-in;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    }
+}
+.ScorePageCont{
+    width: 1;
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.267);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.267);
+    &.first{
+        background-color: rgba(255, 217, 0, 0.589);
+    }
+    &.second{
+        background-color: rgba(192, 192, 192, 0.527);
+    }
+    &.third{
+        background-color: rgba(206,137,70, 0.52)
+    }
+}
+.ScorePos{
+    font-size: clamp(1.5rem,2vh,4rem);
+    border:1.5px solid rgba(0, 0, 0, 0.5);
+    width: 6%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ScoreItem{
+    font-size: clamp(1.5rem,2vh,4rem);
+    font-weight: 500;
+    &.Number{
+        margin-right: 20px;
+    }
+}
+.ScoreList{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.267);
+}
+.StartGameButton{
+    background-color: rgba(0, 255, 0, 0.411);
+    width: 10%;
+    margin-top: 20px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+     &:hover{
+    transition: all 0.3s;
+    transform: translateY(-3px);
+    background-color: #7ef06246;
+ }
+}
+.HighScoreCont{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.HighScoreHeader{
+    display: flex;
+    justify-content: center;
+    font-size: clamp(2rem,1vh,12rem);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.267);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.267);
+    width: 80%;
+    margin-top: 20px;
+}
+.StatContainer{
+
+}
+.SubmitBtn{
+    border-radius: 4px;
+    width: 20%;
+    font-size: clamp(2rem,1vh,12rem);
+    box-shadow: 0 5px 5px 0px #c4c4c491;
+    box-sizing: border-box;
+    cursor: pointer;
+ &:hover{
+    transition: all 0.3s;
+    transform: translateY(-3px);
+    background-color: #bdbdbd46;
+ }
+}
+.Stats{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    font-size: clamp(1rem,1.7vh,2rem);
+    &.Reroll{
+        cursor: pointer;
+        &:hover{
+            transition: all 0.3s;
+
+            background-color: #bdbdbd46;
+        }
+    }
+}
+.ArcadeInput{
+    height: clamp(1rem,7vh,12rem);
+    font-size: clamp(1rem,1.7vh,12rem);
+    width: 60%;
+    align-self: center;
+    text-align: center;     
+    background-color: rgb(255, 253, 253);
+        &.Partiall{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
+    &.Failure{
+        animation-name: change-color-incorrect;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(167, 4, 4, 0.075);
+    }
+    &.Success{
+        animation-name: change-color-correct;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        animation-name: change-color-neutral;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+    }
+    
+}
+.ArcadeHeader{
+    font-size: 1.2rem;
+    cursor: default;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    background-color: rgba(202, 202, 202, 0.158);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.233);
+    margin-bottom: 3px;
+    margin-top: 3px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.ArcadeQuestHeader{
+    font-size: 1.2rem;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+    background-color: rgb(202, 202, 202);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+@keyframes change-color-correct {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(29, 214, 29, 0.479);
+  }
+}
+@keyframes change-color-incorrect {
+  from {
+       background-color: white;
+  }
+  to {
+    background-color: rgba(167, 4, 4, 0.075);
+  }
+}
+@keyframes change-color-parttially {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(255, 173, 21, 0.295);
+  }
+
+}
+@keyframes change-color-neutral {
+  from {
+       background-color: rgba(128, 128, 128, 0.295);
+  }
+  to {
+    background-color:  rgba(255, 255, 255, 0.295);
+  }
+
+}
+@keyframes fade-in {
+    from {
+       transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fade-out {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+@media (max-aspect-ratio: 16/9) {
+    .StartGameButton{
+        width: 60%;
+    }
+    .ScorePageCont{
+        width: 80%;
+    }
+    .ScorePos{
+        width: 15%;
+    }
+    .iconContainer{
+        flex-direction: column;
+    }
+    .Stats{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .SubmitBtn{
+        width: 60%;
+    }
+}

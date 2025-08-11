@@ -18,11 +18,11 @@
 .AnswerText{
     display: flex;
     flex-direction: row;
-    font-size: clamp(1rem,1.7vh,1.2rem);
+    font-size: clamp(2rem,1.7vh,3.2rem);
     margin-top: 5px;
     margin-bottom: 5px; 
     &.query{
-       font-size: clamp(0.8rem,1.7vh,1.2rem);
+       font-size: clamp(2rem,1.7vh,3.2rem);
     }
     &.long{
        width: 80%;
@@ -83,7 +83,10 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
+    margin-top:20px;
 
+}
+.openImage{
 }
 .ManagementItemCont{
     display: flex;
@@ -95,6 +98,7 @@
      cursor: pointer;
     font-weight: 600;
     width: 80%;
+    font-size: clamp(1.3rem,1.2vh,1.8rem);
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: rgba(219, 83, 83, 0.068);
@@ -107,7 +111,7 @@
     }
 }
 .ManagementContent{
-    font-size: 1.1rem;
+    font-size: clamp(1.3rem,1.7vh,2rem);
     cursor: default;
     width: 100%;
     align-self: center;
@@ -147,7 +151,7 @@
     background-color: rgba(67, 73, 66, 0.253);
   }
 }
-  @media (max-aspect-ratio: 16/9) {
+@media (max-aspect-ratio: 16/9) {
     .AnswerCont{
         flex-direction: column;
         align-items: center;

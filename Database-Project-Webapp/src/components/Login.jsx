@@ -26,7 +26,7 @@ function App() {
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
     )
-
+    //sends login data to be verified
     function Loginfetch(){
       const url = "http://127.0.0.1:3002/manage/login/"
       const options = {
@@ -40,9 +40,11 @@ function App() {
             }
         fetch(url,options).then(response => response.json()).then(reponse => LoginVerify(reponse) )
     }
+    //modal init
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }
+    //message to tell the user the login failed
     function MessageModal(){
         setSettings({
             "type": "text",
@@ -50,6 +52,7 @@ function App() {
         })
         setModal(!modal)
     }
+    //message to tell the user they've logged in and redirects them
     function LoginMessage(){
         setSettings({
             "type": "question",
@@ -58,6 +61,7 @@ function App() {
         })
         setModal(!modal)
     }
+    //verifies if the login was succesfull depending on the response
     function LoginVerify(res){
         if(res.outcome === "success"){
             LoginMessage()
@@ -65,6 +69,7 @@ function App() {
             MessageModal()
         }
     }
+    //redirects to home
     function Nav(){
         navigate("/")
     }
