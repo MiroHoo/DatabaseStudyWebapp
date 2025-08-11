@@ -2,6 +2,8 @@ import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
 import ErModel from "../assets/Images/ErModel.png"
+import image from "../assets/image.svg"
+import info from "../assets/info.svg"
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef, use } from 'react'
 import { useParams } from "react-router";
@@ -57,9 +59,9 @@ const App = () => {
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}>{"FI"}</button></div>
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={image}/></button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={info}/></button></div>
                     </div>
                     {TestState === "Question" ?
                         <>
@@ -85,7 +87,7 @@ const App = () => {
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></div>                  :   
+                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink><NavLink className={"FIBtn"} to={"/test/" +  params.testId-1}>Retry</NavLink></div></div>                  :   
                     <></>
                     }
                 </>
@@ -135,6 +137,7 @@ const App = () => {
                 Finalize()
             } else {
                 setState("Finished")
+                setCurrentQuestion(-2)
             }
             return
         }

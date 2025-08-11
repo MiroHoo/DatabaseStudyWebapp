@@ -24,7 +24,7 @@ const BurgerPathOptions = [
   },
   {
    "name": "Build",
-   "path": "/test",
+   "path": "/build",
    "auth": true,
    "icon": plus
   },

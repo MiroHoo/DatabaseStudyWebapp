@@ -70,9 +70,9 @@ flex-direction: column;
 .StartSelectButton{
 background-color: #ffffff62;
 border-radius: 10px;
-font-size: 100%;
+font-size: clamp(1rem, 1.5vh,2.2rem);
 line-height: 2;
-width: clamp(5rem, 80vw,25rem);
+width: clamp(5rem, 80vw,40rem);
 margin: 0;
 padding: 0;
 padding: 5px 30px;

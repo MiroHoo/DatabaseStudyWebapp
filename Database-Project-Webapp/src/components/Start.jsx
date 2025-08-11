@@ -95,7 +95,7 @@ function StartTest(name, id){
 }
 //redirects to test
 function direct(ok, id){
-    redirect(navigate(`/testtaking/${id}`))
+    redirect(navigate(`/test/${id}`))
 }
 //Modal init
   function ModalSetter() {

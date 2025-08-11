@@ -45,7 +45,7 @@ body {
   margin-left: 10px;
 }
 .LogoImage{
-  width: clamp(5rem, 80vw,30rem);
+  width: clamp(5rem, 80vw,40rem);
 }
 .HeaderContent{
   display: flex;

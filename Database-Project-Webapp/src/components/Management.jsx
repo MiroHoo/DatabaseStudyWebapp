@@ -66,7 +66,7 @@ function App() {
             :
             <></>
             }
-            <div className={"ManagementContent"}>Average score: {Testdata[props.index].Average_score*100 + "%"}</div>
+            <div className={"ManagementContent"}>Average score: {Math.round(Testdata[props.index].Average_score*100) + "%"}</div>
             <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }

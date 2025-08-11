@@ -33,7 +33,7 @@ const [ModalSettings, setSettings] = useState({
   useEffect(() => {
   AddQuestion()
   }, []);
-
+  
   return (
     <div className='Tests'> 
     <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname} <img className={"EditIcon"} src={edit}/></div>
