@@ -1,6 +1,9 @@
 .ModalContainer{
     display: flex;
-    z-index: 200;
+    z-index: 9999999;
+    position: fixed;
+    align-self: center;
+    width: 100%;
 }
 .ModalText{
   font-size: 20px;
