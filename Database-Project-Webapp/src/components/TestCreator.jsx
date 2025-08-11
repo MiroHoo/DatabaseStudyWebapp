@@ -2,56 +2,127 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
+
+
+import { useNavigate } from "react-router";
+
+
 function App() {
+let navigate = useNavigate();
+//current question
 let questionId = useRef(0)
+//formatted questions to display
 const [questionarray, setQuestions] = useState([])
+//modal state on/off
 const [modal, setModal] = useState(false)
 const [inputid, setInputid] = useState(0)
-//initialize first question
+const [Testname, setTestName] = useState("Testname")
+const [ModalSettings, setSettings] = useState({
+  "type":"",
+  "text":"",
+  "function": "",
+})
+  //scrolls to the modal if called
+  useEffect(()=> {
+  if(modal){
+  window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
+  }
+  },[modal])
+
+  //initialize first question
   useEffect(() => {
   AddQuestion()
   }, []);
 
   return (
-    <div className='Tests'>  
-     {
-      modal ? <Modal Modalsettings={{text:"This is a placeholder text", type:"input"}} stateChanger={setModal} textChanger={{Change:QuestionName, id:inputid}}/> : <></>
-     }
+    <div className='Tests'> 
+    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname}</div>
     <div>
+      {
+      modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
+     }
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <a onClick={()=>{setInputid(Questions.id-1); setModal(!modal); console.log(Questions.id-1)}} className="TestHeader">{Questions.name}</a>
-        <input className='TestInput'></input>
-        <a className="TestHeader">Model Answer</a>
-        <input className='TestInput'></input>
-        <button className='TestVerify'>Verify Model Answer</button>
-        <button onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
+        <div onClick={()=>{setInputid(Questions.id-1); InputModal(Questions.id); }} className="TestHeader active">{Questions.name}</div>
+        <input className='TestInput' id={"Question_" + Questions.id}></input>
+        <div className="TestHeader">Model Answer</div>
+        <input className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
+        <button onClick={()=>VerifyQuestion("ModelAnswer_" + Questions.id)} className='TestVerify'>Verify Answer</button>
+        <button className="deleteBtn" onClick={()=>RemoveQuestion(Questions.id)}>Delete</button>
       </div>
     ))}
     </div>
-    <button onClick={AddQuestion}>+</button>  
-    <button>Submit</button>
+    <button className="addBtn"onClick={AddQuestion}>+</button>  
+    <button className="submitBtn" onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
     </div>
   )
 
+
+  
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
-console.log(questionId)
+console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
+}
+//input modal base
+function InputModal(id){
+  setSettings({
+  type: "input",
+  text:"Change Question " + id +  " Name",
+  function:QuestionName,
+  funcvar: id
+  })
+  setModal(!modal);
+}
+//changes the testname
+function ChangeTestName(){
+  setSettings({
+  type: "input",
+  text:"Change Test Name",
+  function:TestName,
+  })
+  setModal(!modal);
+}
+//sets the usestate of testname
+function TestName(TestName){
+  setTestName(TestName)
+}
+//Modal for asking the user something
+function QuestionModal(text, func, funcvar){
+  if(funcvar){
+  setSettings({
+  type: "question",
+  text: text,
+  function:func,
+  funcvar: funcvar
+  })  
+  } else {
+  setSettings({
+  type: "question",
+  text: text,
+  function:func,
+  })  
+  }
+  setModal(!modal);
+}
+
+//modal element init
+function ModalSetter(){
+  return <Modal Modalsettings={{type:ModalSettings.type, text:ModalSettings.text, function:ModalSettings.function, funcvar:ModalSettings.funcvar}} stateChanger={setModal}/> 
 }
 
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
-  questionId.current = questionId.current -1 ;
   setQuestions(questionarray.filter(a => a.id !== id))
+  console.log(questionarray)
 }
 
 //Question Header changer
-function QuestionName(id, text){
-  console.log(modal)
+function QuestionName(text, id){
+  console.log(text, id)
   const UpdatedName = questionarray.map((c,i) => {
-    if (i === id){
+    if (i === id-1){
       c.name = text
       return c
     } else {
@@ -59,6 +130,118 @@ function QuestionName(id, text){
     }
   })
   setQuestions(UpdatedName)
+}
+
+//Makes sure the user wants the test to be sent
+function Areyousure(value){
+  if(value){
+    Submitquestions()
+  }
+}
+
+//Sends the test to the database
+function Submitquestions(){
+var SubmitArray = []
+var index = 1;
+var fail = 0;
+//formats data
+questionarray.forEach(element => {
+  var Qid = "Question_" + element.id
+  var Aid = "ModelAnswer_" + element.id
+  var Question = document.getElementById(Qid).value
+  var Answer = document.getElementById(Aid).value
+  //checks if anyone of them is empty
+  if(Question.length < 2 || Answer.length < 2){
+    fail = 1
+  }
+  SubmitArray.push({"I":index, "Q":Question, "A":Answer})
+  index++;
+});
+if(fail === 1){
+setSettings({
+      type: "text",
+      text: "One of the Question/Answer fields is empty!",
+})
+setModal(true)
+} else {
+PostRequest(SubmitArray)
+}
+}
+
+//redirects to home from site after being called
+function Redirect_(){
+  navigate("/")
+}
+
+//takes in a query string and runs it inside the database depending on the contents, altering queries will not run!
+function VerifyQuestion(Question){
+var query = document.getElementById(Question).value
+console.log(query)
+const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "query" : query})
+ }
+
+ fetch("http://127.0.0.1:3002/build/verify", options)
+ .then(response => response.json())
+ .then(response => verification(response))
+
+}
+//shows user if the query inserted is valid or not.
+function verification(res){
+  if(res.code === undefined){
+    setSettings({
+      type: "text",
+      text: "Query was successfull!"
+    })
+    setModal(true)
+  } else {
+    setSettings({
+      type: "text",
+      text: "Query has failed!"
+    })
+    setModal(true)
+  }
+}
+
+//Posts the given questions as a test into the database! and gives a modal to the user if successfull
+function PostRequest(PostData){
+  console.log("post")
+  var PostFormat = {
+    "Name": Testname,
+    "MaxPoints": 20,
+    "Questions": PostData  
+  }
+  const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( PostFormat )
+  }
+ fetch('http://127.0.0.1:3002/build/add', options
+ )
+ .then(response => response.json())
+ .then(response => {
+  if(!response){
+    console.log("error")
+  }  else {
+    setSettings({
+      type: "text",
+      function:Redirect_,
+      text: "The Test has been created succesfully!",
+    })
+    console.log("Hello")
+    setModal(!modal)
+
+  }
+ }).catch(error => {
+  console.log(error)
+ })
+
 }
 }
 
