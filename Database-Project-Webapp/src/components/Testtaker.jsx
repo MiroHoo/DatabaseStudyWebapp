@@ -130,12 +130,11 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
-        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
             } else {
-                setState("Finished")
+                Finalize()
             }
             return
         }
@@ -156,7 +155,7 @@ const App = () => {
         }
     }
     //saves test data to database
-    function Finalize(){
+    async function Finalize(){
         SetSent(true)
         setCurrentQuestion(-2);
         setState("Finished")
@@ -183,7 +182,12 @@ const App = () => {
                 body: JSON.stringify(PostFormat)
             }
         console.log(url)
-        fetch(url, options).then(response => response.json()).then(response => console.log(response))
+        await fetch(url, options).then(response => response.json())
+        Calculateavg()
+    }
+    function Calculateavg(){
+        console.log("http://127.0.0.1:3002/compare/avg/" + params.testId)
+        fetch("http://127.0.0.1:3002/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
@@ -256,7 +260,7 @@ const App = () => {
                 index++; 
             }
             if(index === FormattedQuestions.length){
-               Finalize()
+                setState("Finished")
             }
         })
     }
