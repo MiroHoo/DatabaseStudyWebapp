@@ -34,7 +34,6 @@ router.get('/avg/:id', function (req,res){
     var elemarray = []
     var attemptid = dbResult[0].Attempt_id
     var index = 0; 
-    console.log(attemptid)
     //group based on attempt id
     dbResult.forEach((c,i)=>{
         if(c.Attempt_id !== attemptid){
@@ -61,7 +60,7 @@ router.get('/avg/:id', function (req,res){
       if(err){
         res.json(err)
       } else{
-        res.json("Saved")
+        res.json(dbResult)
       }
     })
     })
