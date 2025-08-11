@@ -134,7 +134,7 @@ const App = () => {
             if(!Sent){
                 Finalize()
             } else {
-                Finalize()
+                setState("Finished")
             }
             return
         }
@@ -261,6 +261,7 @@ const App = () => {
             }
             if(index === FormattedQuestions.length){
                 setState("Finished")
+                Finalize()
             }
         })
     }
