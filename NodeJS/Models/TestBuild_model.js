@@ -28,7 +28,9 @@
       return db.query(string, callback) 
     },
     verifyBulk:function(string, callback) {
-      return db.query([string], callback)
+      string.forEach(element => {
+        return db.query(element, callback)
+      });
       }
   }
   module.exports = testbuild;

@@ -99,11 +99,17 @@ function bulk(request) {
 router.post('/bulk/', 
   async function(request, response){
   if(request.body !== undefined){
+    var index = 0
+    var correct = 0
     TestModel.verifyBulk(request.body.array, function (err, res){
-      if(err){
-       response.json(err)
-      }else{
-        response.json(res)
+      index++;
+      if(res !== undefined){
+        correct++;
+      }
+      if(correct === request.body.array.length){
+        response.json({"Message" : "correct", "OK": true})
+      } else if (index === request.body.array.length){
+        response.json({"Message" : "incorrect", "OK": false})
       }
     })
   } else {
