@@ -215,9 +215,6 @@ router.post('/:id', async function (request, response) {
   if (correctquery[0].Answer === request.body.studentQ) {
     response.json({ outcome: true, half: varoutcome, message: "The answers are the same!" })
     return
-  } else if (request.body.studentQ.includes(";") === false) {
-    response.json({ outcome: false, half: varoutcome, message: "The answer was incorrect since it was missing the `;`" })
-    return
   } 
   //Run student query
   const studentAnswer = await asyncverifyQuestion(request.body.studentQ);
