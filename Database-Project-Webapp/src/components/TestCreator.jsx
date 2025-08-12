@@ -185,7 +185,7 @@ const options = {
     body: JSON.stringify({ "query" : query})
  }
 
- fetch("https://databasestudywebapp-backend.onrender.com/build/verify", options)
+ fetch( import.meta.env.VITE_url + "build/verify", options)
  .then(response => response.json())
  .then(response => verification(response))
 
@@ -222,7 +222,7 @@ function PostRequest(PostData){
     },
     body: JSON.stringify( PostFormat )
   }
- fetch('https://databasestudywebapp-backend.onrender.com/build/add', options
+ fetch( process.env.VITE_url + '/build/add', options
  )
  .then(response => response.json())
  .then(response => {

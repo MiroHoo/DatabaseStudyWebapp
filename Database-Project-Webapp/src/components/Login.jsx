@@ -28,7 +28,7 @@ function App() {
     )
     //sends login data to be verified
     function Loginfetch(){
-      const url = "https://databasestudywebapp-backend.onrender.com/manage/login/"
+      const url =  import.meta.env.VITE_url + "/manage/login/"
       const options = {
                 method: 'POST',
                 headers: {

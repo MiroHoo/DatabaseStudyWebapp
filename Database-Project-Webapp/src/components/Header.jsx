@@ -51,7 +51,7 @@ const Layout = () =>  {
   const animationref = useRef()
   //fetches and sets auth depending of token was set "theres no token inside the frontend, it's only inside the headers"
    useEffect(() => {
-      fetch("https://databasestudywebapp-backend.onrender.com/manage/verify", {
+      fetch( import.meta.env.VITE_url +"/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   }, []);
@@ -68,7 +68,7 @@ const Layout = () =>  {
   }, [animationref.current]);
   //updates burger if needs
   useEffect(()=>{
-    fetch("https://databasestudywebapp-backend.onrender.com/manage/verify", {
+    fetch( import.meta.env.VITE_url + "/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   },[BurgerVis])

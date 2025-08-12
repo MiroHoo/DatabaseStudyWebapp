@@ -39,7 +39,7 @@ const App = () => {
     })
     //fetches the questions
     useEffect(() => {
-        var url = "https://databasestudywebapp-backend.onrender.com/test/id/" + params.testId
+        var url = import.meta.env.VITE_url +"/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
     //on changing the currect questions id rerender with new contents
@@ -162,7 +162,7 @@ const App = () => {
         SetSent(true)
         setCurrentQuestion(-2);
         setState("Finished")
-        var url = "https://databasestudywebapp-backend.onrender.com/compare/save/"
+        var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
             var points = 0
             if(c.Correct === "Correct"){
@@ -189,8 +189,8 @@ const App = () => {
         Calculateavg()
     }
     function Calculateavg(){
-        console.log("https://databasestudywebapp-backend.onrender.com/compare/avg/" + params.testId)
-        fetch("https://databasestudywebapp-backend.onrender.com/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
+    
+        fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
@@ -205,7 +205,7 @@ const App = () => {
     //verifies answers validity
     function verify(id) {
             
-            var url = "https://databasestudywebapp-backend.onrender.com/compare/" + id
+            var url =  import.meta.env.VITE_url +"/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
             }

@@ -186,7 +186,7 @@ function App() {
     }
     //deletes question where button was pressed
     function DeleteQuestion(id, funcvar) {
-        fetch("https://databasestudywebapp-backend.onrender.com/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(RemoveElement(funcvar.i))
+        fetch( import.meta.env.VITE_url + "/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(RemoveElement(funcvar.i))
     }
     //opens selected question
     function setOpen(index) {

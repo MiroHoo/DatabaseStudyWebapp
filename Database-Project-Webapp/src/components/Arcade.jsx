@@ -39,7 +39,7 @@ const Layout = () => {
     })
     //sets questions and minimum and maximum
     useEffect(() => {
-        fetch("https://databasestudywebapp-backend.onrender.com/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
+        fetch(import.meta.env.VITE_url +"/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
     }, [])
     //depending on the state of the arcade get new questions and disable buttons with times set to the animation lenghts
     useEffect(() => {
@@ -55,7 +55,7 @@ const Layout = () => {
             }, "2000");
         }
     }, [ArcadeState])
-    //
+    
     useEffect(() => {
         if (animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
@@ -119,14 +119,14 @@ const Layout = () => {
             var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
             console.log("while")
             setId(QuestionID)
-            await fetch("https://databasestudywebapp-backend.onrender.com/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
+            await fetch(import.meta.env.VITE_url +"/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
         }
         console.log("out of while")
-        fetch("https://databasestudywebapp-backend.onrender.com/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
+        fetch(import.meta.env.VITE_url +"/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
     }
     //verifies answer and updates ui 
     function verifyAnswer() {
-        var url = "https://databasestudywebapp-backend.onrender.com/compare/" + DbId
+        var url = import.meta.env.VITE_url +"/compare/" + DbId
         var PostFormat = {
             "studentQ": Input
         }
@@ -153,7 +153,7 @@ const Layout = () => {
             },
             body: JSON.stringify(PostFormat)
         }
-        fetch("https://databasestudywebapp-backend.onrender.com/insert",options)    
+        fetch(import.meta.env.VITE_url +"/insert",options)    
         navigate("/scores")
     }
     //updates ui

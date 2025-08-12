@@ -26,7 +26,8 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
-       fetch('https://databasestudywebapp-backend.onrender.com/test/')
+        console.log(import.meta.env.VITE_url)
+       fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
         .catch(error => console.log(error))
