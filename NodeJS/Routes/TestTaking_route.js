@@ -3,6 +3,7 @@ const router = express.Router();
 const TestTaker = require('../Models/TestTaking_model.js');
 const TestModel = require('../Models/TestBuild_model');
 
+//list of additional queries to be scored for half points
 const ListOfQueries = {
   Queries: [
   "ORDER BY",
@@ -17,6 +18,7 @@ const ListOfQueries = {
   "MIN",
 ]
 }
+//List of queries which alter database
 const ListOfAlteringQueries = {
   Queries: [
     "DROP",
@@ -27,7 +29,7 @@ const ListOfAlteringQueries = {
 ]
 }
 
-
+//adds and calculates average for tests points
 router.get('/avg/:id', function (req,res){
     TestTaker.getTestAttempts(req.params.id,function(err,dbResult){
     var temparray = []
@@ -67,7 +69,7 @@ router.get('/avg/:id', function (req,res){
     })
 })  
 
-
+//saves points and gets it a new attempt id
 router.post('/save/',
   function (request, response) {
     TestTaker.GetLargestid(function(err, dbResult) {
@@ -92,6 +94,8 @@ router.post('/save/',
     })  
   }
 )
+
+//gets answers for testid
 router.get('/saved/:id',
   function (request, response) {
     TestTaker.getAnswersbyid(request.params.id,function (err, dbResult) {
@@ -105,6 +109,8 @@ router.get('/saved/:id',
     
   }
 )
+
+//gets all answers
 router.get('/allsaved/',
   function (request, response) {
     TestTaker.getAnswers(function (err, dbResult) {
@@ -117,20 +123,6 @@ router.get('/allsaved/',
     
   }
 )
-
-router.post('/com',
-  function (request, response) {
-    const id = request.body.QuestionId
-    TestTaker.getById(id, function (err, dbResult) {
-      if (err) {
-        response.json(err);
-
-      } else {
-        response.json(dbResult);
-      }
-
-    })
-  })
 
 function asyncverifyQuestion(question) {
   //async way of getting the data so that the other logic has to wait
@@ -162,6 +154,7 @@ function checkquery(StudentQ){
   return includes
 }
 
+//checks for similarities for answer to be scores
 function checkforsimilarities(TeachQ){
   console.log(TeachQ)
   var includes = []
@@ -172,7 +165,7 @@ function checkforsimilarities(TeachQ){
   });
   return includes
 }
-
+//check if student query has similarities to teacher query from the list of advanced queries
 function checkforhalfscore(inc,stundetQ){
   var halfscore = false
     inc.forEach(e => {
@@ -183,7 +176,7 @@ function checkforhalfscore(inc,stundetQ){
     })
   return halfscore
 }
-
+//checks answer and compares the student query if needed. First it checks for database altering queries and then does the comparing
 router.post('/:id', async function (request, response) {
 
   var varoutcome = false
