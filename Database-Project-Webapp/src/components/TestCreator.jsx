@@ -185,7 +185,7 @@ const options = {
     body: JSON.stringify({ "query" : query})
  }
 
- fetch("http://127.0.0.1:3002/build/verify", options)
+ fetch("https://databasestudywebapp-backend.onrender.com/build/verify", options)
  .then(response => response.json())
  .then(response => verification(response))
 
@@ -222,7 +222,7 @@ function PostRequest(PostData){
     },
     body: JSON.stringify( PostFormat )
   }
- fetch('http://127.0.0.1:3002/build/add', options
+ fetch('https://databasestudywebapp-backend.onrender.com/build/add', options
  )
  .then(response => response.json())
  .then(response => {

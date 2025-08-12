@@ -26,7 +26,7 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
-       fetch('http://127.0.0.1:3002/test/')
+       fetch('https://databasestudywebapp-backend.onrender.com/test/')
         .then(response => response.json())
         .then(response => formattests(response))
         .catch(error => console.log(error))

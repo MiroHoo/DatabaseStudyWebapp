@@ -39,7 +39,7 @@ const Layout = () => {
     })
     //sets questions and minimum and maximum
     useEffect(() => {
-        fetch("http://127.0.0.1:3002/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
+        fetch("https://databasestudywebapp-backend.onrender.com/arcade/").then(res => res.json()).then(res => { setMinMax(res); getQuestion(res) })
     }, [])
     //depending on the state of the arcade get new questions and disable buttons with times set to the animation lenghts
     useEffect(() => {
@@ -119,14 +119,14 @@ const Layout = () => {
             var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
             console.log("while")
             setId(QuestionID)
-            await fetch("http://127.0.0.1:3002/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
+            await fetch("https://databasestudywebapp-backend.onrender.com/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
         }
         console.log("out of while")
-        fetch("http://127.0.0.1:3002/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
+        fetch("https://databasestudywebapp-backend.onrender.com/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
     }
     //verifies answer and updates ui 
     function verifyAnswer() {
-        var url = "http://127.0.0.1:3002/compare/" + DbId
+        var url = "https://databasestudywebapp-backend.onrender.com/compare/" + DbId
         var PostFormat = {
             "studentQ": Input
         }
@@ -153,7 +153,7 @@ const Layout = () => {
             },
             body: JSON.stringify(PostFormat)
         }
-        fetch("http://127.0.0.1:3002/arcade/insert",options)    
+        fetch("https://databasestudywebapp-backend.onrender.com/insert",options)    
         navigate("/scores")
     }
     //updates ui

@@ -50,7 +50,7 @@ const Layout = () => {
     ]
     //fetches scores
     useEffect(() => {
-       fetch("http://127.0.0.1:3002/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
+       fetch("https://databasestudywebapp-backend.onrender.com/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
     }, [])
     //sets loading to false after data is precent
     useEffect(() => {

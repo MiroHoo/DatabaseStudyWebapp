@@ -28,7 +28,7 @@ function App() {
     )
     //sends login data to be verified
     function Loginfetch(){
-      const url = "http://127.0.0.1:3002/manage/login/"
+      const url = "https://databasestudywebapp-backend.onrender.com/login/"
       const options = {
                 method: 'POST',
                 headers: {

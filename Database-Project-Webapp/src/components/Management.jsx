@@ -29,7 +29,7 @@ function App() {
     })
     //fetches tests
     useEffect(() => {
-         fetch('http://127.0.0.1:3002/test/')
+         fetch('https://databasestudywebapp-backend.onrender.com/test/')
             .then(response => response.json())
             .then(response => InitOpen(response))
             .then(response => setLoading(!loading))
@@ -72,7 +72,7 @@ function App() {
     }
     //gets answers from backend
     function FetchAnswers(TestId,i){
-       fetch("http://localhost:3002/manage/fetchscores/"+TestId).then(res => res.json()).then(res => setAnswer(res)).then(setOpen(i))
+       fetch("https://databasestudywebapp-backend.onrender.com/manage/fetchscores/"+TestId).then(res => res.json()).then(res => setAnswer(res)).then(setOpen(i))
     }
     //sets the open variable inside the testdata to be used to open/close tests in the frontend
     function InitOpen(res) {
@@ -158,7 +158,7 @@ function App() {
     //Changes name inside the backend
     function ChangeName(input,funcvar) {
         console.log(input)
-        const url = "http://127.0.0.1:3002/manage/update/" + funcvar.id
+        const url = "https://databasestudywebapp-backend.onrender.com/manage/update/" + funcvar.id
         const options = {
             method: 'POST',
             headers: {
@@ -186,7 +186,7 @@ function App() {
     }
     //deletes question where button was pressed
     function DeleteQuestion(id, funcvar) {
-        fetch("http://127.0.0.1:3002/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(RemoveElement(funcvar.i))
+        fetch("https://databasestudywebapp-backend.onrender.com/manage/delete/" + funcvar.id, { credentials:'include'}).then(response => response.json()).then(RemoveElement(funcvar.i))
     }
     //opens selected question
     function setOpen(index) {
