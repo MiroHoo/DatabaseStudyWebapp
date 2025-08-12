@@ -95,7 +95,7 @@ router.get('/verify', async function (req, res) {
   jwt.verify(jwttok, process.env.Secret, (err) => {
     if (err) {
       res.json({ token: 0 });
-      return;
+      return; 
     } else {
       res.json({ token: 1 })
     }
