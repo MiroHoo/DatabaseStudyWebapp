@@ -24,7 +24,7 @@
         return db.query('select * from Login',callback)
     },
     CreateUser:function(Login, callback){  
-        return db.query('insert into login (Username,Password) values (?,?)',[Login.Username, Login.Password],callback)
+        return db.query('insert into Login (Username,Password) values (?,?)',[Login.Username, Login.Password],callback)
     },      
 
   }
