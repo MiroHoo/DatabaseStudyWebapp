@@ -10,7 +10,7 @@ const Arcade_router = require('./Routes/Arcade_route.js');
 var app = express();
 app.use(cookieParser())
 app.use(cors({
-  origin: "http://localhost:5173",     
+  origin: "https://databasestudywebapp-frontend.onrender.com",     
   credentials: true            
 }));
 app.use(express.static('public'));
