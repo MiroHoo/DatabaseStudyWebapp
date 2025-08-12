@@ -3,7 +3,7 @@
   const testbuild = {
     addTest: function(Test, callback) {
     db.query(
-      'insert into test (Name) values(?)',
+      'insert into Test (Name) values(?)',
       [Test.body.Name], callback
     );
     },
@@ -14,13 +14,13 @@
       Test.TestId
     ])
     db.query(
-      'insert into question (Question, Answer, Test_TestId) values ?',
+      'insert into Question (Question, Answer, Test_TestId) values ?',
       [questions],callback
     )
     },
     getId:function(callback) {
       return db.query(
-      'select TestId from test ORDER BY TestId DESC LIMIT 1;'
+      'select TestId from Test ORDER BY TestId DESC LIMIT 1;'
       ,callback
     );
     },
