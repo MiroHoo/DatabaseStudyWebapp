@@ -87,33 +87,30 @@ router.post('/verify/',
     ]
     
 });
-function bulk(request) {
-  return new Promise((resolve, reject) => {
-    TestModel.verifyBulk(request, (err, result) => {
-      if (err) reject(err);
-      else resolve(result);
-    });
-  });
-}
 //verifies multiple queries
 router.post('/bulk/', 
   async function(request, response){
+      console.log(request.body)
   if(request.body !== undefined){
     var index = 0
     var correct = 0
+    var arrayofissues = []
     TestModel.verifyBulk(request.body.array, function (err, res){
       index++;
       if(res !== undefined){
         correct++;
+      } else {
+        arrayofissues.push(index)
       }
       if(correct === request.body.array.length){
         response.json({"Message" : "correct", "OK": true})
       } else if (index === request.body.array.length){
-        response.json({"Message" : "incorrect", "OK": false})
+        console.log(arrayofissues)
+        response.json({"Message" : "incorrect", "OK": false, "issues": arrayofissues})
       }
     })
   } else {
-    response.json({"Message" : "The query is missing array input", "OK": false})
+    response.json({"Message" : "The query is missing array input", "OK": false,"issues": arrayofissues})
   }
   });
 

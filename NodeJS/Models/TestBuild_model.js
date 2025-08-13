@@ -29,7 +29,7 @@
     },
     verifyBulk:function(string, callback) {
       string.forEach(element => {
-        return db.query(element, callback)
+        return db.query(element.A, callback)
       });
       }
   }

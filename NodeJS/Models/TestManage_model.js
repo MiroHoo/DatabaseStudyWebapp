@@ -14,6 +14,9 @@
     updateNameByid: function(Test, callback) {
         return db.query('update Test set name=? where TestId=?', [Test.name, Test.id], callback)
     },
+    updateQuestionByid: function(Test, callback) {
+        return db.query('update Question set Question=? where QuestionId=?', [Test.name, Test.id], callback)
+    },
     updateAvgByid: function(Test, callback) {
         return db.query('update Test set Average_score=? where TestId=?', [Test.score, Test.id], callback)
     },

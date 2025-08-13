@@ -101,6 +101,23 @@ router.get('/verify', async function (req, res) {
     }
   })
 })
+router.post('/question/:id', function (req,res){
+    const jwttok = req.cookies.jwt
+    jwt.verify(jwttok, process.env.Secret, (err) => {
+      if (err) {
+        res.json({ token: "Token Invalid" });
+        return;
+      } else {
+        TestFetch.updateQuestionByid({ name: req.body.name, id: req.params.id }, function (err, dbResult) {
+          if (err) {
+            res.json(err);
+          } else {
+            res.json(dbResult);
+          }
+        });
+      }
+    })
+})
 //Used to create an account if need be 
 router.post('/register',
   async function (request, response) {
