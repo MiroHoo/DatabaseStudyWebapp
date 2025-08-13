@@ -43,7 +43,7 @@ const [ModalSettings, setSettings] = useState({
      }
     {questionarray.map(Questions=>(
       <div className='TestContainer' key={Questions.id}>
-        <div onClick={()=>{setInputid(Questions.id-1); InputModal(Questions.id); }} className="TestHeader active">{Questions.name}</div>
+        <div className="TestHeader">{Questions.name}</div>
         <input autoComplete={"off"} className='TestInput' id={"Question_" + Questions.id}></input>
         <div className="TestHeader">Model Answer</div>
         <input autoComplete={"off"} className='TestInput' id={"ModelAnswer_" + Questions.id}></input>
@@ -64,16 +64,6 @@ function AddQuestion() {
 questionId.current = questionId.current +1;
 console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
-}
-//input modal base
-function InputModal(id){
-  setSettings({
-  type: "input",
-  text:"Change Question " + id +  " Name",
-  function:QuestionName,
-  funcvar: id
-  })
-  setModal(!modal);
 }
 //changes the testname
 function ChangeTestName(){
@@ -140,7 +130,7 @@ function Areyousure(value){
 }
 
 //Sends the test to the database
-function Submitquestions(){
+async function Submitquestions(){
 var SubmitArray = []
 var index = 1;
 var fail = 0;
@@ -164,13 +154,24 @@ setSettings({
 })
 setModal(true)
 } else {
-PostRequest(SubmitArray)
+bulkverify(SubmitArray)
 }
 }
 
 //redirects to home from site after being called
 function Redirect_(){
   navigate("/")
+}
+
+function bulkverify(SubmitArray){
+  const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "array" : SubmitArray})
+ }
+  fetch(import.meta.env.VITE_url + "/build/bulk", options).then(res => res.json()).then(res => {res.OK !== false ? PostRequest(SubmitArray) : bulkverificationmodal(res)})
 }
 
 //takes in a query string and runs it inside the database depending on the contents, altering queries will not run!
@@ -185,7 +186,7 @@ const options = {
     body: JSON.stringify({ "query" : query})
  }
 
- fetch( import.meta.env.VITE_url + "build/verify", options)
+ fetch( import.meta.env.VITE_url + "/build/verify", options)
  .then(response => response.json())
  .then(response => verification(response))
 
@@ -206,10 +207,15 @@ function verification(res){
     setModal(true)
   }
 }
-
+function bulkverificationmodal(res){
+   setSettings({
+      type: "text",
+      text: "Verification of one of the queries has failed!"
+    })
+    setModal(true)
+}
 //Posts the given questions as a test into the database! and gives a modal to the user if successfull
 function PostRequest(PostData){
-  console.log("post")
   var PostFormat = {
     "Name": Testname,
     "MaxPoints": 20,
@@ -222,24 +228,23 @@ function PostRequest(PostData){
     },
     body: JSON.stringify( PostFormat )
   }
- fetch( process.env.VITE_url + '/build/add', options
+ fetch( import.meta.env.VITE_url + '/build/add', options
  )
  .then(response => response.json())
  .then(response => {
   if(!response){
-    console.log("error")
+    console.log("error with reaching the backend")
   }  else {
     setSettings({
       type: "text",
       function:Redirect_,
       text: "The Test has been created succesfully!",
     })
-    console.log("Hello")
     setModal(!modal)
 
   }
  }).catch(error => {
-  console.log(error)
+  console.log("error with reaching the backend")
  })
 
 }

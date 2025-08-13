@@ -19,17 +19,18 @@ function App() {
                 modal ? <ModalSetter /> : <></>
             }
             <div className="LoginHeader">Username</div>
-            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="username"></input>
+            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="Username"></input>
             <div className="LoginHeader" >Password</div>
-            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
+            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="Password" value={Password}>
             </input>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
     )
     //sends login data to be verified
     function Loginfetch(){
-      const url =  import.meta.env.VITE_url + "/manage/login/"
-      const options = {
+        if(Username.length > 3 && Password.length > 3){
+        const url =  import.meta.env.VITE_url + "/manage/login/"
+        const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,6 +40,13 @@ function App() {
                 body: JSON.stringify({"username": Username, "Password": Password})
             }
         fetch(url,options).then(response => response.json()).then(reponse => LoginVerify(reponse) )
+        } else {
+            setSettings({
+            "type": "text",
+            "text": "One or both of the inputs is empty"
+        })
+        setModal(!modal)
+        }
     }
     //modal init
     function ModalSetter() {
@@ -48,7 +56,7 @@ function App() {
     function MessageModal(){
         setSettings({
             "type": "text",
-            "text": "The Login was unsuccessful"
+            "text": "The login was unsuccessful"
         })
         setModal(!modal)
     }
@@ -56,7 +64,7 @@ function App() {
     function LoginMessage(){
         setSettings({
             "type": "question",
-            "text": "The Login was succesfull",
+            "text": "The login was succesfull",
             "function": Nav
         })
         setModal(!modal)
