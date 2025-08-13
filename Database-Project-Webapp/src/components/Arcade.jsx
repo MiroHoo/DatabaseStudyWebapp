@@ -117,11 +117,9 @@ const Layout = () => {
         var notVerified = true
         while(notVerified === true){
             var QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
-            console.log("while")
             setId(QuestionID)
             await fetch(import.meta.env.VITE_url +"/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
         }
-        console.log("out of while")
         fetch(import.meta.env.VITE_url +"/arcade/" + QuestionID).then(res => res.json()).then(res => setQuestion(res))
     }
     //verifies answer and updates ui 
@@ -153,8 +151,8 @@ const Layout = () => {
             },
             body: JSON.stringify(PostFormat)
         }
-        fetch(import.meta.env.VITE_url +"/insert",options)    
-        navigate("/scores")
+        console.log("post")
+        fetch(import.meta.env.VITE_url +"/arcade/insert",options).then(navigate("/scores"))
     }
     //updates ui
     function updateui(res) {

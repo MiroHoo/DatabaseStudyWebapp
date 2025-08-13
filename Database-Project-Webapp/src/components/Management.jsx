@@ -20,6 +20,10 @@ function App() {
     //average score
     const [Average, setAverage] = useState([])
 
+    const [Questions, setQuestions] = useState([])
+
+    const [Attemptvis, setAttemptvis] = useState(false)
+
     const [selection, SetSelection] = useState("")
 
     const [ModalSettings, setSettings] = useState({
@@ -29,15 +33,15 @@ function App() {
     })
     //fetches tests
     useEffect(() => {
-         fetch('https://databasestudywebapp-backend.onrender.com/test/')
+         fetch(import.meta.env.VITE_url +'/test/')
             .then(response => response.json())
-            .then(response => InitOpen(response))
+            .then(response => {InitOpen(response); initAnswers(response); initQuestions(response);})
             .then(response => setLoading(!loading))
             .catch(error => console.log(error))
     }, []);
     //checks if data is there and allows the element to be rendered
     useEffect(()=> {
-       if(TestAnswer[0] !== undefined && ShowData !== true){
+       if(TestAnswer[0] !== undefined && Questions[0] !== undefined && ShowData !== true){
              setShow(true)
        }
     },[TestAnswer])
@@ -50,18 +54,27 @@ function App() {
             {loading ?
                 <></>
                 :
-                <div className='ManagementContainer'> {Testdata.map((c, i) => <><div className={`ManagementHeader active ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} <div><img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/></div></div>{c.Open ? <ShowTests index={i} /> : <></>}</>)} </div>
+                <div className='ManagementContainer'> {Testdata.map((c, i) => <div key={i + "_key"} className='ManagementContainer'>
+                    <div key={c.TestId} className={`ManagementHeader active ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} 
+                        <div>
+                            <img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/>
+                        </div>
+                    </div>
+                    {c.Open ? <ShowQuestions index={i} /> : <></>}
+                    {c.Open ? <ShowTests index={i} /> : <></>}
+                    </div>)}             
+                </div>
             }
         </>
     )
     //renders test
     function ShowTests(props) {
-        SetSelection(Testdata[props.index].TestId)
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
             <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={edit}/></div>
+            <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show attempts<img className={`openImage`}src={Attemptvis === false ? up : down}/></button>
             {ShowData ? 
             <>
-          <TestSetter/>
+            {Attemptvis ? <TestSetter/> : <></>}
             </>
             :
             <></>
@@ -70,9 +83,69 @@ function App() {
             <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
+    function ShowQuestions(props){
+        console.log(Testdata[props.index].Question)
+        const QuestionArray = <>{
+            ShowData ? 
+            <div className='QuestionEditContainer'>
+            {Testdata[props.index].Question.map((c,i)=>
+            {
+            return <div className={"FlexDiv"} onClick={()=>{ChangeQuestionInput("Question " + (i+1), c.QuestionId, props.index, i)}}>Question {i+1}: {c.Question === "" ? "No question text " : c.Question}<img src={edit}/></div>
+            }
+            )
+            }
+            </div>
+            : 
+            <div></div>
+            }
+            </>
+        return QuestionArray
+    }
+    function fetchQuestions(Testid,i){
+        fetch(import.meta.env.VITE_url +"/test/id/"+Testid).then(res => res.json()).then(res => QuestionSetter(i,res)).then(setOpen(i))
+    }
     //gets answers from backend
     function FetchAnswers(TestId,i){
-       fetch("https://databasestudywebapp-backend.onrender.com/manage/fetchscores/"+TestId).then(res => res.json()).then(res => setAnswer(res)).then(setOpen(i))
+        setAttemptvis(false)
+       fetch(import.meta.env.VITE_url +"/manage/fetchscores/"+TestId).then(res => res.json()).then(res => {setAnswers(i,res)}).then(fetchQuestions(TestId,i))
+    }
+     function initAnswers(res) {
+        const arrayofindexes = res.map((c, i) => { res[i].Answer = []; return res[i] })
+        setTestdata(arrayofindexes)
+    }
+    function QuestionSetter(index,res){
+        if(Testdata[index].Question.length === 0){
+            const updatedarray = Testdata.map((c, i) => {
+                if (i === index) {
+                    Testdata[i].Question = res; return Testdata[i]
+                } else {
+                    return c
+                }
+            })
+            setTestdata(updatedarray)
+            setQuestions(res)
+        } else{
+            setQuestions(Testdata[index].Question)
+        }
+    }
+    function setAnswers(index,res){
+            if(Testdata[index].Answer.length === 0){
+            const updatedarray = Testdata.map((c, i) => {
+                if (i === index) {
+                    Testdata[i].Answer = res; return Testdata[i]
+                } else {
+                    return c
+                }
+            })
+            setTestdata(updatedarray)
+            setAnswer(res)
+            } else {
+            setAnswer(Testdata[index].Answer)
+        }
+    }
+    function initQuestions(res){
+        const arrayofindexes = res.map((c, i) => { res[i].Question = []; return res[i] })
+        setTestdata(arrayofindexes)
     }
     //sets the open variable inside the testdata to be used to open/close tests in the frontend
     function InitOpen(res) {
@@ -117,16 +190,16 @@ function App() {
                 Class = "Partial"
             }
             if(c.Answer.length < 2 ){
-              pusharray.push(<div className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div className='AnswerText'>{c.Score}/1</div></div>)  
+              pusharray.push(<div key={"Answer" + i +"_key"} className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div className='AnswerText'>{c.Score}/1</div></div>)  
             } else {
                 if(c.Answer.length < 50){
-                    pusharray.push(<div className={"AnswerCont " + Class} ><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
                 } else {
-                    pusharray.push(<div className={"AnswerCont " + Class}><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
                 }
             }
         })
-        return <><div className='AttemptClass'><div className='AttemptHeader'>Attempt {i+1}</div>{pusharray}</div><div className='AttemptDivider'></div></>
+        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptClass'><div className='AttemptHeader'>Attempt {i+1}</div>{pusharray}</div><div className='AttemptDivider'></div></div>
     } else {
         return; 
     }
@@ -155,10 +228,31 @@ function App() {
         })
         setModal(!modal);
     }
+
+    function ChangeQuestionInput(Name, id, index, Qindex){
+        setSettings({
+            type: "input",
+            text: "Change " + Name + "'s name",
+            function: ChangeQuestionName,
+            funcvar: { "id": id, "index": index, "QuestionI": Qindex}
+        })
+        setModal(!modal);
+    }
+    function ChangeQuestionName(input, funcvar){
+        const url = import.meta.env.VITE_url + "/manage/question/" + funcvar.id
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ "name" : input })
+        }
+        fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateQuestion(input, funcvar.index,funcvar.QuestionI))
+    }
     //Changes name inside the backend
     function ChangeName(input,funcvar) {
-        console.log(input)
-        const url = "https://databasestudywebapp-backend.onrender.com/manage/update/" + funcvar.id
+        const url = import.meta.env.VITE_url + "/manage/update/" + funcvar.id
         const options = {
             method: 'POST',
             headers: {
@@ -172,6 +266,17 @@ function App() {
     //removes element inside frontend
     function RemoveElement(index) {
         setTestdata(Testdata.filter((c, i) => i !== index))
+    }
+    function UpdateQuestion(name, index,QIndex){
+        console.log(name)
+        const array = Testdata.map((c,i)=> {
+            if(i === index){
+                Testdata[i].Question[QIndex].Question = name; return Testdata[i]
+            } else {
+                return c
+            }
+        })
+        setTestdata(array)
     }
     //sets name inside frontend
     function UpdateElement(name, index){
