@@ -90,7 +90,6 @@ router.post('/verify/',
 //verifies multiple queries
 router.post('/bulk/', 
   async function(request, response){
-      console.log(request.body)
   if(request.body !== undefined){
     var index = 0
     var correct = 0
@@ -105,7 +104,6 @@ router.post('/bulk/',
       if(correct === request.body.array.length){
         response.json({"Message" : "correct", "OK": true})
       } else if (index === request.body.array.length){
-        console.log(arrayofissues)
         response.json({"Message" : "incorrect", "OK": false, "issues": arrayofissues})
       }
     })

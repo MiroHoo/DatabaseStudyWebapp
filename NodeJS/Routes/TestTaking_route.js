@@ -36,7 +36,6 @@ router.get('/avg/:id', function (req,res){
     var elemarray = []
     var attemptid = dbResult[0].Attempt_id
     var index = 0; 
-    console.log(attemptid)
     //group based on attempt id
     dbResult.forEach((c,i)=>{
         if(c.Attempt_id !== attemptid){
@@ -77,10 +76,8 @@ router.post('/save/',
       if(dbResult[0] !== undefined){
           id = dbResult[0].Attempt_id +1
       } 
-      
       var dbArray = request.body.map((c,i)=>{
         c.unshift(id)
-         console.log(c)
         return c
       })
       
@@ -128,8 +125,7 @@ function asyncverifyQuestion(question) {
   //async way of getting the data so that the other logic has to wait
   return new Promise((resolve, reject) => {
     TestModel.verifyQuestion(question, (err, result) => {
-      if (err) reject(err);
-      else resolve(result);
+       resolve(result);
     });
   });
 }
@@ -137,8 +133,7 @@ function asyncgetById(id) {
   //async way of getting the data so that the other logic has to wait
   return new Promise((resolve, reject) => {
     TestTaker.getById(id, (err, result) => {
-      if (err) reject(err);
-      else resolve(result);
+       resolve(result);
     });
   });
 }
@@ -156,7 +151,6 @@ function checkquery(StudentQ){
 
 //checks for similarities for answer to be scores
 function checkforsimilarities(TeachQ){
-  console.log(TeachQ)
   var includes = []
   ListOfQueries.Queries.forEach(element => {
     if(TeachQ.toLowerCase().includes(element.toLowerCase())){
@@ -169,7 +163,6 @@ function checkforsimilarities(TeachQ){
 function checkforhalfscore(inc,stundetQ){
   var halfscore = false
     inc.forEach(e => {
-      console.log(e)
        if(stundetQ.toLowerCase().includes(e.toLowerCase())){
         halfscore = true
       }
@@ -193,7 +186,6 @@ router.post('/:id', async function (request, response) {
   const alteringquery = checkquery(request.body.studentQ);
 
 
-  console.log("Includes bad words: " + alteringquery)
   //check if the query is the same as the teachers when there's database altering queries like "drop" "delete" "update" etc
   if(alteringquery === true){
     if (correctquery[0].Answer === request.body.studentQ) {
@@ -213,11 +205,8 @@ router.post('/:id', async function (request, response) {
   const studentAnswer = await asyncverifyQuestion(request.body.studentQ);
   //Run teacher query
   const teacherAnswer = await asyncverifyQuestion(correctquery[0].Answer);
-
   if (correctquery.includes("ORDER BY") || correctquery.includes("order by")) {
     //turn both jsons into arrays for the comparison to compare each index in the array without foreach loops
-    const teacher_arr = JSON.parse(teacherAnswer[0])
-    const student_arr = JSON.parse(studentAnswer[0])
 
     if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
       response.json({ outcome: true, message: "The answers were similar!" })
@@ -228,13 +217,17 @@ router.post('/:id', async function (request, response) {
     }
 
   } else if (request.body.studentQ.includes("ORDER BY") === false && request.body.studentQ.includes("order by") === false) {
-    //Run serialize the json and compare
-    if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
-      response.json({ outcome: true,  message: "The answers are the same!" })
-      return
+    if(studentAnswer){
+       //Run serialize the json and compare
+      if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
+        response.json({ outcome: true,  message: "The answers are the same!" })
+        return
+      } else {
+        response.json({ outcome: false, half: varoutcome,message:"incorrect" })
+        return
+      }
     } else {
-      response.json({ outcome: false, half: varoutcome,message:"incorrect" })
-      return
+      response.json({ outcome: false, half: varoutcome, message:"incorrect" })
     }
     //student query includes order by when teachers answer doesn't
   } else {

@@ -8,15 +8,12 @@ const cookieParser = require('cookie-parser');
 router.get('/delete/:id',
   function (request, response) {
     const jwttok = request.cookies.jwt
-    console.log(jwttok)
     jwt.verify(jwttok, process.env.Secret, (err) => {
       if (err) {
-        console.log(err)
         response.json({ token: "Token Invalid" });
         return;
       }
     })
-    console.log(request.params.id)
     TestFetch.deletequestionbyid(request.params.id,)
     TestFetch.deletestudentdatabyid(request.params.id)
     TestFetch.deletetestbyid(request.params.id, function (err, dbResult) {
@@ -77,7 +74,6 @@ router.post('/login', async function (request, response) {
         const token = jwt.sign({
           username: 'Admin'
         }, process.env.Secret)
-        console.log("setting cookies")
         response.cookie("jwt", token, {
           sameSite: "none",
           secure: true,
@@ -123,7 +119,6 @@ router.post('/register',
   async function (request, response) {
     const passHash = await bcrypt.hash(request.body.Password, 10)
     const body = { "Username": request.body.Username, "Password": passHash }
-    console.log(body)
     TestFetch.CreateUser(body, function (err, dbResult) {
       if (err) {
         response.json(err);
