@@ -5,6 +5,10 @@
     position: fixed;
     width: 100%;
 }
+.ERModelImg{
+    width: 35vw;
+    height: auto;
+}
 .ModalText{
   font-size: clamp(1.4rem, 2.3vh, 2.2rem);
   font-weight: 600;
@@ -18,6 +22,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: scroll;
 }
 .ModalButtons{
     justify-content: space-between;

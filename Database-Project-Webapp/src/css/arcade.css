@@ -118,6 +118,13 @@
 .StatContainer{
 
 }
+.ErContainer{
+    display: flex;
+    align-self: center;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
 .SubmitBtn{
     border-radius: 4px;
     width: 20%;

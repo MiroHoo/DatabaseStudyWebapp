@@ -191,4 +191,7 @@ body {
     .BurgerStack{
       width: 50%;
     }
+    .LogoImage{
+  width: clamp(5rem, 80vh,20rem);
+}
 }

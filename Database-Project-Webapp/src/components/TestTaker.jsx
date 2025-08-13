@@ -8,6 +8,7 @@ import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef, use } from 'react'
 import { useParams } from "react-router";
 import {NavLink} from "react-router-dom";
+import Zoom from './ERZoom.jsx'
 
 const App = () => {
     //url parameter 
@@ -83,7 +84,7 @@ const App = () => {
                     {TestState === "ER" ? 
                      <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
                             <div className='ErModelCont'>
-                                <img src={ErModel} className='ErModel'></img>
+                                <Zoom/>
                             </div>
                         </div>
                         : <></>

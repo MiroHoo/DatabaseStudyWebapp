@@ -4,7 +4,8 @@ import '../css/arcade.css'
 import reroll from '../assets/rotate-cw.svg'
 import Modal from "./Modal.jsx"
 import hp from '../assets/shield.svg'
-import { useNavigate } from "react-router";
+import { redirect, useNavigate } from "react-router";
+import ErModel from "../assets/Images/ErModel.png";
 const Layout = () => {
     let navigate = useNavigate();
     
@@ -60,6 +61,12 @@ const Layout = () => {
             }, "1000");
         }
     }, [ArcadeState])
+    useEffect(() => {
+        console.log("here")
+        if(modal === false && ModalSettings.type === "input" && Question[0]){
+            navigate("/scores")
+        }
+    }, [modal])
     
     useEffect(() => {
         if (animationref.current !== undefined) {
@@ -84,7 +91,7 @@ const Layout = () => {
                 modal ? <ModalSetter /> : <></>
             }
             {
-                Loading ? <></> : <><div><div className={"UiPoints"}>Score: {points}</div></div><div ref={animationref} className={`ArcadeContainer ${AnimationState ? 'open' : 'closed'}`}><div className={"ArcadeQuestHeader"}>Question: </div><div className={"ArcadeHeader"}>{Question[0].Question}</div><input autoComplete={"off"} placeholder={"Think carefully"} name="QuestionInput" className={"ArcadeInput " + ArcadeState} value={Input} onChange={(e) => { setInput(e.target.value) }}></input></div></>
+                Loading ? <></> : <><div><div className={"UiPoints"}>Score: {points}</div></div><div ref={animationref} className={`ArcadeContainer ${AnimationState ? 'open' : 'closed'}`}><div className={"ArcadeQuestHeader"}>Question: </div><div className={"ArcadeHeader"}>{Question[0].Question}</div><input autoComplete={"off"} placeholder={"Think carefully"} name="QuestionInput" onKeyDown={(e)=>{keycheck(e)}} className={"ArcadeInput " + ArcadeState} value={Input} onChange={(e) => { setInput(e.target.value) }}></input></div></>
             }
             <div className='iconContainer'>
                 <div className='StatContainer'>
@@ -100,20 +107,26 @@ const Layout = () => {
                     </div>
                 </div>
             </div>
+            <div className='ErContainer'>
+                 <button className={'SubmitBtn'}onClick={ShowER}>ER Model</button>
+            </div>
         </>
     </>
     )
     //reroll the question
     function Roll(){
         if(rerolls > 0 ){
-        setDisabled(true)
         setRerolls(rerolls - 1);
         setArcadeState("Neutral")
         } else {
            
         }
     }
-
+    function keycheck(e){
+        if(e.key === "Enter"){
+            verifyAnswer(); setDisabled(true) 
+        }
+    }
     function ModalSetter() {
         return <Modal Modalsettings={{ type: ModalSettings.type, text: ModalSettings.text, function: ModalSettings.function }} stateChanger={setModal} />
     }
@@ -129,6 +142,7 @@ const Layout = () => {
     }
     //verifies answer and updates ui 
     function verifyAnswer() {
+        setDisabled(true)
         var url = import.meta.env.VITE_url +"/compare/" + DbId
         var PostFormat = {
             "studentQ": Input
@@ -178,6 +192,12 @@ const Layout = () => {
             }
             setArcadeState("Failure")
         }
+    }
+    function ShowER(){
+         setSettings({
+            "type": "ER",
+            })
+            setModal(!modal)
     }
 }
 

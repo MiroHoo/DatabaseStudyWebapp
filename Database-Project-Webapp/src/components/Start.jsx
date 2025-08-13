@@ -4,7 +4,7 @@ import logo from '../assets/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
 import Modal from "./Modal.jsx"
 import { redirect, useNavigate } from "react-router";
-
+import Zoom from "./ERZoom.jsx"
 const Animation = () => {
     let navigate = useNavigate();
     const [modal, setModal] = useState(false)
