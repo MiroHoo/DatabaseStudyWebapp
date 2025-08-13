@@ -67,7 +67,7 @@ const Layout = () => {
             <div className={"HighScoreCont"}>
             <div className={"Scores"}>
             <div className={"HighScoreHeader"}>Highscores;</div>
-            <div className={"ScoreList"}>{Scores.map( (scores,i) =>(<div className={"ScorePageCont " + colors[i].pos}><div className={"ScorePos"}>#{i+1}</div><div className={"ScoreItem"}>{scores.Name}</div><div className={"ScoreItem Number"}>{scores.Score} Points</div></div>))}</div>
+            <div className={"ScoreList"}>{Scores.map( (scores,i) =>(<div key={"Scorelist_" + i} className={"ScorePageCont " + colors[i].pos}><div className={"ScorePos"}>#{i+1}</div><div className={"ScoreItem"}>{scores.Name}</div><div className={"ScoreItem Number"}>{scores.Score} Points</div></div>))}</div>
             </div>
             <button className={"StartGameButton"} onClick={()=>navigate("/arcade")}>Start Game</button>
             </div>

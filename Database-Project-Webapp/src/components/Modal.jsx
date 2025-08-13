@@ -23,7 +23,7 @@ function App({Modalsettings, stateChanger}) {
     : <></>
     }
     { Modalsettings.type === "question" ? 
-    <dialog id={"Modal"} className="ModalDialog" open={true}><a className={"ModalText"}>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(true, Modalsettings.funcvar)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); }}>Cancel</button></div></dialog>
+    <dialog id={"Modal"} className="ModalDialog" open={true}><a className={"ModalText"}>{Modalsettings.text}</a> <div className='ModalButtons'><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.function(true, Modalsettings.funcvar)}}>Ok</button><button className="ModalButton" onClick={()=>{closemodal(); stateChanger(false); Modalsettings.cancelfunc}}>Cancel</button></div></dialog>
     : <></>
     }
     </div>

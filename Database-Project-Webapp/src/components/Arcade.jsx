@@ -46,12 +46,17 @@ const Layout = () => {
         if (ArcadeState !== "") {
             setTimeout(() => {
                 setTimeout(()=> {
+                    if(Shields !== 0){
                     setInput("")
                     getQuestion(MinMax)
                     setDisabled(false)
+                    }
+                    
                 }, "1000")
+                if(Shields !== 0){
                 setAnimation(true)
                 setArcadeState("")
+                }
             }, "1000");
         }
     }, [ArcadeState])
@@ -90,7 +95,7 @@ const Layout = () => {
                 </div>
                 <button className={`SubmitBtn`} disabled={Shields === 0 || disabled} onClick={() => { verifyAnswer(); setDisabled(true) }}>Submit</button>
                 <div className='StatContainer'>
-                    <div className='Stats'><>Attempts</>
+                    <div className='Stats'><>Health</>
                         <img className={"IconClass"} src={hp} /><>{Shields}/3</>
                     </div>
                 </div>
