@@ -26,7 +26,6 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
-        console.log(import.meta.env.VITE_url)
        fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
@@ -36,11 +35,9 @@ const Animation = () => {
     useEffect(() => {
         if(animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
-                console.log("cancel")
                 setAnimationState(false);
               });
             animationref.current.addEventListener("animationend", () => {
-                console.log("End")
                 setAnimationState(false);
               });
             }

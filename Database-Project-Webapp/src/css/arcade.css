@@ -162,7 +162,7 @@
         background-color: rgba(255, 173, 21, 0.295);
     }
     &.Failure{
-        animation-name: change-color-incorrect;
+        animation-name: change-color-incorrect-arcade ;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
@@ -221,7 +221,7 @@
     background-color:  rgba(29, 214, 29, 0.479);
   }
 }
-@keyframes change-color-incorrect {
+@keyframes change-color-incorrect-arcade {
   from {
        background-color: white;
   }

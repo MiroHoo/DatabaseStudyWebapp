@@ -151,7 +151,6 @@ const Layout = () => {
             },
             body: JSON.stringify(PostFormat)
         }
-        console.log("post")
         fetch(import.meta.env.VITE_url +"/arcade/insert",options).then(navigate("/scores"))
     }
     //updates ui

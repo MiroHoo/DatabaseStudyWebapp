@@ -24,6 +24,8 @@ function App() {
 
     const [Attemptvis, setAttemptvis] = useState(false)
 
+    const [Questionvis, setQuestionvis] = useState(false)
+
     const [selection, SetSelection] = useState("")
 
     const [ModalSettings, setSettings] = useState({
@@ -41,7 +43,7 @@ function App() {
     }, []);
     //checks if data is there and allows the element to be rendered
     useEffect(()=> {
-       if(TestAnswer[0] !== undefined && Questions[0] !== undefined && ShowData !== true){
+       if(Questions.length !== 0 && ShowData !== true){
              setShow(true)
        }
     },[TestAnswer])
@@ -60,7 +62,6 @@ function App() {
                             <img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/>
                         </div>
                     </div>
-                    {c.Open ? <ShowQuestions index={i} /> : <></>}
                     {c.Open ? <ShowTests index={i} /> : <></>}
                     </div>)}             
                 </div>
@@ -71,7 +72,7 @@ function App() {
     function ShowTests(props) {
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
             <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={edit}/></div>
-            <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show attempts<img className={`openImage`}src={Attemptvis === false ? up : down}/></button>
+            <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show Attempts<img className={`openImage`}src={Attemptvis === false ? up : down}/></button>
             {ShowData ? 
             <>
             {Attemptvis ? <TestSetter/> : <></>}
@@ -79,12 +80,21 @@ function App() {
             :
             <></>
             }
+             <button className={"ShowAnswers"} onClick={() => {setQuestionvis(!Questionvis)}}>Show Questions<img className={`openImage`}src={Questionvis === false ? up : down}/></button>
+            {ShowData ? 
+                <>
+                {Questionvis ? <ShowQuestions index={props.index}/> : <></>}
+                </>
+                :
+                <>
+                </>
+            }
             <div className={"ManagementContent"}>Average score: {Math.round(Testdata[props.index].Average_score*100) + "%"}</div>
             <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
     function ShowQuestions(props){
-        console.log(Testdata[props.index].Question)
+        if(Testdata[props.index].Question.length !== 0){
         const QuestionArray = <>{
             ShowData ? 
             <div className='QuestionEditContainer'>
@@ -99,14 +109,19 @@ function App() {
             <div></div>
             }
             </>
-        return QuestionArray
+        return QuestionArray    
+        } else {
+            return <div className='FlexDiv'>No questions</div>
+        }
+        
     }
     function fetchQuestions(Testid,i){
         fetch(import.meta.env.VITE_url +"/test/id/"+Testid).then(res => res.json()).then(res => QuestionSetter(i,res)).then(setOpen(i))
     }
     //gets answers from backend
     function FetchAnswers(TestId,i){
-        setAttemptvis(false)
+       setAttemptvis(false)
+       setQuestionvis(false)
        fetch(import.meta.env.VITE_url +"/manage/fetchscores/"+TestId).then(res => res.json()).then(res => {setAnswers(i,res)}).then(fetchQuestions(TestId,i))
     }
      function initAnswers(res) {
@@ -161,7 +176,7 @@ function App() {
     var index = 0;
     var temparray = []
     var elemarray = []
-    if(TestAnswer[0] !== undefined){
+    if(TestAnswer.length !== 0){
     var attemptid = TestAnswer[0].Attempt_id
     //group based on attempt id
     TestAnswer.forEach((c,i)=>{
@@ -199,13 +214,15 @@ function App() {
                 }
             }
         })
-        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptClass'><div className='AttemptHeader'>Attempt {i+1}</div>{pusharray}</div><div className='AttemptDivider'></div></div>
+        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptHeader'>Attempt {i+1}</div><div className='AttemptClass'>{pusharray}</div><div className='AttemptDivider'></div></div>
     } else {
         return; 
     }
     })
     return array
-    }    
+    }  else {
+        return <div className={"AnswerCont"}>No Attempts</div>
+    } 
 
     }
     //asks if user wants to delete question
@@ -248,7 +265,7 @@ function App() {
             credentials: 'include',
             body: JSON.stringify({ "name" : input })
         }
-        fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateQuestion(input, funcvar.index,funcvar.QuestionI))
+        fetch(url, options).then(response => response.json()).then(UpdateQuestion(input, funcvar.index,funcvar.QuestionI))
     }
     //Changes name inside the backend
     function ChangeName(input,funcvar) {
@@ -261,14 +278,13 @@ function App() {
             credentials: 'include',
             body: JSON.stringify({ "name" : input })
         }
-        fetch(url, options).then(response => response.json()).then(response => console.log(response)).then(UpdateElement(input, funcvar.index))
+        fetch(url, options).then(response => response.json()).then(UpdateElement(input, funcvar.index))
     }
     //removes element inside frontend
     function RemoveElement(index) {
         setTestdata(Testdata.filter((c, i) => i !== index))
     }
     function UpdateQuestion(name, index,QIndex){
-        console.log(name)
         const array = Testdata.map((c,i)=> {
             if(i === index){
                 Testdata[i].Question[QIndex].Question = name; return Testdata[i]

@@ -44,6 +44,7 @@ const App = () => {
     }, []);
     //on changing the currect questions id rerender with new contents
     useEffect(() => {
+        console.log(TestState)
         if (currentQuestions !== -1) {
             setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
         }
@@ -61,7 +62,7 @@ const App = () => {
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={image}/></button></div>
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={info}/></button></div>
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={info}/></button></div>
                     </div>
                     {TestState === "Question" ?
                         <>
@@ -115,8 +116,7 @@ const App = () => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
             }
-            console.log(c)
-            return <div className={`FIContainer ${c.Correct}`} >
+            return <div key={"FiKey_" +i} className={`FIContainer ${c.Correct}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
                         <div className='FIHeader2'>Right Answer: </div>
                         <div className="FIQuestion">{c.CAnswer}</div>
@@ -132,6 +132,8 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+        console.log(Sent)
+        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
@@ -158,9 +160,8 @@ const App = () => {
         }
     }
     //saves test data to database
-    async function Finalize(){
+    function Finalize(){
         SetSent(true)
-        setCurrentQuestion(-2);
         setState("Finished")
         var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
@@ -184,13 +185,10 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
-        console.log(url)
-        await fetch(url, options).then(response => response.json())
-        Calculateavg()
+        fetch(url, options).then(res => res.json()).then(res => userinterface(res)).then(res => Calculateavg())
     }
     function Calculateavg(){
-    
-        fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
+        fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json())
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
@@ -204,7 +202,6 @@ const App = () => {
     }
     //verifies answers validity
     function verify(id) {
-            
             var url =  import.meta.env.VITE_url +"/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
@@ -258,15 +255,14 @@ const App = () => {
         }
         var index = 0
         FormattedQuestions.forEach(e => {
-            console.log(e.Correct)
             if(e.Correct !== "Neutral"){
                 index++; 
             }
-            if(index === FormattedQuestions.length){
-                setState("Finished")
-                Finalize()
-            }
         })
+        if(index === FormattedQuestions.length){
+                setState("Finished")
+                setCurrentQuestion(-2) 
+        }
     }
     //changes the input value of currently selected question
     function changeInput(value) {

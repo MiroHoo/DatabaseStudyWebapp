@@ -102,44 +102,7 @@
 }
 .ButtonImage{
     width: 35px;
-}
-.SelectionButton{
-    width: 60px;
-    height: 60px;
-    border-width: 0.5px;
-    font-size: clamp(1rem, 2.1vh,4rem);
-    border-style: solid;
-    margin-top: 2px;
-    border-radius: 3px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.Partially{
-        animation-name: change-color-parttially;
-        animation-duration: 0.5s;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in-out;
-        background-color: rgba(255, 173, 21, 0.295);
-    }
-    &.Correct{
-        animation-name: change-color-correct;
-        animation-duration: 0.5s;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in-out;
-        background-color: rgba(29, 214, 29, 0.479);
-    }
-    &.Neutral{
-        background-color: rgba(187, 186, 186, 0.26);
-    }
-    &.Incorrect {
-        animation-name: change-color-incorrect;
-        animation-duration: 0.5s;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in-out;
-        background-color: rgba(167, 4, 4, 0.637);
-    }
-}   
+} 
 .FinishContainer{
     display: flex;
     flex-direction: column;
@@ -242,7 +205,43 @@
     justify-content: center;
     background-color: rgba(160, 158, 158, 0.144);
 }
-
+.SelectionButton{
+    width: 60px;
+    height: 60px;
+    border-width: 0.5px;
+    font-size: clamp(1rem, 2.1vh,4rem);
+    border-style: solid;
+    margin-top: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.Partially{
+        animation-name: change-color-parttially;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(255, 173, 21, 0.295);
+    }
+    &.Correct{
+        animation-name: change-color-correct;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(29, 214, 29, 0.479);
+    }
+    &.Neutral{
+        background-color: rgba(187, 186, 186, 0.26);
+    }
+    &.Incorrect {
+        animation-name: change-color-incorrect;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        background-color: rgba(167, 4, 4, 0.671);
+    }
+}  
 .SelectedButton{
     width: 65px;
     height: 65px;
@@ -255,6 +254,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(255, 255, 255, 0.322);
      &.Partially{
         animation-name: change-color-parttially;
         animation-duration: 0.5s;
@@ -329,10 +329,10 @@
 }
 @keyframes change-color-incorrect {
   from {
-       background-color: rgba(187, 186, 186, 0.856);
+    background-color: rgba(187, 186, 186, 0.26);    
   }
   to {
-    background-color: rgba(167, 4, 4, 0.637);
+    background-color: rgba(167, 4, 4, 0.671);
   }
 }
 @keyframes change-color-parttially {

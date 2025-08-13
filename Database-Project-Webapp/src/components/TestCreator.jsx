@@ -62,7 +62,6 @@ const [ModalSettings, setSettings] = useState({
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
-console.log("quesiton id: " + questionId.current)
 setQuestions([...questionarray, {name: "Question " + (questionarray.length+1), id: questionId.current}])
 }
 //changes the testname
@@ -105,21 +104,6 @@ function ModalSetter(){
 //Removes the question with the provided id from the question array
 function RemoveQuestion(id){
   setQuestions(questionarray.filter(a => a.id !== id))
-  console.log(questionarray)
-}
-
-//Question Header changer
-function QuestionName(text, id){
-  console.log(text, id)
-  const UpdatedName = questionarray.map((c,i) => {
-    if (i === id-1){
-      c.name = text
-      return c
-    } else {
-      return c
-    }
-  })
-  setQuestions(UpdatedName)
 }
 
 //Makes sure the user wants the test to be sent
@@ -177,7 +161,6 @@ function bulkverify(SubmitArray){
 //takes in a query string and runs it inside the database depending on the contents, altering queries will not run!
 function VerifyQuestion(Question){
 var query = document.getElementById(Question).value
-console.log(query)
 const options = {
     method: 'POST',
     headers: {
