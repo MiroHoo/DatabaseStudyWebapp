@@ -31,6 +31,8 @@ const App = () => {
 
     var testPoints = 0;
     const animationref = useRef()
+
+    const inputref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
         "type": "",
@@ -68,7 +70,7 @@ const App = () => {
                             {questionRender.map((question, index) => (
                                 <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} >
                                     <a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a>
-                                    <input autoComplete={"off"} className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} readOnly={question.Correct !== "Neutral" ? true : false}></input>
+                                    <input ref={inputref} autoComplete={"off"} className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} onKeyDown={(e) => {enterkeydown(e,question.QuestionId)}}readOnly={question.Correct !== "Neutral" ? true : false}></input>
                                     {question.Correct === "Neutral" ? <button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button>: <></>}
                                 </div>
                                 ))
@@ -96,6 +98,12 @@ const App = () => {
             }
         </div>
     )
+
+    function enterkeydown(e,id){
+        if(e.key === 'Enter'){
+            verify(id)
+        }
+    }
     //calculates points to render
     function CalcPoints(){
         var points = 0

@@ -52,7 +52,7 @@ const Layout = () => {
                 }, "1000")
                 setAnimation(true)
                 setArcadeState("")
-            }, "2000");
+            }, "1000");
         }
     }, [ArcadeState])
     
