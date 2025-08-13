@@ -44,7 +44,6 @@ const App = () => {
     }, []);
     //on changing the currect questions id rerender with new contents
     useEffect(() => {
-        console.log(TestState)
         if (currentQuestions !== -1) {
             setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
         }
@@ -132,8 +131,6 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
-        console.log(Sent)
-        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
