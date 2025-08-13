@@ -88,7 +88,7 @@ const Layout = () => {
                         <img className={"IconClass"} src={reroll} /><>{rerolls}/3</>
                     </button>
                 </div>
-                <button className={`SubmitBtn`} disabled={Shields !== 0 || disabled ? false : true} onClick={() => { verifyAnswer() }}>Submit</button>
+                <button className={`SubmitBtn`} disabled={Shields === 0 || disabled} onClick={() => { verifyAnswer(); setDisabled(true) }}>Submit</button>
                 <div className='StatContainer'>
                     <div className='Stats'><>Attempts</>
                         <img className={"IconClass"} src={hp} /><>{Shields}/3</>
@@ -138,7 +138,7 @@ const Layout = () => {
             body: JSON.stringify(PostFormat)
         }
 
-        fetch(url, options).then(response => response.json()).then(response => updateui(response))
+        fetch(url, options).then(response => response.json()).then(response => updateui(response)).catch(err => updateui({outcome: false}))
     }
     //redirects after sending score
     function RedirectPage(name){

@@ -150,7 +150,7 @@ questionarray.forEach(element => {
 if(fail === 1){
 setSettings({
       type: "text",
-      text: "One of the Question/Answer fields is empty!",
+      text: "One of the Question/Answer fields is empty or too short!",
 })
 setModal(true)
 } else {
@@ -210,7 +210,7 @@ function verification(res){
 function bulkverificationmodal(res){
    setSettings({
       type: "text",
-      text: "Verification of one of the queries has failed!"
+      text: "Questions "+ res.issues +" answers have failed!"
     })
     setModal(true)
 }
