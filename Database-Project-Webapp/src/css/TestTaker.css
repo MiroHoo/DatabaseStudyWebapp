@@ -2,7 +2,7 @@
 
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 4rem;
     margin-bottom: 1rem;  
 
     &.closed {
@@ -28,7 +28,8 @@
 }
 
 .TakingHeader{
-    font-size: 1.2rem;
+    font-size: 1.7rem;
+    font-weight: 600;
     width: 60%;
     align-self: center;
     text-align: center;
@@ -37,7 +38,7 @@
 }
 
 .TakingQuestion{
-    font-size: 1.2rem;
+    font-size: clamp(1.3rem,2.2vh,12rem);
     margin-top: 3px;
     margin-bottom: 3px;
     width: 60%;
@@ -50,7 +51,7 @@
 .Answer{
     height: clamp(1rem,7vh,12rem);
     font-size: clamp(1rem,1.7vh,12rem);
-    width: 60%;
+    width: 80%;
     align-self: center;
     text-align: center;
     z-index: -1;
@@ -82,13 +83,17 @@
 
 .SubmitAnswer{
     background-color: rgba(29, 214, 29, 0.479);
-    width: 70%;
-    margin-top: 10px;
+    width: 50%;
+    margin-top: 30px;
+    font-size: clamp(1.4rem,2vh,3rem);
     align-self: center;
     cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 2px #c4c4c4;
      &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
+    background-color: rgba(29, 214, 29, 0.705);
     }
 }
 
@@ -113,7 +118,7 @@
 
 }
 .FIContainer{
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     border-width: 5px;
@@ -140,8 +145,10 @@
     color:black;
     text-decoration: none;
     display: flex;
-    width: 20%;
-    height: 30px;
+    width: 30%;
+    margin: 5px;
+    height: 40px;
+    font-size: clamp(1.3rem, 2vh, 3rem);
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.322);
@@ -149,7 +156,7 @@
     border-color: black;
     border-width: 1px;
     border-radius: 6px;
-    margin-bottom: 80px;
+    margin-bottom: 30px;
     box-shadow: 0 1px 2px 2px #c4c4c4;
     &:hover{
         border-color: rgba(0, 0, 0, 0.438);
@@ -162,6 +169,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+          margin-top: 80px;
 }
 .FIAnswer{
     font-size:  1.5rem;
@@ -198,7 +206,7 @@
     font-size:  2rem;
 }
 .FIHeader2{
-    font-size: 1.3em;
+    font-size: clamp(1.4rem,1.6vh,1.6rem);
     font-weight: 600;
     display: flex;
     width: 100%;
@@ -350,4 +358,12 @@
   to {
     background-color: rgba(128, 128, 128, 0.418);
   }
+}
+@media (max-aspect-ratio: 16/9) {
+    .FIBtnContainer{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center ;
+        margin-top: 30px;
+    }
 }

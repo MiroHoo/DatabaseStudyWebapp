@@ -20,7 +20,10 @@ attemp.TestDataHeader {
     font-size: clamp(1.1rem, 1.7vh, 1.9rem);
     background-color: rgba(202, 202, 202, 0.411);
 }
-
+.QuestionEditImg{
+    width: 20px;
+    margin-left: 10px;
+}
 .AnswerText {
     display: flex;
     flex-direction: row;
@@ -125,7 +128,7 @@ attemp.TestDataHeader {
 }
 
 .FlexDiv {
-    font-size: clamp(1.3rem, 1.0vh, 1.8rem);
+    font-size: clamp(1.3rem, 2.3vh, 1.6rem);
     flex: 1 0 40%;
     margin: 10px;
     background-color: rgba(184, 184, 184, 0.281);

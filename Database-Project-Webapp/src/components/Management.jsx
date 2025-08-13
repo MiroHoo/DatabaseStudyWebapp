@@ -33,17 +33,19 @@ function App() {
         "text": "",
         "function": "",
     })
+    var amountoftests = 0;
     //fetches tests
     useEffect(() => {
          fetch(import.meta.env.VITE_url +'/test/')
             .then(response => response.json())
-            .then(response => {InitOpen(response); initAnswers(response); initQuestions(response);})
+            .then(response => {InitOpen(response); initAnswers(response); initQuestions(response); amountoftests = response.length})
             .then(response => setLoading(!loading))
             .catch(error => console.log(error))
     }, []);
     //checks if data is there and allows the element to be rendered
     useEffect(()=> {
-       if(Questions.length !== 0 && ShowData !== true){
+       if(Questions.length === amountoftests && ShowData !== true){
+             
              setShow(true)
        }
     },[TestAnswer])
@@ -100,7 +102,7 @@ function App() {
             <div className='QuestionEditContainer'>
             {Testdata[props.index].Question.map((c,i)=>
             {
-            return <div className={"FlexDiv"} onClick={()=>{ChangeQuestionInput("Question " + (i+1), c.QuestionId, props.index, i)}}>Question {i+1}: {c.Question === "" ? "No question text " : c.Question}<img src={edit}/></div>
+            return <div className={"FlexDiv"} key={"FlexKey_" + i} onClick={()=>{ChangeQuestionInput("Question " + (i+1), c.QuestionId, props.index, i)}}><div>Question {i+1} :</div> {c.Question === "" ? "No question text " : c.Question}<img className='QuestionEditImg' src={edit}/></div>
             }
             )
             }
@@ -193,7 +195,7 @@ function App() {
     temparray = []
     //give right class based on if the answer was correct
     const array = elemarray.map((cont,i)=>{
-    if(i < 5){
+    if(i < 10){
         var pusharray = []
         var Class = ""
         cont.forEach((c,i)=>{
@@ -249,7 +251,7 @@ function App() {
     function ChangeQuestionInput(Name, id, index, Qindex){
         setSettings({
             type: "input",
-            text: "Change " + Name + "'s name",
+            text: "Edit " + Name + "'s question?",
             function: ChangeQuestionName,
             funcvar: { "id": id, "index": index, "QuestionI": Qindex}
         })
