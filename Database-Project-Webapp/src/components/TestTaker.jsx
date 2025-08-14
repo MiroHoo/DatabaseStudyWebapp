@@ -5,7 +5,7 @@ import ErModel from "../assets/Images/ErModel.png"
 import image from "../assets/image.svg"
 import info from "../assets/info.svg"
 import Modal from "./Modal.jsx"
-import { useEffect, useState, useRef, use } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";
 import {NavLink} from "react-router-dom";
 import Zoom from './ERZoom.jsx'
@@ -28,7 +28,7 @@ const App = () => {
     //state of test
     const [TestState, setState] = useState("ER")
     //has been sent
-    const [Sent, SetSent] =useState(false)
+    const [Sent, SetSent] = useState(false)
 
     var testPoints = 0;
     const animationref = useRef()
@@ -52,6 +52,27 @@ const App = () => {
         }
     }, [currentQuestions]);
 
+    useEffect(()=>{
+        if(TestState !== "ER"){
+        console.log("here")
+        var index = 0
+        FormattedQuestions.forEach(e => {
+            if(e.Correct !== "Neutral"){
+                index++; 
+            }
+        })
+         if(index === FormattedQuestions.length){
+                if(!Sent){
+                    SetSent(true)
+                    setState("Finished")
+                    setCurrentQuestion(-2)
+                    Finalize()
+                }
+        }
+        }
+
+    }, [FormattedQuestions])
+
 
     return (
         <div className="Taking">
@@ -66,6 +87,7 @@ const App = () => {
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
                         <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={info}/></button></div>
                     </div>
+
                     {TestState === "Question" ?
                         <>
                             {questionRender.map((question, index) => (
@@ -168,7 +190,6 @@ const App = () => {
     //saves test data to database
     function Finalize(){
         console.log("Finalize")
-        SetSent(true)
         setState("Finished")
         var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
@@ -259,17 +280,6 @@ const App = () => {
             }
         } else {
 
-        }
-        var index = 0
-        FormattedQuestions.forEach(e => {
-            if(e.Correct !== "Neutral"){
-                index++; 
-            }
-        })
-        if(index === FormattedQuestions.length){
-                Finalize()
-                setState("Finished")
-                setCurrentQuestion(-2) 
         }
     }
     //changes the input value of currently selected question
