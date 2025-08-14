@@ -32,7 +32,6 @@ const BurgerPathOptions = [
     "name": "Arcade",
     "path": "/scores",
     "auth": false,
-
   }
 ]
 //Json array for holding different burgermenu redirect options. 
