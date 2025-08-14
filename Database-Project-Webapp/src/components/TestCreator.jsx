@@ -155,7 +155,7 @@ function bulkverify(SubmitArray){
     },
     body: JSON.stringify({ "array" : SubmitArray})
  }
-  fetch(import.meta.env.VITE_url + "/build/bulk", options).then(res => res.json()).then(res => {res.OK !== false ? PostRequest(SubmitArray) : bulkverificationmodal(res)})
+  fetch(import.meta.env.VITE_url + "/build/bulk", options).then(res => res.json()).then(res => console.log(res)).then(res => {res.OK !== false ? PostRequest(SubmitArray) : bulkverificationmodal(res)}).catch(err => console.log(err))
 }
 
 //takes in a query string and runs it inside the database depending on the contents, altering queries will not run!
