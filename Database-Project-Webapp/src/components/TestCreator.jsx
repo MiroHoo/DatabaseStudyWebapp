@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
-import edit from "../Images/edit.svg"
 
 import { useNavigate } from "react-router";
 
@@ -36,7 +35,7 @@ const [ModalSettings, setSettings] = useState({
   
   return (
     <div className='Tests'> 
-    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname} <img className={"EditIcon"} src={edit}/></div>
+    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname} <img className={"EditIcon"} src={`/images/edit.svg`} alt='Edit'/></div>
     <div>
       {
       modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
