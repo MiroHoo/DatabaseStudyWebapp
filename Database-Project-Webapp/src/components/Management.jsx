@@ -71,7 +71,7 @@ function App() {
     //renders test
     function ShowTests(props) {
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
-            <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={edit}/></div>
+            <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={"/Images/edit.svg"}/></div>
             <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show Attempts<img className={`openImage`} src={Attemptvis ? "/Images/chevron-up.svg" : "/Images/chevron-down.svg" }/></button>
             {ShowData ? 
             <>

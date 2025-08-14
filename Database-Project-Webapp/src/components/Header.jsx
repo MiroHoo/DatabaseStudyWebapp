@@ -7,31 +7,36 @@ const BurgerPathOptions = [
   {
     "name": "Home",
     "path": "/",
-    "auth": "/Images/home.svg",
+    "auth": true,
+    "ImgUrl" : "/Images/home.svg",
   
   },
   {
    "name": "Login",
    "path": "/login",
-   "auth": "/Images/user.svg",
+   "auth": false,
+   "ImgUrl" : "/Images/user.svg",
 
   },
   {
    "name": "Build",
    "path": "/build",
-   "auth": "/Images/plus.svg",
+   "auth": true,
+   "ImgUrl" : "/Images/plus.svg",
 
   },
   {
    "name": "Manage",
    "path": "/manage",
-   "auth": "/Images/database.svg",
+   "auth": true,
+   "ImgUrl" : "/Images/database.svg",
 
   },
   {
     "name": "Arcade",
     "path": "/scores",
-    "auth": "/Images/play-circle.svg",
+    "auth": false,
+    "ImgUrl" : "/Images/play-circle.svg",
   }
 ]
 //Json array for holding different burgermenu redirect options. 
@@ -104,13 +109,13 @@ var Temparray = []
   Temparray = BurgerPathOptions.map(element => {
     if(!element.auth){
     if(element.name !== "Login"){
-    return <><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={"/Images/chevron-up.svg"} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>
+    return <><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>
     } else if (!Auth){
-    return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={"/Images/chevron-up.svg"} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
+    return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
     }
     } else {
       if(Auth){
-        return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={"/Images/chevron-up.svg"} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
+        return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
       } 
     }
   });
