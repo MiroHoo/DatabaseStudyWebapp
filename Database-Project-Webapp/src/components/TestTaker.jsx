@@ -58,6 +58,7 @@ const App = () => {
                 index++; 
             }
         })
+        console.log(index)
          if(index === FormattedQuestions.length){
                 if(!Sent){
                     SetSent(true)
@@ -81,8 +82,8 @@ const App = () => {
                 <>
                     <div className='TakingSelectionContainer'>
                         <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={"/Images/image.svg"}/></button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={"/Images/info.svg"}/></button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={()=>{setCurrentQuestion(index); setState("Question");}}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => {SubmitModal()}}><img className='ButtonImage' src={"/Images/info.svg"}/></button></div>
                     </div>
 
                     {TestState === "Question" ?
@@ -159,9 +160,12 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
+                setState("Finished")
+                setCurrentQuestion(-2)
             } else {
                 setState("Finished")
                 setCurrentQuestion(-2)
@@ -186,7 +190,9 @@ const App = () => {
     }
     //saves test data to database
     function Finalize(){
+        console.log(Sent)
         setState("Finished")
+        SetSent(true)
         var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
             var points = 0
@@ -242,6 +248,7 @@ const App = () => {
     }
     //Lights up the buttons with colors after finishing the test
     function userinterface(response) {
+        console.log(response)
         if (response.outcome !== undefined) {
             if (response.outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
@@ -275,7 +282,16 @@ const App = () => {
                 setFormatted(updatedBtns)
             }
         } else {
-
+            const finalization = FormattedQuestions.map((c,i)=>{
+                if(c.Correct === "Neutral"){
+                    c.Correct = "Incorrect"
+                    return c
+                } else {
+                    return c
+                }
+            })
+            setFormatted(finalization)
+            setCurrentQuestion(-2)
         }
     }
     //changes the input value of currently selected question
