@@ -27,12 +27,12 @@ attemp.TestDataHeader {
 .AnswerText {
     display: flex;
     flex-direction: row;
-    font-size: clamp(1.2rem, 1.7vh, 2rem);
+    font-size: clamp(1.2rem, 1.7vh, 1.6rem);
     margin-top: 5px;
     margin-bottom: 5px;
 
     &.query {
-        font-size: clamp(2rem, 1.7vh, 3.2rem);
+        font-size: clamp(1.2rem, 1.7vh, 1.6rem);
     }
 
     &.long {

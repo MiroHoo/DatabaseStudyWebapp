@@ -52,7 +52,6 @@ const App = () => {
 
     useEffect(()=>{
         if(TestState !== "ER"){
-        console.log("here")
         var index = 0
         FormattedQuestions.forEach(e => {
             if(e.Correct !== "Neutral"){
@@ -187,7 +186,6 @@ const App = () => {
     }
     //saves test data to database
     function Finalize(){
-        console.log("Finalize")
         setState("Finished")
         var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{

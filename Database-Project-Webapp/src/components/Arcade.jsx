@@ -25,9 +25,13 @@ const Layout = () => {
     const [rerolls, setRerolls] = useState(3)
 
     const [points, setPoints] = useState(0)
+    
     const [showScores, setShowScores] =  useState(true)
+
     const [disabled, setDisabled] = useState(false)
+
     const animationref = useRef()
+
     const [modal, setModal] = useState(false)
 
     const [ModalSettings, setSettings] = useState({
@@ -66,7 +70,7 @@ const Layout = () => {
     }, [modal])
     
     useEffect(() => {
-        if (animationref.current !== undefined) {
+        if (animationref.current) {
             animationref.current.addEventListener("animationcancel", () => {
                 setAnimation(false);
             });

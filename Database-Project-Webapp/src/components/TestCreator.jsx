@@ -40,9 +40,9 @@ const [ModalSettings, setSettings] = useState({
       {
       modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>
      }
-    {questionarray.map(Questions=>(
+    {questionarray.map((Questions, i)=>(
       <div className='TestContainer' key={Questions.id}>
-        <div className="TestHeader">{Questions.name}</div>
+        <div className="TestHeader">{"Question " + (i+1)}</div>
         <input autoComplete={"off"} className='TestInput' id={"Question_" + Questions.id}></input>
         <div className="TestHeader">Model Answer</div>
         <input autoComplete={"off"} className='TestInput' id={"ModelAnswer_" + Questions.id}></input>

@@ -182,6 +182,7 @@ function App() {
     TestAnswer.forEach((c,i)=>{
         if(c.Attempt_id !== attemptid){
             elemarray.push(temparray)
+            elemarray[elemarray.length-1].MaxPoints = temparray.length
             attemptid = c.Attempt_id
             index=0;
             temparray=[]
@@ -190,10 +191,13 @@ function App() {
         index++;  
     })
     elemarray.push(temparray)
+    elemarray[elemarray.length-1].MaxPoints = temparray.length
     temparray = []
-    //give right class based on if the answer was correct
+    //give right class based on if the answer was correct   
+    var score = 0
+    var date = "" 
     const array = elemarray.map((cont,i)=>{
-    if(i < 10){
+    if(i < 20){
         var pusharray = []
         var Class = ""
         cont.forEach((c,i)=>{
@@ -205,16 +209,18 @@ function App() {
                 Class = "Partial"
             }
             if(c.Answer.length < 2 ){
-              pusharray.push(<div key={"Answer" + i +"_key"} className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div className='AnswerText'>{c.Score}/1</div></div>)  
+              pusharray.push(<div key={"Answer" + i +"_key"} className={"AnswerCont " + Class}><div className='AnswerText'>No Answer</div><div></div><div className='AnswerText'>{c.Score}/1</div></div>)  
             } else {
-                if(c.Answer.length < 50){
-                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText query'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                if(c.Answer.length < 70){
+                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText query'>{c.Answer}</div><div></div><div className='AnswerText'>{c.Score}/1</div><div className='AnswerText'></div></div>)
                 } else {
-                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText long'>{c.Answer}</div><div className='AnswerText'>{c.Score}/1</div></div>)
+                    pusharray.push(<div className={"AnswerCont " + Class} key={"Answer" + i +"_key"}><div className='AnswerText long'>{c.Answer}</div><div></div><div className='AnswerText'>{c.Score}/1</div></div>)
                 }
             }
+            score = (score + parseInt(c.Score));
+            date = c.Date
         })
-        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptHeader'>Attempt {i+1}</div><div className='AttemptClass'>{pusharray}</div><div className='AttemptDivider'></div></div>
+        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptHeader'>Attempt {i+1}</div><div className='AttemptHeader'>{score}/{elemarray[0].MaxPoints}</div><div className='AttemptHeader'><ParseDate Date={date}/></div><div className='AttemptClass'>{pusharray}</div><div className='AttemptDivider'></div></div>
     } else {
         return; 
     }
@@ -224,6 +230,14 @@ function App() {
         return <div className={"AnswerCont"}>No Attempts</div>
     } 
 
+    }
+    function ParseDate(props){
+        const date = new Date(props.Date);
+        const formatteddate = date.toLocaleDateString('en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        })
+        return <div className='AnswerText'>{formatteddate}</div>
     }
     //asks if user wants to delete question
     function QuestionModal(Name, id, index) {
