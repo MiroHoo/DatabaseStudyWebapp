@@ -11,7 +11,7 @@ import Login from './components/Login.jsx'
 import Arcade from './components/Arcade.jsx'
 import ArcadeScores from './components/ArcadeScores.jsx'
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename='https://databasestudywebapp-frontend.onrender.com'>
+  <BrowserRouter>
     <Header/>
     <Routes>
       <Route path="/" element={<Start/>}/>
