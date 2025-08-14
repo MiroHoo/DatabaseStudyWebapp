@@ -267,6 +267,7 @@ const App = () => {
             }
         })
         if(index === FormattedQuestions.length){
+                Finalize()
                 setState("Finished")
                 setCurrentQuestion(-2) 
         }
