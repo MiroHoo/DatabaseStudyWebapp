@@ -108,7 +108,7 @@ router.post('/bulk/',
       }
     })
   } else {
-    response.json({"Message" : "The query is missing array input", "OK": false,"issues": arrayofissues})
+    response.status().json({"Message" : "The query is missing array input", "OK": false,"issues": arrayofissues})
   }
   });
 
