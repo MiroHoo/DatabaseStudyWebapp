@@ -167,6 +167,7 @@ const App = () => {
     }
     //saves test data to database
     function Finalize(){
+        console.log("Finalize")
         SetSent(true)
         setState("Finished")
         var url =  import.meta.env.VITE_url +"/compare/save/"
@@ -191,7 +192,7 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
-        fetch(url, options).then(res => res.json()).then(res => userinterface(res)).then(res => Calculateavg())
+        fetch(url, options).then(res => res.json()).then(res => userinterface(res)).then(res => Calculateavg()).catch(err => console.log(err))
     }
     function Calculateavg(){
         fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json())
