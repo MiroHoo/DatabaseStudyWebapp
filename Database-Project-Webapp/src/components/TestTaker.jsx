@@ -1,9 +1,7 @@
 import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
-import ErModel from "../Images/ErModel.png"
-import image from "../Images/image.svg"
-import info from "../Images/info.svg"
+
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";
@@ -83,9 +81,9 @@ const App = () => {
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={image}/></button></div>
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={"/Images/chevron-up.svg"}/></button></div>
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={info}/></button></div>
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => { SubmitModal() }}><img className='ButtonImage' src={"/Images/chevron-up.svg"}/></button></div>
                     </div>
 
                     {TestState === "Question" ?

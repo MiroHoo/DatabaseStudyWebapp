@@ -10,7 +10,7 @@ export default function ZoomableImage() {
              prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
              tileSources: {
                 type: "image",
-                url: "/ErModel.png",
+                url: "/Images/ErModel.png",
              },
              gestureSettingsTouch: {
                  pinchToZoom: true,

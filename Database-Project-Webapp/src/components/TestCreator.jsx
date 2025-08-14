@@ -35,7 +35,7 @@ const [ModalSettings, setSettings] = useState({
   
   return (
     <div className='Tests'> 
-    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname} <img className={"EditIcon"} src={`/images/edit.svg`} alt='Edit'/></div>
+    <div className="TestHeader active" onClick={()=>ChangeTestName()}>{Testname} <img className={"EditIcon"} src={`/Images/edit.svg`} alt='Edit'/></div>
     <div>
       {
       modal ? <div id="ModalDiv"><ModalSetter/></div> : <></>

@@ -1,9 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/arcade.css'
-import reroll from '../Images/rotate-cw.svg'
 import Modal from "./Modal.jsx"
-import hp from '../Images/shield.svg'
 import { redirect, useNavigate } from "react-router";
 const Layout = () => {
     let navigate = useNavigate();
@@ -96,13 +94,13 @@ const Layout = () => {
                 <div className='StatContainer'>
                     <button disabled={disabled || rerolls === 0} className='Stats Reroll' onClick={() => { Roll()}}>
                         <>Rerolls</>
-                        <img className={"IconClass"} src={reroll} /><>{rerolls}/3</>
+                        <img className={"IconClass"} src={"/Images/chevron-up.svg"} /><>{rerolls}/3</>
                     </button>
                 </div>
                 <button className={`SubmitBtn`} disabled={Shields === 0 || disabled} onClick={() => { verifyAnswer(); setDisabled(true) }}>Submit</button>
                 <div className='StatContainer'>
                     <div className='Stats'><>Health</>
-                        <img className={"IconClass"} src={hp} /><>{Shields}/3</>
+                        <img className={"IconClass"} src={"/Images/chevron-up.svg"} /><>{Shields}/3</>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import '../css/index.css'
 import '../css/start.css'
-import logo from '../Images/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
 import Modal from "./Modal.jsx"
 import { redirect, useNavigate } from "react-router";
@@ -47,7 +46,7 @@ const Animation = () => {
         <>
             <div className='StartContainer'>
                 <div className='HeaderText'>
-                <img className="LogoImage" src={logo}/>
+                <img className="LogoImage" src={"/Images/chevron-up.svg"}/>
                 </div>
                 <div className='SelectionContainer'>
                     {

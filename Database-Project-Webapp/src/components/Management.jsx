@@ -2,9 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestManagin.css'
 import Modal from "./Modal.jsx"
-import up from "../Images/chevron-up.svg"
-import down from "../Images/chevron-down.svg"
-import edit from "../Images/edit.svg"
+
 
 
 function App() {
@@ -61,7 +59,7 @@ function App() {
                 <div className='ManagementContainer'> {Testdata.map((c, i) => <div key={i + "_key"} className='ManagementContainer'>
                     <div key={c.TestId} className={`ManagementHeader active ${c.TestId === selection ? 'open' : 'closed'}`} id={c.TestId} onClick={() => c.Open === false ? FetchAnswers(c.TestId, i) : closed()}>{c.Name} 
                         <div>
-                            <img className={`openImage ${c.Open ? 'open' : 'closed'}`}src={c.Open === false ? up : down}/>
+                            <img className={`openImage ${c.Open ? 'open' : 'closed'}`} src={"/Images/chevron-up.svg"}/>
                         </div>
                     </div>
                     {c.Open ? <ShowTests index={i} /> : <></>}
@@ -74,7 +72,7 @@ function App() {
     function ShowTests(props) {
         const TestArray = <div key={Testdata[props.index].TestId} className="ManagementItemCont">
             <div className={"ManagementContent active"} onClick={() => { InputModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index);}}>{Testdata[props.index].Name}<img className='EditIcon' src={edit}/></div>
-            <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show Attempts<img className={`openImage`}src={Attemptvis === false ? up : down}/></button>
+            <button className={"ShowAnswers"} onClick={() => {setAttemptvis(!Attemptvis)}}>Show Attempts<img className={`openImage`}src={"/Images/chevron-up.svg"}/></button>
             {ShowData ? 
             <>
             {Attemptvis ? <TestSetter/> : <></>}
@@ -82,7 +80,7 @@ function App() {
             :
             <></>
             }
-             <button className={"ShowAnswers"} onClick={() => {setQuestionvis(!Questionvis)}}>Show Questions<img className={`openImage`}src={Questionvis === false ? up : down}/></button>
+             <button className={"ShowAnswers"} onClick={() => {setQuestionvis(!Questionvis)}}>Show Questions<img className={`openImage`}src={"/Images/chevron-up.svg"}/></button>
             {ShowData ? 
                 <>
                 {Questionvis ? <ShowQuestions index={props.index}/> : <></>}
@@ -102,7 +100,7 @@ function App() {
             <div className='QuestionEditContainer'>
             {Testdata[props.index].Question.map((c,i)=>
             {
-            return <div className={"FlexDiv"} key={"FlexKey_" + i} onClick={()=>{ChangeQuestionInput("Question " + (i+1), c.QuestionId, props.index, i)}}><div>Question {i+1} :</div> {c.Question === "" ? "No question text " : c.Question}<img className='QuestionEditImg' src={edit}/></div>
+            return <div className={"FlexDiv"} key={"FlexKey_" + i} onClick={()=>{ChangeQuestionInput("Question " + (i+1), c.QuestionId, props.index, i)}}><div>Question {i+1} :</div> {c.Question === "" ? "No question text " : c.Question}<img className='QuestionEditImg' src={"/Images/chevron-up.svg"}/></div>
             }
             )
             }
