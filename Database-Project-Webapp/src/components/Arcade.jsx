@@ -94,13 +94,13 @@ const Layout = () => {
                 <div className='StatContainer'>
                     <button disabled={disabled || rerolls === 0} className='Stats Reroll' onClick={() => { Roll()}}>
                         <>Rerolls</>
-                        <img className={"IconClass"} src={"/Images/chevron-up.svg"} /><>{rerolls}/3</>
+                        <img className={"IconClass"} src={"/Images/play-circle.svg"} /><>{rerolls}/3</>
                     </button>
                 </div>
                 <button className={`SubmitBtn`} disabled={Shields === 0 || disabled} onClick={() => { verifyAnswer(); setDisabled(true) }}>Submit</button>
                 <div className='StatContainer'>
                     <div className='Stats'><>Health</>
-                        <img className={"IconClass"} src={"/Images/chevron-up.svg"} /><>{Shields}/3</>
+                        <img className={"IconClass"} src={"/Images/shield.svg"} /><>{Shields}/3</>
                     </div>
                 </div>
             </div>

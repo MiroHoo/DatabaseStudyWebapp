@@ -46,7 +46,7 @@ const Animation = () => {
         <>
             <div className='StartContainer'>
                 <div className='HeaderText'>
-                <img className="LogoImage" src={"/Images/chevron-up.svg"}/>
+                <img className="LogoImage" src={"/Images/Databaselearningapp.png"}/>
                 </div>
                 <div className='SelectionContainer'>
                     {

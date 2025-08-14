@@ -7,31 +7,31 @@ const BurgerPathOptions = [
   {
     "name": "Home",
     "path": "/",
-    "auth": false,
+    "auth": "/Images/home.svg",
   
   },
   {
    "name": "Login",
    "path": "/login",
-   "auth": false,
+   "auth": "/Images/user.svg",
 
   },
   {
    "name": "Build",
    "path": "/build",
-   "auth": true,
+   "auth": "/Images/plus.svg",
 
   },
   {
    "name": "Manage",
    "path": "/manage",
-   "auth": true,
+   "auth": "/Images/database.svg",
 
   },
   {
     "name": "Arcade",
     "path": "/scores",
-    "auth": false,
+    "auth": "/Images/play-circle.svg",
   }
 ]
 //Json array for holding different burgermenu redirect options. 
