@@ -12,7 +12,6 @@ import Arcade from './components/Arcade.jsx'
 import ArcadeScores from './components/ArcadeScores.jsx'
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <Header/>
     <Routes>
       <Route path="/" element={<h1>Start Page</h1>}/>
       <Route path="/build" element={<h1>build Page</h1>}/>
