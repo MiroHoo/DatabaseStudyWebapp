@@ -1,11 +1,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/arcade.css'
-import reroll from '../assets/rotate-cw.svg'
+import reroll from '../Images/rotate-cw.svg'
 import Modal from "./Modal.jsx"
-import hp from '../assets/shield.svg'
+import hp from '../Images/shield.svg'
 import { redirect, useNavigate } from "react-router";
-import ErModel from "../assets/Images/ErModel.png";
 const Layout = () => {
     let navigate = useNavigate();
     

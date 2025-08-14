@@ -1,6 +1,6 @@
 import '../css/index.css'
 import '../css/start.css'
-import logo from '../assets/Databaselearningapp.png'
+import logo from '../Images/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
 import Modal from "./Modal.jsx"
 import { redirect, useNavigate } from "react-router";

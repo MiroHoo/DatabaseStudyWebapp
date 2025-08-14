@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestCreator.css'
 import Modal from "./Modal.jsx"
-import edit from "../assets/edit.svg"
+import edit from "../Images/edit.svg"
 
 import { useNavigate } from "react-router";
 

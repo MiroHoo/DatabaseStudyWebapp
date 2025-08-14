@@ -1,9 +1,9 @@
 import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
-import ErModel from "../assets/Images/ErModel.png"
-import image from "../assets/image.svg"
-import info from "../assets/info.svg"
+import ErModel from "../Images/ErModel.png"
+import image from "../Images/image.svg"
+import info from "../Images/info.svg"
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";

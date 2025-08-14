@@ -1,4 +1,0 @@
-routes:
-  - type: rewrite
-    src: /.*
-    dest: /index.html

@@ -2,9 +2,9 @@
 import { useState, useEffect, useRef } from 'react'
 import '../css/TestManagin.css'
 import Modal from "./Modal.jsx"
-import up from "../assets/chevron-up.svg"
-import down from "../assets/chevron-down.svg"
-import edit from "../assets/edit.svg"
+import up from "../Images/chevron-up.svg"
+import down from "../Images/chevron-down.svg"
+import edit from "../Images/edit.svg"
 
 
 function App() {

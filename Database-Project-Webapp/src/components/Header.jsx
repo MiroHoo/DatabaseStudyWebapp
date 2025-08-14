@@ -1,12 +1,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/index.css'
-import gif from '../assets/Cool.gif'
-import home from '../assets/home.svg'
-import plus from '../assets/plus.svg'
-import db from '../assets/database.svg'
-import user from '../assets/user.svg'
-import play from '../assets/play-circle.svg'
+import gif from '../Images/Cool.gif'
+import home from '../Images/home.svg'
+import plus from '../Images/plus.svg'
+import db from '../Images/database.svg'
+import user from '../Images/user.svg'
+import play from '../Images/play-circle.svg'
 import {NavLink} from "react-router-dom";
 //all the options inside the burger menu, this contains the icon, if you need to be authenticated, path and text
 const BurgerPathOptions = [

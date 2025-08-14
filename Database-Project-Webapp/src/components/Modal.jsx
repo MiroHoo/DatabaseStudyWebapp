@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/Modal.css'
-import ErModel from "../assets/Images/ErModel.png"
+import ErModel from "../Images/ErModel.png"
 import Zoom from './ERZoom'
 function App({Modalsettings, stateChanger}) {
     //modal input value
