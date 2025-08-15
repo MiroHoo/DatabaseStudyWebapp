@@ -62,8 +62,8 @@ const Layout = () => {
             }, "1000");
         }
     }, [ArcadeState])
+    //navigates to scores if the last input modal is closed
     useEffect(() => {
-        console.log("here")
         if(modal === false && ModalSettings.type === "input" && Question[0]){
             navigate("/scores")
         }
@@ -123,6 +123,8 @@ const Layout = () => {
            
         }
     }
+
+    //checks if Enter was pressed
     function keycheck(e){
         if(e.key === "Enter"){
             verifyAnswer(); setDisabled(true) 
@@ -198,6 +200,7 @@ const Layout = () => {
             setArcadeState("Failure")
         }
     }
+    //ER model modal init
     function ShowER(){
          setSettings({
             "type": "ER",

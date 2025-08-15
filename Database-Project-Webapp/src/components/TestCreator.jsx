@@ -14,8 +14,9 @@ function App() {
   const [questionarray, setQuestions] = useState([])
   //modal state on/off
   const [Loading, setLoading] = useState(true)
+
   const [modal, setModal] = useState(false)
-  const [inputid, setInputid] = useState(0)
+  //test name
   const [Testname, setTestName] = useState("Testname")
   const [ModalSettings, setSettings] = useState({
     "type": "",
@@ -68,7 +69,7 @@ function App() {
   )
 
 
-
+  //er modal
   function ShowER() {
     setSettings({
       "type": "ER",
@@ -206,6 +207,7 @@ function App() {
       setModal(true)
     }
   }
+  //verifies the questions in bulk before sending
   function bulkverificationmodal(res) {
     if (res.issues.length > 1) {
       setSettings({

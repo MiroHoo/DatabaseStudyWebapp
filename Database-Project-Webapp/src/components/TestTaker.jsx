@@ -50,7 +50,7 @@ const App = () => {
             setRender(FormattedQuestions.slice(currentQuestions, currentQuestions + 1))
         }
     }, [currentQuestions]);
-
+    //check if test has been finished by pressing the last button
     useEffect(()=>{
         if(TestState !== "ER"){
         var index = 0
@@ -118,6 +118,7 @@ const App = () => {
             }
         </div>
     )
+    //check if enter is pressed
     function enterkeydown(e,id){
         if(e.key === 'Enter'){
             verify(id)
@@ -216,6 +217,7 @@ const App = () => {
             }
         fetch(url, options).then(res => res.json()).then(res => userinterface(res)).then(res => Calculateavg()).catch(err => console.log(err))
     }
+    //calculates average inside backend
     function Calculateavg(){
         fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json())
     }

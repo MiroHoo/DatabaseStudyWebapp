@@ -7,6 +7,7 @@ function App() {
     const [Username, setUsername] = useState("")
     const [Password, setPassword] = useState("")
     const [modal, setModal] = useState(false)
+    //is password censored
     const [ShowPass, setShowPass] = useState(false)
     const [ModalSettings, setSettings] = useState({
         "type": "",
