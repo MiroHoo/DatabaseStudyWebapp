@@ -10,7 +10,7 @@ Database-learning-webappin tarkoitus on tehdä palvelu jossa voi rakentaa ja teh
 
 ## <span style="color:#757575">Toiminta</span>
 
-Database-learning-webappiin voi mennä testejä tekemään tai peliä pelaamaan kuka tahansa. Opettaja taas kirjautumalla sisään voi rakentaa ja muokata testejä joita opiskelijat voivat tehdä verkkosivulla. 
+Database-learning-webappiin voi mennä testejä tekemään tai peliä pelaamaan kuka tahansa. Opettaja taas kirjautumalla sisään voi rakentaa ja muokata testejä joita opiskelijat voivat tehdä verkkosivulla. Testejä voi rakentaa kysymyksillä jotka hakevat tai muokkaavat tietokantaa. Muokkaavat kyselyt eivät pääse tietokannalle asti, mutta ne voivat olla hyvä testi kysymys opiskelijoille!
 
 ## <span style="color:#757575">Käyttöönotto</span>
 
