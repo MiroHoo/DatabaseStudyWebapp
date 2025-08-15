@@ -47,7 +47,7 @@ Tietokannan rakenne on melko yksinkertainen (kuva 2).
 
 ## <span style="color:#757575">Käyttöliittymäsuunnitelma</span>
 
-Alkuperäinen käyttöliittymä suunnitelma ja vastaava lopputulos.
+Alkuperäinen käyttöliittymä suunnitelma
 
 ![](/ReadMeResources/UI.jpg)
 
