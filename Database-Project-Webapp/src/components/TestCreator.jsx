@@ -52,12 +52,19 @@ const [ModalSettings, setSettings] = useState({
     ))}
     </div>
     <button className="addBtn"onClick={AddQuestion}>+</button>  
+    <button className={'SubmitBtn'}onClick={ShowER}>ER Model</button>
     <button className="submitBtn" onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
     </div>
   )
 
 
-  
+
+  function ShowER(){
+         setSettings({
+            "type": "ER",
+            })
+            setModal(!modal)
+    }
 //function for adding a question to the question array
 function AddQuestion() {
 questionId.current = questionId.current +1;
