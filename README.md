@@ -42,7 +42,7 @@ Sakila samassa tietokannassa (kuva 3).
 
 ![](/ReadMeResources/Sakila.png)
 
-*KUVA 2. Kuvassa esitetään projektin tietokantarakennetta*
+*KUVA 3. Kuvassa esitetään projektin tietokantarakennetta*
 
 - Test-taulussa säilytettään kaikki testien nimet ja keskiarvoinen pistemäärä.
 - Question-taulussa on taas kaikki Opettajan rakentamat kysymykset ja niiden testiä vastaava Id.
