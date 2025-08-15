@@ -21,7 +21,7 @@ function App() {
             <div className="LoginHeader">Username</div>
             <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="Username"></input>
             <div className="LoginHeader" >Password</div>
-            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="Password" value={Password}>
+            <input autoComplete={"off"} type={"password"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="Password" value={Password}>
             </input>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
