@@ -34,13 +34,16 @@ router.get('/avg/:id', function (req,res){
     TestTaker.getTestAttempts(req.params.id,function(err,dbResult){
     var temparray = []
     var elemarray = []
-    var attemptid = dbResult[0].Attempt_id
+    var id = 1
+      if(dbResult[0] !== undefined){
+          id = dbResult[0].Attempt_id +1
+      } 
     var index = 0; 
     //group based on attempt id
     dbResult.forEach((c,i)=>{
-        if(c.Attempt_id !== attemptid){
+        if(c.Attempt_id !== id){
             elemarray.push(temparray)
-            attemptid = c.Attempt_id
+            id = c.Attempt_id
             index=0;
             temparray=[]
         }
@@ -72,15 +75,26 @@ router.get('/avg/:id', function (req,res){
 router.post('/save/',
   function (request, response) {
     TestTaker.GetLargestid(function(err, dbResult) {
+      let ts = Date.now();
+
+      let date_time = new Date(ts);
+      let date = date_time.getDate();
+      let month = date_time.getMonth() + 1;
+      let year = date_time.getFullYear();
+      let hours = date_time.getHours();
+      let minutes = date_time.getMinutes();
+      let seconds = date_time.getSeconds();
+      const DateTime = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+      console.log(DateTime)
       var id = 1
       if(dbResult[0] !== undefined){
           id = dbResult[0].Attempt_id +1
       } 
       var dbArray = request.body.map((c,i)=>{
         c.unshift(id)
+        c.unshift(DateTime)
         return c
       })
-      
       TestTaker.postAnswer(dbArray, function (err, dbResult) {
       if (err) {
         response.json(err);

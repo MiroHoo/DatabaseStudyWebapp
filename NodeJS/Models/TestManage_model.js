@@ -21,7 +21,7 @@
         return db.query('update Test set Average_score=? where TestId=?', [Test.score, Test.id], callback)
     },
     fetchscoresByid:function(id, callback) {
-        return db.query('select * from Student_Scores where Test_TestId=? ORDER BY Attempt_id DESC LIMIT 200;',id, callback)
+        return db.query('select * from Student_Scores where Test_TestId=? ORDER BY Attempt_id DESC LIMIT 400;',id, callback)
     },
     Login:function(callback){  
         return db.query('select * from Login',callback)

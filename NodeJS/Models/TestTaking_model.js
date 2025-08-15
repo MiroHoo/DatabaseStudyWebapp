@@ -14,7 +14,7 @@ const db = require('../Test_database');
        return db.query('select * from Question where TestId=?', callback)
     },
     postAnswer: function(Score, callback){
-      return db.query('insert into Student_Scores (Attempt_id,Test_TestId,Score,Answer) values ?',[Score], callback)
+      return db.query('insert into Student_Scores (Date,Attempt_id,Test_TestId,Score,Answer) values ?',[Score], callback)
     },
     GetLargestid: function(callback){
       return db.query('SELECT Attempt_id from Student_Scores ORDER BY Attempt_id DESC LIMIT 1', callback)
