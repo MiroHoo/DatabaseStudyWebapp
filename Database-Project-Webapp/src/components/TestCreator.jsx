@@ -13,6 +13,7 @@ function App() {
   //formatted questions to display
   const [questionarray, setQuestions] = useState([])
   //modal state on/off
+  const [Loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
   const [inputid, setInputid] = useState(0)
   const [Testname, setTestName] = useState("Testname")
@@ -30,10 +31,15 @@ function App() {
 
   //initialize first question
   useEffect(() => {
+      fetch( import.meta.env.VITE_url +"/manage/verify", {
+         credentials: 'include'
+      }).then(response => response.json()).then(response => response.token === 1 ? setLoading(false) : setLoading(true))
     AddQuestion()
   }, []);
 
   return (
+    <>
+    { !Loading ? 
     <div className='Tests'>
       <div className="TestHeader active" onClick={() => ChangeTestName()}>{Testname} <img className={"EditIcon"} src={`/Images/edit.svg`} alt='Edit' /></div>
       <div>
@@ -55,6 +61,10 @@ function App() {
       <button className='ERButton' onClick={ShowER}><img className={'ErImage'} src="/Images/image.svg" /></button>
       <button className="submitBtn" onClick={() => { QuestionModal("Are you sure you want to submit the test?", Areyousure) }}>Submit</button>
     </div>
+    : 
+    <></>
+      }
+    </>
   )
 
 

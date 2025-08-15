@@ -20,6 +20,8 @@ function App() {
 
     const [Questions, setQuestions] = useState([])
 
+    const [Authenticate, setAuthenticate] = useState(false)
+
     const [Attemptvis, setAttemptvis] = useState(false)
 
     const [Questionvis, setQuestionvis] = useState(false)
@@ -40,6 +42,9 @@ function App() {
             .then(response => setLoading(!loading))
             .catch(error => console.log(error))
     }, []);
+     fetch( import.meta.env.VITE_url +"/manage/verify", {
+         credentials: 'include'
+      }).then(response => response.json()).then(response => response.token === 1 ? setAuthenticate(true) : setAuthenticate(false))
     //checks if data is there and allows the element to be rendered
     useEffect(()=> {
        if(Questions.length === amountoftests && ShowData !== true){
@@ -49,6 +54,8 @@ function App() {
     },[TestAnswer])
 
     return (
+        <>
+        { Authenticate ? 
         <>
             {
                 modal ? <div id="ModalDiv"><ModalSetter /></div> : <></>
@@ -66,6 +73,10 @@ function App() {
                     </div>)}             
                 </div>
             }
+            </>
+            :
+            <></>
+    }
         </>
     )
     //renders test
