@@ -137,10 +137,8 @@ const Layout = () => {
         var QuestionID = 0
         while(notVerified === true){
             while(QuestionID === DbId || QuestionID === 0){     
-                console.log("while")  
                 QuestionID = Math.round(Math.random() * (res[0].MaxId - res[0].MinId) + res[0].MinId)
             }
-           
             setId(QuestionID)
             await fetch(import.meta.env.VITE_url +"/arcade/verifyid/" + QuestionID).then(res => res.json()).then(res => res[0].Question !== undefined ? notVerified=false : notVerified=true)
         }
