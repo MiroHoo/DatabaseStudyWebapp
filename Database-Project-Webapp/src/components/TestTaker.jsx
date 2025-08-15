@@ -2,6 +2,7 @@ import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
 
+
 import Modal from "./Modal.jsx"
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";
@@ -71,7 +72,6 @@ const App = () => {
 
     }, [FormattedQuestions])
 
-
     return (
         <div className="Taking">
 
@@ -85,7 +85,6 @@ const App = () => {
                         {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={()=>{setCurrentQuestion(index); setState("Question");}}>{index + 1}</button></div>))}
                         <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => {SubmitModal()}}><img className='ButtonImage' src={"/Images/info.svg"}/></button></div>
                     </div>
-
                     {TestState === "Question" ?
                         <>
                             {questionRender.map((question, index) => (
@@ -119,7 +118,6 @@ const App = () => {
             }
         </div>
     )
-
     function enterkeydown(e,id){
         if(e.key === 'Enter'){
             verify(id)
@@ -160,6 +158,7 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+
         console.log(amount)
         if(amount === 0){
             if(!Sent){
@@ -248,7 +247,6 @@ const App = () => {
     }
     //Lights up the buttons with colors after finishing the test
     function userinterface(response) {
-        console.log(response)
         if (response.outcome !== undefined) {
             if (response.outcome === true) {
                 const updatedBtns = FormattedQuestions.map((c, i) => {
