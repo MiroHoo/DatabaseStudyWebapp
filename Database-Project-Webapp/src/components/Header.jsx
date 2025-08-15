@@ -7,7 +7,7 @@ const BurgerPathOptions = [
   {
     "name": "Home",
     "path": "/",
-    "auth": true,
+    "auth": false,
     "ImgUrl" : "/Images/home.svg",
   
   },
