@@ -220,7 +220,7 @@ function App() {
             score = (score + parseInt(c.Score));
             date = c.Date
         })
-        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptHeader'>Attempt {i+1}</div><div className='AttemptHeader'>{score}/{elemarray[0].MaxPoints}</div><div className='AttemptHeader'><ParseDate Date={date}/></div><div className='AttemptClass'>{pusharray}</div><div className='AttemptDivider'></div></div>
+        return <div className='AttemptClass' key={"Attempt_key_" + i}><div className='AttemptHeader'>Attempt {i+1}, <ParseDate Date={date}/></div><div className='AttemptHeader'>{score}/{elemarray[0].MaxPoints}</div><div className='AttemptHeader'></div><div className='AttemptClass'>{pusharray}</div><div className='AttemptDivider'></div></div>
     } else {
         return; 
     }
@@ -237,7 +237,7 @@ function App() {
             day: '2-digit', month: 'short', year: 'numeric',
             hour: '2-digit', minute: '2-digit'
         })
-        return <div className='AnswerText'>{formatteddate}</div>
+        return formatteddate
     }
     //asks if user wants to delete question
     function QuestionModal(Name, id, index) {
