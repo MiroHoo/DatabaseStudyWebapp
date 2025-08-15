@@ -38,6 +38,12 @@ Tietokannan rakenne on melko yksinkertainen (kuva 2).
 
 *KUVA 2. Kuvassa esitetään projektin tietokantarakenne*
 
+Sakila samassa tietokannassa (kuva 3). 
+
+![](/ReadMeResources/Sakila.png)
+
+*KUVA 2. Kuvassa esitetään projektin tietokantarakennetta*
+
 - Test-taulussa säilytettään kaikki testien nimet ja keskiarvoinen pistemäärä.
 - Question-taulussa on taas kaikki Opettajan rakentamat kysymykset ja niiden testiä vastaava Id.
 - Student_Scores-taulusta löytyy kaikki oppilaiden saamat pisteet ja vastaukset jotta opettaja voi tarkastella niitä.  
