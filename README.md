@@ -38,13 +38,13 @@ Node.js-kirjasto taas antaa mahdollisuuden kommunikoida edeltä mainitun SQL-tie
 
 ## <span style="color:#757575">Tietokantarakenne</span>
 
-Tietokannan rakenne on melko yksinkertainen (kuva 2). 
+Tietokannan rakenne on melko yksinkertainen (kuva 3). 
 
 ![](/ReadMeResources/TietokantaRakenne.png)
 
 *KUVA 3. Kuvassa esitetään projektin tietokantarakenne*
 
-Sakila samassa tietokannassa (kuva 3). 
+Sakila samassa tietokannassa (kuva 4). 
 
 ![](/ReadMeResources/Sakila.png)
 
@@ -59,9 +59,9 @@ Sakila samassa tietokannassa (kuva 3).
 
 ## <span style="color:#757575">Käyttöliittymäsuunnitelma</span>
 
-Alkuperäinen käyttöliittymä suunnitelma (kuva 4).
+Alkuperäinen käyttöliittymä suunnitelma (kuva 5).
 
 ![](/ReadMeResources/UI.jpg)
 
-*KUVA 4. Kuvassa esitetään projektin alkuperäinen UI suunitelma*
+*KUVA 5. Kuvassa esitetään projektin alkuperäinen UI suunitelma*
 
