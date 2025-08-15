@@ -5,6 +5,20 @@
     text-align: center;
     margin-top: 20px;
 }
+.LoginInputDiv{
+    display: flex;
+    width: 100%;
+    margin-left: 33px;
+    align-self: center;
+    justify-content: center;
+}
+.EyeImg{
+    margin-left: 10px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.6;
+    }
+}
 .LoginHeader{
      font-size: 1.7rem;
     cursor: default;

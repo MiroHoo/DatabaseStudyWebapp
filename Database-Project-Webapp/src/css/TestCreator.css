@@ -6,7 +6,7 @@
     animation: fade-in 200ms;
 }
 .TestHeader{
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     cursor: default;
     width: 60%;
     align-self: center;
@@ -49,13 +49,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    :hover{
-        opacity: 0.6;
+    &:hover{
+        opacity: 0.7;
+        background-color: rgba(173, 173, 173, 0.815);
     }
 }
 .ErImage{
     width: 40px;;
     align-self: center;
+    cursor: pointer;
+    
 }
 .TestInput{
     height: clamp(1rem,7vh,12rem);
@@ -81,7 +84,7 @@
     margin-top: 1.2rem;
 }
 .TestVerify{
-    height: clamp(2rem,3vh,12rem);
+    height: clamp(2rem,2.6vh,12rem);
     font-size: clamp(1rem,1.7vh,1.4rem);
     width: 25%;
     background-color: rgba(80, 250, 80, 0.363);
@@ -176,6 +179,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &:hover{
+        opacity: 0.7;
+    }
 }
 .ErImage{
     width: 20px;;

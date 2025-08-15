@@ -7,6 +7,7 @@ function App() {
     const [Username, setUsername] = useState("")
     const [Password, setPassword] = useState("")
     const [modal, setModal] = useState(false)
+    const [ShowPass, setShowPass] = useState(false)
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
@@ -21,8 +22,11 @@ function App() {
             <div className="LoginHeader">Username</div>
             <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="Username"></input>
             <div className="LoginHeader" >Password</div>
-            <input autoComplete={"off"} type={"password"} className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="Password" value={Password}>
+            <div className="LoginInputDiv">
+            <input autoComplete={"off"} type={!ShowPass ? "password" : ""} className={"LoginInput"} onChange={e => setPassword(e.target.value)} onKeyDown={(e) => e.key === "Enter" ? Loginfetch() : <></>} placeholder="Password" value={Password}>
             </input>
+            <img onClick={()=>setShowPass(!ShowPass)} className={"EyeImg"} src={ ShowPass ? "/Images/eye.svg" : "/Images/eye-off.svg"}/>
+            </div>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
     )
