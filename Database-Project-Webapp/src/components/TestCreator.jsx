@@ -52,7 +52,7 @@ const [ModalSettings, setSettings] = useState({
     ))}
     </div>
     <button className="addBtn"onClick={AddQuestion}>+</button>  
-    <button className={'SubmitBtn'}onClick={ShowER}>ER Model</button>
+    <button className='ERButton' onClick={ShowER}><img className={'ErImage'}src="/Images/image.svg"/></button>
     <button className="submitBtn" onClick={()=>{QuestionModal("Are you sure you want to submit the test?", Areyousure)}}>Submit</button>
     </div>
   )

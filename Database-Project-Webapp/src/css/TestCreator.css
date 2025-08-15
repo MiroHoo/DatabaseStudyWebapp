@@ -36,6 +36,27 @@
     margin-left: 20px;
     
 }
+.ERButton{
+    position: fixed;
+    top: 20em;
+    right: 10em;
+    background-color: rgba(202, 202, 202, 0.521);
+    height: 80px;
+    width: 80px;
+    cursor: pointer;
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    :hover{
+        opacity: 0.6;
+    }
+}
+.ErImage{
+    width: 40px;;
+    align-self: center;
+}
 .TestInput{
     height: clamp(1rem,7vh,12rem);
     font-size: clamp(1rem,1.7vh,1.8rem);
@@ -136,4 +157,28 @@
 
 @keyframes fade-out {
 
+}
+
+@media (max-aspect-ratio: 16/9) {
+ .TestVerify{
+    width: 50%;
+
+ }
+ .deleteBtn{
+    width: 30%;
+ }
+ .ERButton{
+    position: fixed;
+    top: 20em;
+    right: 1em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ErImage{
+    width: 20px;;
+    align-self: center;
+}
 }

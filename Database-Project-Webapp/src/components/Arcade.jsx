@@ -109,7 +109,7 @@ const Layout = () => {
                 </div>
             </div>
             <div className='ErContainer'>
-                 <button className={'SubmitBtn'}onClick={ShowER}>ER Model</button>
+                 <button className='ErModalbtn' onClick={ShowER}><img className={'ErImageArcade'}src="/Images/image.svg"/></button>
             </div>
         </>
     </>
