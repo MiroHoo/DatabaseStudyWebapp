@@ -15,17 +15,15 @@ function App() {
     const [modal, setModal] = useState(false)
     //current tests answers
     const [TestAnswer, setAnswer] = useState([])
-    //average score
-    const [Average, setAverage] = useState([])
-
+    //Array of questions
     const [Questions, setQuestions] = useState([])
-
+    // is the user logged in
     const [Authenticate, setAuthenticate] = useState(false)
-
+    // are the attempts shown
     const [Attemptvis, setAttemptvis] = useState(false)
-
+    // are the questions shown
     const [Questionvis, setQuestionvis] = useState(false)
-
+    
     const [selection, SetSelection] = useState("")
 
     const [ModalSettings, setSettings] = useState({
@@ -104,6 +102,7 @@ function App() {
             <button className="DeleteTest" onClick={() => { QuestionModal(Testdata[props.index].Name, Testdata[props.index].TestId, props.index); }}>Delete</button></div>
         return TestArray
     }
+    //Renders the questions
     function ShowQuestions(props){
         if(Testdata[props.index].Question.length !== 0){
         const QuestionArray = <>{
@@ -126,6 +125,7 @@ function App() {
         }
         
     }
+    //gets questions
     function fetchQuestions(Testid,i){
         fetch(import.meta.env.VITE_url +"/test/id/"+Testid).then(res => res.json()).then(res => QuestionSetter(i,res)).then(setOpen(i))
     }
@@ -135,10 +135,12 @@ function App() {
        setQuestionvis(false)
        fetch(import.meta.env.VITE_url +"/manage/fetchscores/"+TestId).then(res => res.json()).then(res => {setAnswers(i,res)}).then(fetchQuestions(TestId,i))
     }
+    //places answers into array
      function initAnswers(res) {
         const arrayofindexes = res.map((c, i) => { res[i].Answer = []; return res[i] })
         setTestdata(arrayofindexes)
     }
+    //places answer into array
     function QuestionSetter(index,res){
         if(Testdata[index].Question.length === 0){
             const updatedarray = Testdata.map((c, i) => {
@@ -154,6 +156,7 @@ function App() {
             setQuestions(Testdata[index].Question)
         }
     }
+    //setsAnswers into attempts
     function setAnswers(index,res){
             if(Testdata[index].Answer.length === 0){
             const updatedarray = Testdata.map((c, i) => {
@@ -169,6 +172,7 @@ function App() {
             setAnswer(Testdata[index].Answer)
         }
     }
+    //inits questions into json
     function initQuestions(res){
         const arrayofindexes = res.map((c, i) => { res[i].Question = []; return res[i] })
         setTestdata(arrayofindexes)
@@ -242,6 +246,7 @@ function App() {
     } 
 
     }
+    // parses date to make it easier to read
     function ParseDate(props){
         const date = new Date(props.Date);
         const formatteddate = date.toLocaleDateString('en-GB', {
@@ -270,7 +275,7 @@ function App() {
         })
         setModal(!modal);
     }
-
+    //changes question text with input
     function ChangeQuestionInput(Name, id, index, Qindex){
         setSettings({
             type: "input",
@@ -280,6 +285,7 @@ function App() {
         })
         setModal(!modal);
     }
+    //puts question 
     function ChangeQuestionName(input, funcvar){
         const url = import.meta.env.VITE_url + "/manage/question/" + funcvar.id
         const options = {
@@ -309,6 +315,7 @@ function App() {
     function RemoveElement(index) {
         setTestdata(Testdata.filter((c, i) => i !== index))
     }
+    //updates question inside the ui
     function UpdateQuestion(name, index,QIndex){
         const array = Testdata.map((c,i)=> {
             if(i === index){

@@ -41,11 +41,16 @@ const BurgerPathOptions = [
 ]
 //Json array for holding different burgermenu redirect options. 
 const Layout = () =>  {
-  var [BurgerArray, setBurger] = useState([])
+  //whats in the burger
+  const [BurgerArray, setBurger] = useState([])
+  //show burger or not
   const [BurgerVis, setBurgerVis] = useState(false)
   const [Animationstate, setAnimationState] = useState(false)
+  //is the user logged in
   const [Auth, setAuth] = useState(false)
+
   const [BurgerDis, SetBurgerDIs] = useState(false)
+
   const animationref = useRef()
   //fetches and sets auth depending of token was set "theres no token inside the frontend, it's only inside the headers"
    useEffect(() => {
@@ -103,11 +108,12 @@ const Layout = () =>  {
     </>
   )
   
-//renders burger
+//renders the burger
 function Burgermaker(){
 var Temparray = []
   Temparray = BurgerPathOptions.map(element => {
     if(!element.auth){
+    //checks for names of elements to make login have different attributes
     if(element.name !== "Login"){
     return <><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>
     } else if (!Auth){

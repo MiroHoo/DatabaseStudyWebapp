@@ -3,7 +3,7 @@ import OpenSeadragon from "openseadragon";
 
 export default function ZoomableImage() {
     const zoomref = useRef()
-
+    // sets OpenSeaDragons settings for showing the ER model
     useEffect(()=>{
         const Zoom = OpenSeadragon({
              id: "openseadragon-viewer",

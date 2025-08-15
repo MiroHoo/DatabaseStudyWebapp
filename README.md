@@ -22,6 +22,12 @@ Sovelluksen käyttöönotto on hyvin helppoa. Dokumentissa esitetty sovellus vaa
 
 Jos haluaa verkkosivun Renderin ulkopuolelle täytyy pystyä hostamaan tietokanta, NodeJs backend ja React + Vite frontend.
 
+Käyttöön otto myös vaattii verkkosivulle tilin lisäämisen! Verkkosivulle voi lisätä tilin esimerkiksi Postman (kuva 2) työkalulla, sillä verkkosivulla on vain opettaja jolla tili täytyy olla!
+
+![](/ReadMeResources/Postman.png)
+
+*KUVA 2. Kuvassa esitetään kuinka tili tehdään tietokantaan.*
+
 ## <span style="color:#757575">Projektissa käytetyt teknologiat </span>
 
 Edeltä mainittu projektin stack sisältää Javascript-kirjasto React + Vite, SQL-tietokannan ja Javascript-kirjasto Node.js:n. React-kirjasto mahdollistaa moniosaisen ja dynaamisen verkkosivun käyttöliittymän rakentamisen resursseja säästäen. React mahdollistaa yhden sivun sovelluksen käyttämisen, joka vähentää kuormaa tietokannan ja verkkosivun välillä vähentämällä käyttäjän sivujen latauskertoja. 
@@ -36,13 +42,13 @@ Tietokannan rakenne on melko yksinkertainen (kuva 2).
 
 ![](/ReadMeResources/TietokantaRakenne.png)
 
-*KUVA 2. Kuvassa esitetään projektin tietokantarakenne*
+*KUVA 3. Kuvassa esitetään projektin tietokantarakenne*
 
 Sakila samassa tietokannassa (kuva 3). 
 
 ![](/ReadMeResources/Sakila.png)
 
-*KUVA 3. Kuvassa esitetään projektin tietokantarakennetta*
+*KUVA 4. Kuvassa esitetään projektin tietokantarakennetta*
 
 - Test-taulussa säilytettään kaikki testien nimet ja keskiarvoinen pistemäärä.
 - Question-taulussa on taas kaikki Opettajan rakentamat kysymykset ja niiden testiä vastaava Id.
@@ -53,7 +59,9 @@ Sakila samassa tietokannassa (kuva 3).
 
 ## <span style="color:#757575">Käyttöliittymäsuunnitelma</span>
 
-Alkuperäinen käyttöliittymä suunnitelma
+Alkuperäinen käyttöliittymä suunnitelma (kuva 4).
 
 ![](/ReadMeResources/UI.jpg)
+
+*KUVA 4. Kuvassa esitetään projektin alkuperäinen UI suunitelma*
 
