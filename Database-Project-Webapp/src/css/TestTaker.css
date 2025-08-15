@@ -2,7 +2,7 @@
 
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 4rem;
     margin-bottom: 1rem;  
 
     &.closed {
@@ -16,7 +16,10 @@
     }
 
 }
-
+.QuestionButtons{
+    margin-right: 2px;
+    margin-left: 4px;
+}
 .Taking{
     display: flex;
     width: 100%;
@@ -25,7 +28,8 @@
 }
 
 .TakingHeader{
-    font-size: 1.2rem;
+    font-size: 1.7rem;
+    font-weight: 600;
     width: 60%;
     align-self: center;
     text-align: center;
@@ -34,7 +38,7 @@
 }
 
 .TakingQuestion{
-    font-size: 1.2rem;
+    font-size: clamp(1.3rem,2.2vh,12rem);
     margin-top: 3px;
     margin-bottom: 3px;
     width: 60%;
@@ -43,14 +47,24 @@
     background-color: rgba(202, 202, 202, 0.507);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
+.TextAreaDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    width: 100%;
+}
 .Answer{
-    height: clamp(1rem,7vh,12rem);
-    font-size: clamp(1rem,1.7vh,12rem);
-    width: 60%;
+    height: clamp(1.4rem,7vh,12rem);
+    font-size: clamp(1.2rem,2.3vh,12rem);
+    width: 90%;
     align-self: center;
     text-align: center;
     z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgb(255, 253, 253);
     &.open{
 
@@ -79,32 +93,148 @@
 
 .SubmitAnswer{
     background-color: rgba(29, 214, 29, 0.479);
-    width: 70%;
-    margin-top: 10px;
+    width: 50%;
+    margin-top: 30px;
+    font-size: clamp(1.4rem,2vh,3rem);
     align-self: center;
     cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 2px #c4c4c4;
      &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
+    background-color: rgba(29, 214, 29, 0.705);
     }
 }
 
 .TakingSelectionContainer{
     display: flex;
-    flex-direction: row; 
     width: 100%;
     margin-top: 20px;
     justify-content: center;
     flex-wrap: wrap;
 }
+.ButtonImage{
+    width: 35px;
+} 
+.FinishContainer{
+    display: flex;
+    flex-direction: column;
+    animation-name: opacity;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
 
-.SelectionButton{
-    width: 40px;
+}
+.FIContainer{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;
+    width: 80%;
+    align-self: center;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 1.2rem;
+    border-style: solid;
+    border-width: 2px;
+    border-color:rgba(128, 128, 128, 0.5);
+    background-color: white;
+}
+.FIQuestion{
+    font-size:  1.5rem;
+    display: flex;
+    height: 3rem;
+    align-items: center;
+    justify-content: center; 
+    background-color: white;
+
+}
+.FIBtn{
+    color:black;
+    text-decoration: none;
+    display: flex;
+    width: 30%;
+    margin: 5px;
     height: 40px;
-    font-size: 20px;
+    font-size: clamp(1.3rem, 2vh, 3rem);
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.322);
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 2px 2px #c4c4c4;
+    &:hover{
+        border-color: rgba(0, 0, 0, 0.438);
+        transition: all 0.3s;
+        transform: translateY(-1px);
+        color: rgba(0, 0, 0, 0.24)
+    }
+}
+.FIBtnContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+          margin-top: 80px;
+}
+.FIAnswer{
+    font-size:  1.5rem;
+    display: flex;
+    height: 3rem;
+    justify-content: center; 
+    align-items: center;
+    &.Incorrect{
+        background-color: rgba(255, 58, 58, 0.219);
+    }
+    &.Correct{
+         background-color: rgba(29, 214, 29, 0.226);
+    }   
+    &.Partially{
+         background-color: rgba(255, 173, 21, 0.295);
+    }
+}
+.ScoreContainer{
+    margin-top: 30px;
+    background-color: white;
+}
+.FIHeader{
+    font-size: 2rem;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.FIPoints{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size:  2rem;
+}
+.FIHeader2{
+    font-size: clamp(1.4rem,1.6vh,1.6rem);
+    font-weight: 600;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: rgba(160, 158, 158, 0.144);
+}
+.SelectionButton{
+    flex: 1 0 40%;
+    width: 60px;
+    height: 60px;
     border-width: 0.5px;
+    font-size: clamp(1rem, 2.1vh,4rem);
     border-style: solid;
     margin-top: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &.Partially{
         animation-name: change-color-parttially;
         animation-duration: 0.5s;
@@ -127,141 +257,45 @@
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        background-color: rgba(167, 4, 4, 0.637);
+        background-color: rgba(167, 4, 4, 0.671);
     }
-}   
-.FinishContainer{
-    display: flex;
-    flex-direction: column;
-    animation-name: opacity;
-    animation-duration: 0.5s;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in-out;
-
-}
-.FIContainer{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    border-width: 5px;
-    width: 80%;
-    align-self: center;
-    justify-content: center;
-    align-self: center;
-    margin-bottom: 1.2rem;
-    border-style: solid;
-    border-width: 2px;
-    border-color:rgba(128, 128, 128, 0.5);
-    background-color: white;
-}
-.FIQuestion{
-    font-size:  1.2rem;
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    justify-content: center; 
-    background-color: white;
-
-}
-.FIBtn{
-    color:black;
-    text-decoration: none;
-    display: flex;
-    width: 20%;
-    height: 30px;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.322);
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    border-radius: 6px;
-    margin-bottom: 80px;
-    box-shadow: 0 1px 2px 2px #c4c4c4;
-    &:hover{
-        border-color: rgba(0, 0, 0, 0.438);
-        transition: all 0.3s;
-        transform: translateY(-1px);
-        color: rgba(0, 0, 0, 0.24)
-    }
-}
-.FIBtnContainer{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.FIAnswer{
-    font-size:  1rem;
-    display: flex;
-    height: 3rem;
-    justify-content: center; 
-    align-items: center;
-    &.Incorrect{
-        background-color: rgba(255, 58, 58, 0.219);
-    }
-    &.Correct{
-         background-color: rgba(29, 214, 29, 0.226);
-    }   
-    &.Partially{
-         background-color: rgba(255, 173, 21, 0.295);
-    }
-}
-.ScoreContainer{
-    margin-top: 10px;
-    background-color: white;
-}
-.FIHeader{
-    font-size: 1.3rem;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-.FIPoints{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    font-size:  1.4rem;
-}
-.FIHeader2{
-    font-size: 1.2em;
-    font-weight: 500;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    background-color: rgba(160, 158, 158, 0.144);
-}
-
+}  
 .SelectedButton{
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    border-width: 2px;
+    width: 65px;
+    height: 65px;
+    font-size: clamp(1rem, 2.3vh,4rem);
+    border-width: 3px;
     border-style: solid;
+    border-radius: 3px;
     margin-top: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.322);
      &.Partially{
         animation-name: change-color-parttially;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        background-color: rgba(255, 173, 21, 0.295);
+        background-color: rgba(255, 173, 21, 0.178);
     }
     &.Correct{
         animation-name: change-color-correct;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        background-color: rgba(29, 214, 29, 0.479);
+        background-color: rgba(29, 214, 29, 0.281);
     }
     &.Neutral{
-        background-color: rgba(187, 186, 186, 0.856);
+        background-color: rgba(187, 186, 186, 0.658);
     }
     &.Incorrect {
         animation-name: change-color-incorrect;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        background-color: rgba(167, 4, 4, 0.637);
+        background-color: rgba(167, 4, 4, 0.425);
     }
 
 }   
@@ -305,7 +339,7 @@
 
 @keyframes change-color-correct {
   from {
-       background-color: rgba(128, 128, 128, 0.295);
+       background-color: rgba(187, 186, 186, 0.856);
   }
   to {
     background-color:  rgba(29, 214, 29, 0.479);
@@ -313,15 +347,15 @@
 }
 @keyframes change-color-incorrect {
   from {
-       background-color: rgba(128, 128, 128, 0.295);
+    background-color: rgba(187, 186, 186, 0.26);    
   }
   to {
-    background-color: rgba(167, 4, 4, 0.637);
+    background-color: rgba(167, 4, 4, 0.671);
   }
 }
 @keyframes change-color-parttially {
   from {
-       background-color: rgba(128, 128, 128, 0.295);
+       background-color: rgba(187, 186, 186, 0.856);
   }
   to {
     background-color:  rgba(255, 173, 21, 0.295);
@@ -334,4 +368,12 @@
   to {
     background-color: rgba(128, 128, 128, 0.418);
   }
+}
+@media (max-aspect-ratio: 16/9) {
+    .FIBtnContainer{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center ;
+        margin-top: 30px;
+    }
 }

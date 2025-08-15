@@ -7,6 +7,7 @@ function App() {
     const [Username, setUsername] = useState("")
     const [Password, setPassword] = useState("")
     const [modal, setModal] = useState(false)
+    const [ShowPass, setShowPass] = useState(false)
     const [ModalSettings, setSettings] = useState({
         "type": "",
         "text": "",
@@ -19,17 +20,21 @@ function App() {
                 modal ? <ModalSetter /> : <></>
             }
             <div className="LoginHeader">Username</div>
-            <input className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="username"></input>
+            <input autoComplete={"off"} className={"LoginInput"} onChange={e => setUsername(e.target.value)} value={Username} placeholder="Username"></input>
             <div className="LoginHeader" >Password</div>
-            <input className={"LoginInput"} onChange={e => setPassword(e.target.value)} placeholder="password" value={Password}>
+            <div className="LoginInputDiv">
+            <input autoComplete={"off"} type={!ShowPass ? "password" : ""} className={"LoginInput"} onChange={e => setPassword(e.target.value)} onKeyDown={(e) => e.key === "Enter" ? Loginfetch() : <></>} placeholder="Password" value={Password}>
             </input>
+            <img onClick={()=>setShowPass(!ShowPass)} className={"EyeImg"} src={ ShowPass ? "/Images/eye.svg" : "/Images/eye-off.svg"}/>
+            </div>
             <button onClick={()=>Loginfetch()}className="LoginButton">Login</button>
             </div>
     )
     //sends login data to be verified
     function Loginfetch(){
-      const url = "http://127.0.0.1:3002/manage/login/"
-      const options = {
+        if(Username.length > 3 && Password.length > 3){
+        const url =  import.meta.env.VITE_url + "/manage/login/"
+        const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,6 +44,13 @@ function App() {
                 body: JSON.stringify({"username": Username, "Password": Password})
             }
         fetch(url,options).then(response => response.json()).then(reponse => LoginVerify(reponse) )
+        } else {
+            setSettings({
+            "type": "text",
+            "text": "One or both of the inputs is empty"
+        })
+        setModal(!modal)
+        }
     }
     //modal init
     function ModalSetter() {
@@ -48,7 +60,7 @@ function App() {
     function MessageModal(){
         setSettings({
             "type": "text",
-            "text": "The Login was unsuccessful"
+            "text": "The login was unsuccessful"
         })
         setModal(!modal)
     }
@@ -56,7 +68,7 @@ function App() {
     function LoginMessage(){
         setSettings({
             "type": "question",
-            "text": "The Login was succesfull",
+            "text": "The login was succesfull",
             "function": Nav
         })
         setModal(!modal)

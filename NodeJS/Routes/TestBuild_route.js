@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const TestModel = require('../Models/TestBuild_model');
 
-
+//list of queries which alter database
 const ListOfAlteringQueries = {
   Queries: [
     "DROP",
@@ -12,7 +12,7 @@ const ListOfAlteringQueries = {
     "UPDATE"
 ]
 }
-
+//adds questions to database
 router.post('/add/', 
     async function (request, response) {
     if(!request.body){
@@ -30,8 +30,9 @@ router.post('/add/',
                 }
               })
     })
+    
+//async way of getting the data so that the other logic has to wait
 function asyncsettest(request) {
-  //async way of getting the data so that the other logic has to wait
   return new Promise((resolve, reject) => {
     TestModel.addTest(request, (err, result) => {
       if (err) reject(err);
@@ -41,9 +42,8 @@ function asyncsettest(request) {
 }
 });
 
-
+//check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
 function checkquery(query){
-  //check if the queries include anything to do with the altering of the database to make sure they dont progress into the database
   var includes = false
   ListOfAlteringQueries.Queries.forEach(element => {
     if(query.toLowerCase().includes(element.toLowerCase())){
@@ -53,6 +53,7 @@ function checkquery(query){
   return includes
 }
 
+//gets gets biggest id and sends it
 router.get('/id/',
     function(request, response) {
     TestModel.getId(function(err, dbResult) {
@@ -64,6 +65,7 @@ router.get('/id/',
   });
 });
 
+//verifies questions query
 router.post('/verify/',
     function(request, response) {
     if(request.body === undefined){
@@ -85,31 +87,28 @@ router.post('/verify/',
     ]
     
 });
+//verifies multiple queries
 router.post('/bulk/', 
-  function(request, response){
-    console.log(request.body)
-    if(request.body !== undefined){
-    TestModel.verifyBulk(request.body.array, function(err, res) {
-      var State = 0;
-      console.log(res)
-      if(err){
-        response.json(err)
+  async function(request, response){
+  if(request.body !== undefined){
+    var index = 0
+    var correct = 0
+    var arrayofissues = []
+    TestModel.verifyBulk(request.body.array, function (err, res){
+      index++;
+      if(res !== undefined){
+        correct++;
       } else {
-        if(res !== "false"){
-          res.forEach(element => {
-            if(!element){
-               response.json({"Message" : "One of the queries is incorrect"})
-            } 
-          });
-          response.json({"Message": "All is fine"})
-        } else {
-          response.json({"Message": "The array is incorrectly formated!"})
-        }
-        
+        arrayofissues.push(index)
+      }
+      if(correct === request.body.array.length){
+        response.json({"Message" : "correct", "OK": true})
+      } else if (index === request.body.array.length){
+        response.json({"Message" : "incorrect", "OK": false, "issues": arrayofissues})
       }
     })
   } else {
-    response.json({"Message" : "The query is missing array input"})
+    response.status().json({"Message" : "The query is missing array input", "OK": false,"issues": arrayofissues})
   }
   });
 

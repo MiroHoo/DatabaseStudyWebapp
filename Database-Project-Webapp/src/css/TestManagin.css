@@ -1,58 +1,76 @@
-.TestDataHeader{
+attemp.TestDataHeader {
 
     display: flex;
 }
-.AttemptClass{
-    margin-top:20px;
-    margin-bottom:20px;
+
+.AttemptClass {
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+
     width: 100%;
 }
-.AttemptHeader{
+
+.AttemptHeader {
     display: flex;
+    width: 100%;
     justify-content: center;
-    font-size: clamp(1.1rem,1.7vh,1.9rem);
+    font-size: clamp(1.1rem, 1.7vh, 1.9rem);
     background-color: rgba(202, 202, 202, 0.411);
 }
-.AnswerText{
+.QuestionEditImg{
+    width: 20px;
+    margin-left: 10px;
+}
+.AnswerText {
     display: flex;
     flex-direction: row;
-    font-size: clamp(2rem,1.7vh,3.2rem);
+    font-size: clamp(1.2rem, 1.7vh, 1.6rem);
     margin-top: 5px;
-    margin-bottom: 5px; 
-    &.query{
-       font-size: clamp(2rem,1.7vh,3.2rem);
+    margin-bottom: 5px;
+
+    &.query {
+        font-size: clamp(1.2rem, 1.7vh, 1.6rem);
     }
-    &.long{
-       width: 80%;
+
+    &.long {
+        width: 80%;
     }
-    
+
 }
-.AttemptDivider{
+
+.AttemptDivider {
     border-top: 1.5px solid rgba(0, 0, 0, 1);
     width: 100%;
 }
-.AnswerCont{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    width: 100%;
+
+.AnswerCont {
+    flex: 1 0 20%;
+    margin: 10px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
     align-self: center;
     justify-content: space-between;
     border-bottom: 1.5px solid rgba(0, 0, 0, 0.233);
-    white-space:nowrap;
-    &.Sucessful{
+    white-space: nowrap;
+
+    &.Sucessful {
         background-color: rgba(29, 214, 29, 0.1);
     }
-    &.Failure{
+
+    &.Failure {
         background-color: rgba(167, 4, 4, 0.1);
     }
-    &.Partial{
+
+    &.Partial {
         background-color: rgba(255, 173, 21, 0.1);
     }
 }
-.ManagementHeader{
+
+.ManagementHeader {
     font-size: 1.5rem;
     font-weight: 600;
     cursor: default;
@@ -65,12 +83,14 @@
     margin-bottom: 3px;
     margin-top: 3px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
-    transition: all 0.3s;
-    transform: translateY(-2px);
+        transition: all 0.3s;
+        transform: translateY(-2px);
     }
-    &.open{
+
+    &.open {
         background-color: rgba(67, 73, 66, 0.185);
         animation-name: change-color-selection;
         animation-duration: 0.2s;
@@ -78,45 +98,97 @@
         animation-timing-function: ease-in-out;
     }
 }
-.ManagementContainer{
+
+.ShowAnswers {
+    cursor: pointer;
+    font-weight: 600;
+    width: 20%;
+    font-size: clamp(1.3rem, 1.2vh, 1.8rem);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.068);
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
+    cursor: pointer;
+    align-self: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+
+    &:hover {
+        transition: all 0.3s;
+        transform: translateY(-2px);
+    }
+}
+
+.QuestionEditContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.FlexDiv {
+    font-size: clamp(1.3rem, 2.3vh, 1.6rem);
+    flex: 1 0 40%;
+    margin: 10px;
+    background-color: rgba(184, 184, 184, 0.281);
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    align-items: center;
+    align-self: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(184, 184, 184, 0.192);
+    }
+
+}
+
+.ManagementContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 100%;
-    margin-top:20px;
+    margin-top: 20px;
 
 }
-.openImage{
-}
-.ManagementItemCont{
+
+.openImage {}
+
+.ManagementItemCont {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width:90%;
+    width: 90%;
 }
-.DeleteTest{
-     cursor: pointer;
+
+.DeleteTest {
+    cursor: pointer;
     font-weight: 600;
     width: 80%;
-    font-size: clamp(1.3rem,1.2vh,1.8rem);
+    font-size: clamp(1.3rem, 1.2vh, 1.8rem);
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: rgba(219, 83, 83, 0.068);
     box-shadow: 0 1px 1px 1px #c4c4c45b;
     cursor: pointer;
     align-self: center;
-&:hover{
-    transition: all 0.3s;
-    transform: translateY(-2px);
+
+    &:hover {
+        transition: all 0.3s;
+        transform: translateY(-2px);
     }
 }
-.EditIcon{
+
+.EditIcon {
     align-content: center;
     margin-left: 20px;
 }
-.ManagementContent{
-    font-size: clamp(1.3rem,1.7vh,2rem);
+
+.ManagementContent {
+    font-size: clamp(1.3rem, 1.7vh, 2rem);
     cursor: default;
     width: 100%;
     align-self: center;
@@ -130,54 +202,68 @@
     border-top: 1.0px solid rgba(0, 0, 0, 0.233);
     margin-bottom: 10px;
     margin-top: 10px;
-    &.active{
-         &:hover{
-    transition: all 0.3s;
-    transform: translateY(-2px);
-    cursor: pointer;
-    background-color: rgb(250, 250, 250);
-    }
-    }
-}
-@keyframes marquee {
-}
- @media (max-aspect-ratio: 9/16) {
-    .AnswerText{
-    display: flex;
-    flex-direction: row;
-    font-size: clamp(0.8rem,1.7vh,1.2rem);
-    &.query{
-       font-size: clamp(0.8rem,1.7vh,1.2rem);
-    }
-    &.long{
-       width: 80%;
-      overflow: hidden;
+
+    &.active {
+        &:hover {
+            transition: all 0.3s;
+            transform: translateY(-2px);
+            cursor: pointer;
+            background-color: rgb(250, 250, 250);
+        }
     }
 }
+
+@keyframes marquee {}
+
+@media (max-aspect-ratio: 9/16) {
+    .AnswerText {
+        display: flex;
+        flex-direction: row;
+        font-size: clamp(0.8rem, 1.7vh, 1.0rem);
+
+        &.query {
+            font-size: clamp(0.8rem, 1.7vh, 1.2rem);
+        }
+
+        &.long {
+            width: 80%;
+            overflow: hidden;
+        }
+    }
 }
+
 @keyframes change-color-selection {
-  from {
-          background-color: rgba(202, 202, 202, 0.158);
-  }
-  to {
-    background-color: rgba(67, 73, 66, 0.253);
-  }
+    from {
+        background-color: rgba(202, 202, 202, 0.158);
+    }
+
+    to {
+        background-color: rgba(67, 73, 66, 0.253);
+    }
 }
+
 @media (max-aspect-ratio: 16/9) {
-    .AnswerCont{
+    .AnswerCont {
         flex-direction: column;
         align-items: center;
     }
-   .AnswerText{
-    display: flex;
-    flex-direction: row;
-    font-size: clamp(1.2rem,1.7vh,1.2rem);
-    &.query{
-       font-size: clamp(1.2rem,1.7vh,1.2rem);
+
+    .ShowAnswers {
+        width: 80%;
     }
-    &.long{
-       width: 90%;
-      overflow: scroll;
+
+    .AnswerText {
+        display: flex;
+        flex-direction: row;
+        font-size: clamp(1.2rem, 1.7vh, 1.2rem);
+
+        &.query {
+            font-size: clamp(1.2rem, 1.7vh, 1.2rem);
+        }
+
+        &.long {
+            width: 90%;
+            overflow: scroll;
+        }
     }
-}
 }

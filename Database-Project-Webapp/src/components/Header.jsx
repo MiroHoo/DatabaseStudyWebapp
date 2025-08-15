@@ -1,12 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import '../css/index.css'
-import gif from '../assets/Cool.gif'
-import home from '../assets/home.svg'
-import plus from '../assets/plus.svg'
-import db from '../assets/database.svg'
-import user from '../assets/user.svg'
-import play from '../assets/play-circle.svg'
 import {NavLink} from "react-router-dom";
 //all the options inside the burger menu, this contains the icon, if you need to be authenticated, path and text
 const BurgerPathOptions = [
@@ -14,31 +8,35 @@ const BurgerPathOptions = [
     "name": "Home",
     "path": "/",
     "auth": false,
-    "icon": home
+    "ImgUrl" : "/Images/home.svg",
+  
   },
   {
    "name": "Login",
    "path": "/login",
    "auth": false,
-   "icon": user
+   "ImgUrl" : "/Images/user.svg",
+
   },
   {
    "name": "Build",
-   "path": "/test",
+   "path": "/build",
    "auth": true,
-   "icon": plus
+   "ImgUrl" : "/Images/plus.svg",
+
   },
   {
    "name": "Manage",
    "path": "/manage",
    "auth": true,
-   "icon": db
+   "ImgUrl" : "/Images/database.svg",
+
   },
   {
     "name": "Arcade",
     "path": "/scores",
     "auth": false,
-    "icon": play
+    "ImgUrl" : "/Images/play-circle.svg",
   }
 ]
 //Json array for holding different burgermenu redirect options. 
@@ -51,7 +49,7 @@ const Layout = () =>  {
   const animationref = useRef()
   //fetches and sets auth depending of token was set "theres no token inside the frontend, it's only inside the headers"
    useEffect(() => {
-      fetch("http://127.0.0.1:3002/manage/verify", {
+      fetch( import.meta.env.VITE_url +"/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   }, []);
@@ -68,7 +66,7 @@ const Layout = () =>  {
   }, [animationref.current]);
   //updates burger if needs
   useEffect(()=>{
-    fetch("http://127.0.0.1:3002/manage/verify", {
+    fetch( import.meta.env.VITE_url + "/manage/verify", {
          credentials: 'include'
       }).then(response => response.json()).then(response => response.token === 1 ? setAuth(true) : setAuth(false))
   },[BurgerVis])
@@ -82,7 +80,7 @@ const Layout = () =>  {
     <>
       <div className='HeaderContainer'>
         <div className='HeaderContent'>
-          <div className='HeaderName'><NavLink to={"/"}><img className="HeaderGif" src={gif}></img></NavLink></div>
+          <div className='HeaderName'><NavLink to={"/"}><img className="HeaderGif" src={"/Images/Cool.gif"}></img></NavLink></div>
           <div className='Burgermenu'>
             <a className='BurgerPatties' onClick={() => {setBurgerVis(!BurgerVis); SetBurgerDIs(true); setAnimationState(true);}}>
             <div className='burgerlayer'></div>
@@ -111,13 +109,13 @@ var Temparray = []
   Temparray = BurgerPathOptions.map(element => {
     if(!element.auth){
     if(element.name !== "Login"){
-    return <><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>
+    return <><NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink></>
     } else if (!Auth){
-    return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
+    return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
     }
     } else {
       if(Auth){
-        return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.icon} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
+        return <NavLink key={element.name + "_Option"} onClick={()=>{setBurgerVis(false); setAnimationState(true);}} className='BurgerOption' to={element.path}><img src={element.ImgUrl} className='BurgerImg'/><div className='BurgerCondiment'>{element.name}</div></NavLink>
       } 
     }
   });

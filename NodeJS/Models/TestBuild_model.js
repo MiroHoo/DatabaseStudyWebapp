@@ -3,7 +3,7 @@
   const testbuild = {
     addTest: function(Test, callback) {
     db.query(
-      'insert into test (Name) values(?)',
+      'insert into Test (Name) values(?)',
       [Test.body.Name], callback
     );
     },
@@ -14,29 +14,23 @@
       Test.TestId
     ])
     db.query(
-      'insert into question (Question, Answer, Test_TestId) values ?',
+      'insert into Question (Question, Answer, Test_TestId) values ?',
       [questions],callback
     )
     },
     getId:function(callback) {
       return db.query(
-      'select TestId from test ORDER BY TestId DESC LIMIT 1;'
+      'select TestId from Test ORDER BY TestId DESC LIMIT 1;'
       ,callback
     );
     },
     verifyQuestion:function(string, callback) {
       return db.query(string, callback) 
     },
-    verifyBulk:function(strings, callback) {
-      var arrayofanswer = [];
-      if(strings[0].query !== undefined){
-      strings.forEach(element => {
-        arrayofanswer.push(db.query(element))
+    verifyBulk:function(string, callback) {
+      string.forEach(element => {
+        return db.query(element.A, callback)
       });
-    } else {
-      return ("false", callback)
-    }
-      return arrayofanswer
-    }
+      }
   }
   module.exports = testbuild;

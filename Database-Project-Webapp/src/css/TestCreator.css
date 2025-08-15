@@ -6,7 +6,7 @@
     animation: fade-in 200ms;
 }
 .TestHeader{
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     cursor: default;
     width: 60%;
     align-self: center;
@@ -19,9 +19,12 @@
     border-top: 1.5px solid rgba(0, 0, 0, 0.233);
     margin-bottom: 3px;
     margin-top: 3px;
+    font-weight: 600;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     &.active{
     cursor: pointer;
+        font-size: 2rem;
+        width: 80%;
         &:hover{
     transition: all 0.3s;
     transform: translateY(-2px);
@@ -31,6 +34,30 @@
 .EditIcon{
     align-content: center;
     margin-left: 20px;
+    
+}
+.ERButton{
+    position: fixed;
+    top: 20em;
+    right: 10em;
+    background-color: rgba(202, 202, 202, 0.521);
+    height: 80px;
+    width: 80px;
+    cursor: pointer;
+    box-shadow: 0 1px 1px 1px #c4c4c45b;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        opacity: 0.7;
+        background-color: rgba(173, 173, 173, 0.815);
+    }
+}
+.ErImage{
+    width: 40px;;
+    align-self: center;
+    cursor: pointer;
     
 }
 .TestInput{
@@ -57,12 +84,12 @@
     margin-top: 1.2rem;
 }
 .TestVerify{
-    height: clamp(2rem,3vh,12rem);
+    height: clamp(2rem,2.6vh,12rem);
     font-size: clamp(1rem,1.7vh,1.4rem);
-    width: 40%;
-    background-color: rgba(80, 250, 80, 0.158);
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
+    width: 25%;
+    background-color: rgba(80, 250, 80, 0.363);
+    margin-top: 10px;
+    margin-bottom: 0.4rem;
     display: flex;
     align-self: center;
     align-items: center;
@@ -70,7 +97,7 @@
     &:hover{
     transition: all 0.3s;
     transform: translateY(-3px);
-     background-color: rgba(80, 250, 80, 0.438);
+     background-color: rgba(80, 250, 80, 0.616);
     cursor: pointer;
  }
 }
@@ -112,13 +139,14 @@
     cursor: pointer;
     font-size: clamp(1rem,1.7vh,1.4rem);
     width: 20%;
-    background-color: rgba(219, 83, 83, 0.068);
+    background-color: rgba(219, 83, 83, 0.233);
     box-shadow: 0 1px 1px 1px #c4c4c45b;
     cursor: pointer;
     align-self: center;
+    margin-top: 10px;
 &:hover{
     transition: all 0.3s;
-    background-color: rgba(219, 83, 83, 0.295);
+    background-color: rgba(219, 83, 83, 0.452);
     transform: translateY(-2px);
     }
 }
@@ -132,4 +160,31 @@
 
 @keyframes fade-out {
 
+}
+
+@media (max-aspect-ratio: 16/9) {
+ .TestVerify{
+    width: 50%;
+
+ }
+ .deleteBtn{
+    width: 30%;
+ }
+ .ERButton{
+    position: fixed;
+    top: 20em;
+    right: 1em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        opacity: 0.7;
+    }
+}
+.ErImage{
+    width: 20px;;
+    align-self: center;
+}
 }

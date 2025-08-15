@@ -1,11 +1,19 @@
 .ModalContainer{
     display: flex;
     z-index: 200;
-    animation: opacity-10 0.4s
+    animation: opacity-10 0.4s;
+    position: fixed;
+    width: 100%;
+}
+.ERModelImg{
+    width: 35vw;
+    height: auto;
 }
 .ModalText{
-  font-size: 1.7rem;
+  font-size: clamp(1.4rem, 2.3vh, 2.2rem);
+  font-weight: 600;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 .ModalDialog{
     width: 80%;
@@ -19,7 +27,8 @@
     justify-content: space-between;
     display: flex;
     width: 80%;
-    margin-top: 10px;
+    font-size: clamp(1rem, 1.7vh,3rem);
+    margin-top: 20px;
 }
 .ModalInput{
     width: 100%;
@@ -35,11 +44,13 @@ line-height: 1.5;
 margin: 0;
 padding: 0;
 padding: 2.5px 7.5px;
+width: 15%;
+height: clamp(2rem,3.2vh,5rem);
 font-weight: 700;
-perspective: 800px;
 cursor: pointer;
 box-shadow: 0 1px 2px 2px #c4c4c4;
 box-sizing: border-box;
+ margin-top: 20px;
  &:hover{
     transition: all 0.3s;
     transform: translateY(-3px);
@@ -52,5 +63,16 @@ box-sizing: border-box;
    }
    to{
     opacity: 1;
+   }
+}
+@media (max-aspect-ratio: 16/9) {
+   .ModalButtons{
+    width: 100%;
+   }
+   .ModalButton{
+    width: 45%;
+   }
+   .ModalInput{
+    font-size: clamp(1.0rem, 2vh, 2.2rem);
    }
 }

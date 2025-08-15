@@ -1,11 +1,13 @@
 import '../css/index.css'
 import '../css/start.css'
 import '../css/TestTaker.css'
-import ErModel from "../assets/Images/ErModel.png"
+
+
 import Modal from "./Modal.jsx"
-import { useEffect, useState, useRef, use } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router";
 import {NavLink} from "react-router-dom";
+import Zoom from './ERZoom.jsx'
 
 const App = () => {
     //url parameter 
@@ -25,10 +27,12 @@ const App = () => {
     //state of test
     const [TestState, setState] = useState("ER")
     //has been sent
-    const [Sent, SetSent] =useState(false)
+    const [Sent, SetSent] = useState(false)
 
     var testPoints = 0;
     const animationref = useRef()
+
+    const inputref = useRef()
     //init of settings for modal system.
     const [ModalSettings, setSettings] = useState({
         "type": "",
@@ -37,7 +41,7 @@ const App = () => {
     })
     //fetches the questions
     useEffect(() => {
-        var url = "http://127.0.0.1:3002/test/id/" + params.testId
+        var url = import.meta.env.VITE_url +"/test/id/" + params.testId
         fetch(url).then(response => response.json()).then(response => Questions(response))
     }, []);
     //on changing the currect questions id rerender with new contents
@@ -47,6 +51,26 @@ const App = () => {
         }
     }, [currentQuestions]);
 
+    useEffect(()=>{
+        if(TestState !== "ER"){
+        var index = 0
+        FormattedQuestions.forEach(e => {
+            if(e.Correct !== "Neutral"){
+                index++; 
+            }
+        })
+        console.log(index)
+         if(index === FormattedQuestions.length){
+                if(!Sent){
+                    SetSent(true)
+                    setState("Finished")
+                    setCurrentQuestion(-2)
+                    Finalize()
+                }
+        }
+        }
+
+    }, [FormattedQuestions])
 
     return (
         <div className="Taking">
@@ -57,16 +81,16 @@ const App = () => {
             {loading ?
                 <>
                     <div className='TakingSelectionContainer'>
-                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}>{"ER"}</button></div>
-                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={() => { setCurrentQuestion(index); setState("Question"); }}>{index + 1}</button></div>))}
-                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton" : "SelectionButton"} onClick={() => { SubmitModal() }}>{"FI"}</button></div>
+                        <div key={"ErModel"} id={"QuestionButton_" + -1}><button className={currentQuestions === -1 ? "SelectedButton" : "SelectionButton"} onClick={() => { setCurrentQuestion(-1); setState("ER")}}><img className='ButtonImage' src={"/Images/image.svg"}/></button></div>
+                        {FormattedQuestions.map((question, index) => (<div key={index} id={"QuestionButton_" + index} className={"QuestionButtons"}><button className={currentQuestions === index ? `SelectedButton ${TestState ? question.Correct : ""}` : `SelectionButton ${TestState ? question.Correct : ""}`} onClick={()=>{setCurrentQuestion(index); setState("Question");}}>{index + 1}</button></div>))}
+                        <div key={"Finish"} id={"QuestionButton_" + -2}><button className={currentQuestions === -2 ? "SelectedButton static" : "SelectionButton static"} onClick={() => {SubmitModal()}}><img className='ButtonImage' src={"/Images/info.svg"}/></button></div>
                     </div>
                     {TestState === "Question" ?
                         <>
                             {questionRender.map((question, index) => (
                                 <div ref={animationref} id={question.QuestionId} key={question.QuestionId} className={`TakingContainer ${animationState ? 'open' : 'closed'}`} >
                                     <a className="TakingHeader">Question {question.index + 1}</a><a className="TakingQuestion">{question.Question}</a>
-                                    <input className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} readOnly={question.Correct !== "Neutral" ? true : false}></input>
+                                    <input ref={inputref} autoComplete={"off"} className={`Answer ${question.Correct === "Neutral" ? 'open' : 'closed'}`} value={question.Answer} onChange={e => changeInput(e.target.value)} id={question.QuestionId + "_input"} onKeyDown={(e) => {enterkeydown(e,question.QuestionId)}}readOnly={question.Correct !== "Neutral" ? true : false}></input>
                                     {question.Correct === "Neutral" ? <button className="SubmitAnswer" onClick={() => verify(question.QuestionId)}>Submit</button>: <></>}
                                 </div>
                                 ))
@@ -79,13 +103,13 @@ const App = () => {
                     {TestState === "ER" ? 
                      <div className={`TakingContainer ${animationState ? 'open' : 'closed'}`}>
                             <div className='ErModelCont'>
-                                <img src={ErModel} className='ErModel'></img>
+                                <Zoom/>
                             </div>
                         </div>
                         : <></>
                     }
                     {TestState === "Finished" ? 
-                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink></div></div>                  :   
+                    <div className='FinishContainer'><div className={"ScoreContainer"}><CalcPoints/></div><FinalStatistics/><div className='FIBtnContainer'><NavLink className={"FIBtn"} to={"/"}>Home</NavLink><NavLink className={"FIBtn"} to={"/test/" +  params.testId-1}>Retry</NavLink></div></div>                  :   
                     <></>
                     }
                 </>
@@ -94,6 +118,11 @@ const App = () => {
             }
         </div>
     )
+    function enterkeydown(e,id){
+        if(e.key === 'Enter'){
+            verify(id)
+        }
+    }
     //calculates points to render
     function CalcPoints(){
         var points = 0
@@ -113,8 +142,7 @@ const App = () => {
             if(FormattedQuestions[i].Correct === "Neutral"){
                 FormattedQuestions[i].Correct = "Incorrect"
             }
-            console.log(c)
-            return <div className={`FIContainer ${c.Correct}`} >
+            return <div key={"FiKey_" +i} className={`FIContainer ${c.Correct}`} >
                         <div className="FIHeader">Question {c.index + 1}</div>
                         <div className='FIHeader2'>Right Answer: </div>
                         <div className="FIQuestion">{c.CAnswer}</div>
@@ -130,11 +158,16 @@ const App = () => {
         const unanswered = document.getElementsByClassName("SelectionButton Neutral")
         const unanswered_selected = document.getElementsByClassName("SelectedButton Neutral")
         const amount = unanswered.length + unanswered_selected.length
+
+        console.log(amount)
         if(amount === 0){
             if(!Sent){
                 Finalize()
+                setState("Finished")
+                setCurrentQuestion(-2)
             } else {
                 setState("Finished")
+                setCurrentQuestion(-2)
             }
             return
         }
@@ -155,11 +188,11 @@ const App = () => {
         }
     }
     //saves test data to database
-    async function Finalize(){
-        SetSent(true)
-        setCurrentQuestion(-2);
+    function Finalize(){
+        console.log(Sent)
         setState("Finished")
-        var url = "http://127.0.0.1:3002/compare/save/"
+        SetSent(true)
+        var url =  import.meta.env.VITE_url +"/compare/save/"
         const PostFormat = FormattedQuestions.map((c,i) =>{
             var points = 0
             if(c.Correct === "Correct"){
@@ -181,13 +214,10 @@ const App = () => {
                 },
                 body: JSON.stringify(PostFormat)
             }
-        console.log(url)
-        await fetch(url, options).then(response => response.json())
-        Calculateavg()
+        fetch(url, options).then(res => res.json()).then(res => userinterface(res)).then(res => Calculateavg()).catch(err => console.log(err))
     }
     function Calculateavg(){
-        console.log("http://127.0.0.1:3002/compare/avg/" + params.testId)
-        fetch("http://127.0.0.1:3002/compare/avg/" + params.testId).then(response => response.json()).then(response => console.log(response))
+        fetch( import.meta.env.VITE_url + "/compare/avg/" + params.testId).then(response => response.json())
     }
     //sets questions gotten from database into formatted questions where currecnt questions are sliced from
     function Questions(res) {
@@ -201,8 +231,7 @@ const App = () => {
     }
     //verifies answers validity
     function verify(id) {
-            
-            var url = "http://127.0.0.1:3002/compare/" + id
+            var url =  import.meta.env.VITE_url +"/compare/" + id
             var PostFormat = {
                 "studentQ": document.getElementById(id + "_input").value
             }
@@ -251,19 +280,17 @@ const App = () => {
                 setFormatted(updatedBtns)
             }
         } else {
-
+            const finalization = FormattedQuestions.map((c,i)=>{
+                if(c.Correct === "Neutral"){
+                    c.Correct = "Incorrect"
+                    return c
+                } else {
+                    return c
+                }
+            })
+            setFormatted(finalization)
+            setCurrentQuestion(-2)
         }
-        var index = 0
-        FormattedQuestions.forEach(e => {
-            console.log(e.Correct)
-            if(e.Correct !== "Neutral"){
-                index++; 
-            }
-            if(index === FormattedQuestions.length){
-                setState("Finished")
-                Finalize()
-            }
-        })
     }
     //changes the input value of currently selected question
     function changeInput(value) {

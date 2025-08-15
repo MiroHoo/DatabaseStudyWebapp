@@ -50,7 +50,7 @@ const Layout = () => {
     ]
     //fetches scores
     useEffect(() => {
-       fetch("http://127.0.0.1:3002/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
+       fetch(import.meta.env.VITE_url + "/arcade/scores", {method: 'POST'}).then(res => res.json()).then(res => settingScores(res))
     }, [])
     //sets loading to false after data is precent
     useEffect(() => {
@@ -65,8 +65,10 @@ const Layout = () => {
             <></>
             : 
             <div className={"HighScoreCont"}>
-            <div className={"HighScoreHeader"}>Highscores</div>
-            <div className={"ScoreList"}>{Scores.map( (scores,i) =>(<div className={"ScorePageCont " + colors[i].pos}><div className={"ScorePos"}>#{i+1}</div><div className={"ScoreItem"}>{scores.Name}</div><div className={"ScoreItem Number"}>{scores.Score}</div></div>))}</div>
+            <div className={"Scores"}>
+            <div className={"HighScoreHeader"}>Highscores;</div>
+            <div className={"ScoreList"}>{Scores.map( (scores,i) =>(<div key={"Scorelist_" + i} className={"ScorePageCont " + colors[i].pos}><div className={"ScorePos"}>#{i+1}</div><div className={"ScoreItem"}>{scores.Name}</div><div className={"ScoreItem Number"}>{scores.Score} Points</div></div>))}</div>
+            </div>
             <button className={"StartGameButton"} onClick={()=>navigate("/arcade")}>Start Game</button>
             </div>
 

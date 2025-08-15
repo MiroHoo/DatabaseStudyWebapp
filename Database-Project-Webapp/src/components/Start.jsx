@@ -1,10 +1,9 @@
 import '../css/index.css'
 import '../css/start.css'
-import logo from '../assets/Databaselearningapp.png'
 import { useEffect, useState, useRef } from 'react'
 import Modal from "./Modal.jsx"
 import { redirect, useNavigate } from "react-router";
-
+import Zoom from "./ERZoom.jsx"
 const Animation = () => {
     let navigate = useNavigate();
     const [modal, setModal] = useState(false)
@@ -26,7 +25,7 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
-       fetch('http://127.0.0.1:3002/test/')
+       fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
         .catch(error => console.log(error))
@@ -35,11 +34,9 @@ const Animation = () => {
     useEffect(() => {
         if(animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
-                console.log("cancel")
                 setAnimationState(false);
               });
             animationref.current.addEventListener("animationend", () => {
-                console.log("End")
                 setAnimationState(false);
               });
             }
@@ -49,7 +46,7 @@ const Animation = () => {
         <>
             <div className='StartContainer'>
                 <div className='HeaderText'>
-                <img className="LogoImage" src={logo}/>
+                <img className="LogoImage" src={"/Images/Databaselearningapp.png"}/>
                 </div>
                 <div className='SelectionContainer'>
                     {
@@ -61,7 +58,7 @@ const Animation = () => {
                 { TestListState || AnimationState ?     
                     <>
                     <div ref={animationref} className={`ListofTests ${TestListState ? 'open' : 'closed'}`} >
-                        <input name={"Search"} id={"Search"} className={"SearchFunc"} onChange={(e)=> {setInput(e.target.value), SearchFilter(e.target.value)}} value={input} placeholder='Search'/>
+                        <input name={"Search"} autoComplete={"off"} id={"Search"} className={"SearchFunc"} onChange={(e)=> {setInput(e.target.value), SearchFilter(e.target.value)}} value={input} placeholder='Search'/>
                         <div className='StartListCont'>
                         { searchList.length > 0 ?
                         <>{searchList.map(test => (<a key={test.TestId} onClick={() => StartTest(test.Name, test.TestId)} className='StartListItem'>{test.Name}</a>))}</> :<div className='NoTestsFound'>None Found</div>
@@ -95,7 +92,7 @@ function StartTest(name, id){
 }
 //redirects to test
 function direct(ok, id){
-    redirect(navigate(`/testtaking/${id}`))
+    redirect(navigate(`/test/${id}`))
 }
 //Modal init
   function ModalSetter() {
