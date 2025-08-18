@@ -232,7 +232,7 @@ router.post('/:id', async function (request, response) {
 
   } else if (request.body.studentQ.includes("ORDER BY") === false && request.body.studentQ.includes("order by") === false) {
     if(studentAnswer){
-       //Serialize the jsons and compare the outputs. This compares the database answers efficiently
+       //Serialize the jsons and compares the outputs. This compares the database answers efficiently
       if (JSON.stringify(studentAnswer[0]) === JSON.stringify(teacherAnswer[0])) {
         response.json({ outcome: true,  message: "The answers are the same!" })
         return
