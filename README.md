@@ -1,5 +1,7 @@
 # <span style="color:#757575">Database-learning-webapp</span>
 
+## View Deployed Version Here: https://databasestudywebapp-frontend.onrender.com/#/
+
 ## <span style="color:#757575">Esittely</span>
 
 Database-learning-webapp on OAMKin opettajan toiveiden mukaan rakennettu verkkosivu jossa Opettaja voi rakentaa ja ylläpitää testejä joita oppilaat voivat käydä tekemässä. Testit rakennetaan tietokanta kyselyjen opiskelua varten käyttäen SQL esittely tietokanta Sakilaa käyttäen. Sivulta myös löytyy pelimäinen tapa opiskella tietokanta kyselyitä jossa opillaille annetaan satunnainen kysymys johon vastata. Oppilaalla on kolme yritystä, kunnes häntä pyydetään antamaan nimi jolloin oppilaan saamat pisteet lähetetään tietotokannan korkea pistemäärä taulukkoon.
