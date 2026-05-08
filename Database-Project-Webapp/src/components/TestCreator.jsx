@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
       fetch( import.meta.env.VITE_url +"/manage/verify", {
          credentials: 'include'
-      }).then(response => response.json()).then(response => response.token === 1 ? setLoading(false) : setLoading(true))
+      }).then(response => response.json()).then(response => response.token === 1 ? setLoading(false) : setLoading(false))
     AddQuestion()
   }, []);
 
