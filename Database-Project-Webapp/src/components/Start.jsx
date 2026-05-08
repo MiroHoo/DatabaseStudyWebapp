@@ -95,7 +95,7 @@ function StartTest(name, id){
 function Notification(){
   setSettings({
   type: "text",
-  text:"Sorry, but the database was in hibernation since it's the free plan. Please refresh after 10 seconds."
+  text:""
   })
   setModal(!modal);
 }
