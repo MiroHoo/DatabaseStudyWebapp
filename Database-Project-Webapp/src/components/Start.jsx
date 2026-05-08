@@ -95,7 +95,7 @@ function StartTest(name, id){
 function Notification(){
   setSettings({
   type: "text",
-  text:"Sorry for the inconvinience, but the database is on a cheap plan meaning the database needs to wake up. If the site seems empty please refresh after 10 seconds"
+  text:"This is a Demo. If the site feels empty please refresh after waiting 10 seconds since the database needs to come out of hibernation because of inactivity. "
   })
   setModal(!modal);
 }
