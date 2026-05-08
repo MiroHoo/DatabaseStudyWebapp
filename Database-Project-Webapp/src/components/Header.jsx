@@ -47,7 +47,7 @@ const Layout = () =>  {
   const [BurgerVis, setBurgerVis] = useState(false)
   const [Animationstate, setAnimationState] = useState(false)
   //is the user logged in
-  const [Auth, setAuth] = useState(false)
+  const [Auth, setAuth] = useState(true)
 
   const [BurgerDis, SetBurgerDIs] = useState(false)
 
