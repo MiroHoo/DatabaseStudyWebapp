@@ -21,14 +21,14 @@ const BurgerPathOptions = [
   {
    "name": "Build",
    "path": "/build",
-   "auth": true,
+   "auth": false,
    "ImgUrl" : "/Images/plus.svg",
 
   },
   {
    "name": "Manage",
    "path": "/manage",
-   "auth": true,
+   "auth": false,
    "ImgUrl" : "/Images/database.svg",
 
   },
