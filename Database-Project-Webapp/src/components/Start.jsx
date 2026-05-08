@@ -25,7 +25,6 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
-       Notification()
        fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
