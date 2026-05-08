@@ -32,6 +32,7 @@ const Animation = () => {
         }, []);
     //keeps up with animations and makes sure they are in sync even after anomalies like quick clicking
     useEffect(() => {
+        Notification()
         if(animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
                 setAnimationState(false);
@@ -94,7 +95,7 @@ function StartTest(name, id){
 function Notification(){
   setSettings({
   type: "text",
-  text:""
+  text:"Sorry for the inconvinience, but the database is on a cheap plan meaning the database needs to wake up. If the site seems empty please refresh after 10 seconds"
   })
   setModal(!modal);
 }
