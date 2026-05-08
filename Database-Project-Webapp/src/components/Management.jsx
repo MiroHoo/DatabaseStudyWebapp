@@ -42,7 +42,7 @@ function App() {
     }, []);
      fetch( import.meta.env.VITE_url +"/manage/verify", {
          credentials: 'include'
-      }).then(response => response.json()).then(response => response.token === 1 ? setAuthenticate(true) : setAuthenticate(false))
+      }).then(response => response.json()).then(response => response.token === 1 ? setAuthenticate(true) : setAuthenticate(true))
     //checks if data is there and allows the element to be rendered
     useEffect(()=> {
        if(Questions.length === amountoftests && ShowData !== true){
