@@ -25,6 +25,7 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
+       Notification()
        fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
@@ -32,7 +33,6 @@ const Animation = () => {
         }, []);
     //keeps up with animations and makes sure they are in sync even after anomalies like quick clicking
     useEffect(() => {
-        Notification()
         if(animationref.current !== undefined) {
             animationref.current.addEventListener("animationcancel", () => {
                 setAnimationState(false);
