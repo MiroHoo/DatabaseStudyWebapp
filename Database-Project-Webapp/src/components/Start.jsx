@@ -25,6 +25,7 @@ const Animation = () => {
     const animationref = useRef()
     //fetches tests
       useEffect(() => {
+       Notification()
        fetch( import.meta.env.VITE_url +'/test/')
         .then(response => response.json())
         .then(response => formattests(response))
@@ -85,6 +86,16 @@ function StartTest(name, id){
   setSettings({
   type: "question",
   text:"Do you want to start " + name +"?",
+  function:direct,
+  funcvar:id
+  })
+  setModal(!modal);
+}
+
+function Notification(name, id){
+  setSettings({
+  type: "text",
+  text:"Sorry, but the database was in hibernation since it's the free plan. Please refresh after 10 seconds.",
   function:direct,
   funcvar:id
   })
